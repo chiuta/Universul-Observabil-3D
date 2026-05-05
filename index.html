@@ -1,0 +1,2254 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<title>Universul Observabil · 3D · Galaxii & Distanțe</title>
+<meta name="description" content="Hartă 3D interactivă a Universului observabil — 115+ galaxii, 12 orizonturi cosmice, scară logaritmică de la Calea Lactee la CMB (45,6 Gly). Date JWST 2024 până la z=14.32.">
+<meta name="theme-color" content="#040814">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="mobile-web-app-capable" content="yes">
+<meta property="og:title" content="Universul Observabil · 3D">
+<meta property="og:description" content="Călătorește prin Universul observabil de la Calea Lactee la JWST JADES-GS-z14-0 (z=14,32). Single-file, offline-capable.">
+<meta property="og:type" content="website">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='14' fill='%23040814' stroke='%234a80cc' stroke-width='1.5'/><circle cx='16' cy='16' r='1.5' fill='%23ffe8a0'/><circle cx='10' cy='12' r='0.7' fill='%23aaccff'/><circle cx='22' cy='10' r='0.5' fill='%23ffaa66'/><circle cx='9' cy='21' r='0.6' fill='%23ff6644'/><circle cx='23' cy='22' r='0.5' fill='%23ffffff'/><circle cx='16' cy='6' r='0.4' fill='%23ffcc44'/><circle cx='6' cy='17' r='0.4' fill='%23ddeeff'/><circle cx='26' cy='17' r='0.4' fill='%23ff8844'/></svg>">
+<link rel="manifest" href='data:application/manifest+json;charset=utf-8,{"name":"Universul Observabil 3D","short_name":"Univers 3D","description":"Hartă 3D interactivă a Universului observabil","start_url":"./","display":"standalone","background_color":"%23040814","theme_color":"%23040814","orientation":"any","icons":[{"src":"data:image/svg+xml;utf8,<svg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 192 192%27><circle cx=%2796%27 cy=%2796%27 r=%2784%27 fill=%27%23040814%27 stroke=%27%234a80cc%27 stroke-width=%279%27/><circle cx=%2796%27 cy=%2796%27 r=%279%27 fill=%27%23ffe8a0%27/><circle cx=%2760%27 cy=%2772%27 r=%274%27 fill=%27%23aaccff%27/><circle cx=%27132%27 cy=%2760%27 r=%273%27 fill=%27%23ffaa66%27/><circle cx=%2754%27 cy=%27126%27 r=%273.5%27 fill=%27%23ff6644%27/><circle cx=%27138%27 cy=%27132%27 r=%273%27 fill=%27%23ffffff%27/></svg>","sizes":"192x192","type":"image/svg+xml"}]}'>
+<style>
+:root{
+  --bg:rgba(1,4,20,0.95);
+  --border:rgba(70,130,255,0.18);
+  /* Improved contrast (was --dim:#3a5268, --dimmer:#1e303e — both failed WCAG AA) */
+  --dim:#7a98b4;       /* was #3a5268 — now ~6.2:1 vs background */
+  --dimmer:#5a7088;    /* was #1e303e — now ~4.6:1 */
+  --dimmest:#3a5268;   /* kept for genuinely tertiary text */
+  --accent:#88bbee;
+  --hot:#44cc88;
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+button{font:inherit;color:inherit;background:none;border:none;cursor:pointer;}
+body{background:#000108;overflow:hidden;font-family:'Courier New',monospace;color:#c0d8f0;touch-action:none;}
+@media (prefers-reduced-motion: reduce){
+  *{animation-duration:0.01ms !important;animation-iteration-count:1 !important;transition-duration:0.01ms !important;}
+}
+canvas{display:block;position:fixed;top:0;left:0;z-index:0;}
+#lw{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:1;}
+.gl{position:absolute;transform:translate(-50%,-130%);font-size:10px;white-space:nowrap;padding:1px 5px;border-radius:2px;background:rgba(0,1,8,0.8);letter-spacing:0.3px;display:none;pointer-events:none;will-change:left,top;}
+.dl{position:absolute;transform:translate(-50%,-50%);pointer-events:none;display:none;white-space:nowrap;font-size:10px;padding:2px 7px;border-radius:2px;background:rgba(0,1,10,0.86);border-left:2px solid currentColor;letter-spacing:0.3px;will-change:left,top;}
+.dl.major{font-size:11px;font-weight:bold;}
+.ax{position:absolute;transform:translate(-50%,-50%);pointer-events:none;display:none;font-size:9px;color:#5a7088;background:rgba(0,1,8,0.78);padding:1px 5px;border-radius:2px;white-space:nowrap;will-change:left,top;}
+/* TOPBAR */
+#topbar{position:fixed;top:0;left:0;right:0;height:48px;background:rgba(1,4,18,0.92);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 14px;z-index:100;}
+#ttl{font-size:11px;font-weight:bold;letter-spacing:1.5px;color:var(--accent);line-height:1.2;}
+#sub{font-size:8px;color:var(--dimmest);letter-spacing:1px;margin-top:2px;}
+#zhint{font-size:9px;color:var(--dimmer);letter-spacing:1px;text-align:center;flex:1;padding:0 8px;}
+#topbtns{display:flex;gap:7px;}
+.tbtn{width:36px;height:36px;border-radius:8px;border:1px solid var(--border);background:rgba(70,130,255,0.07);color:var(--dim);font-size:14px;display:flex;align-items:center;justify-content:center;cursor:pointer;user-select:none;flex-shrink:0;transition:background 0.12s,border-color 0.12s;}
+.tbtn:hover{background:rgba(70,130,255,0.12);}
+.tbtn:focus-visible{outline:2px solid var(--accent);outline-offset:2px;}
+.tbtn.on,.tbtn:active{background:rgba(70,130,255,0.18);color:var(--accent);}
+/* INFO PANEL */
+#pnl{position:fixed;background:var(--bg);border:1px solid var(--border);padding:16px 16px 24px;font-size:12px;line-height:1.65;display:none;z-index:200;}
+@media(max-width:600px){#pnl{left:0;right:0;bottom:0;border-radius:18px 18px 0 0;padding-bottom:calc(16px + env(safe-area-inset-bottom));max-height:75vh;overflow-y:auto;scrollbar-width:thin;}}
+@media(min-width:601px){#pnl{top:60px;right:14px;width:320px;border-radius:12px;max-height:calc(100vh - 80px);overflow-y:auto;scrollbar-width:thin;}}
+#pnl h2{font-size:13px;font-weight:bold;margin-bottom:8px;border-bottom:1px solid var(--border);padding-bottom:6px;padding-right:24px;}
+.row{display:flex;justify-content:space-between;margin:3px 0;font-size:11.5px;gap:10px;}
+.lk{color:var(--dimmer);}.lv{color:var(--accent);font-weight:bold;text-align:right;}
+.morphTrans{font-size:10px;color:var(--dimmest);font-style:italic;margin:4px 0 6px;padding-left:4px;border-left:2px solid rgba(70,130,255,0.18);}
+.dsc{margin-top:10px;font-size:11px;color:#7a8c9c;line-height:1.72;font-style:italic;}
+#cosmoCalcWrap{margin-top:10px;border-top:1px solid rgba(70,130,255,0.1);padding-top:8px;}
+#cosmoToggle{font-size:9.5px;color:var(--dimmer);letter-spacing:1px;cursor:pointer;text-transform:uppercase;display:flex;align-items:center;justify-content:space-between;padding:3px 0;user-select:none;}
+#cosmoToggle::after{content:'▸';transition:transform 0.2s;font-size:11px;}
+#cosmoToggle.open::after{transform:rotate(90deg);}
+#cosmoCalc{display:none;margin-top:6px;font-size:10.5px;line-height:1.6;}
+#cosmoCalc.open{display:block;}
+.ccRow{display:flex;justify-content:space-between;padding:2px 0;}
+.ccL{color:var(--dimmest);}
+.ccV{color:#88bbcc;font-family:'Courier New',monospace;font-size:10px;}
+.ccNote{font-size:9px;color:var(--dimmest);margin-top:4px;font-style:italic;line-height:1.5;}
+.phandle{width:36px;height:4px;background:rgba(255,255,255,0.12);border-radius:2px;margin:0 auto 12px;}
+#cx{position:absolute;top:12px;right:14px;cursor:pointer;color:var(--dim);font-size:22px;padding:6px;line-height:1;width:32px;height:32px;display:flex;align-items:center;justify-content:center;}
+#cx:focus-visible{outline:2px solid var(--accent);border-radius:4px;}
+/* DRAWER */
+#overlay{position:fixed;inset:0;background:rgba(0,0,10,0.5);z-index:280;display:none;}
+#overlay.show{display:block;}
+#drawer{position:fixed;left:0;right:0;bottom:0;background:var(--bg);border-top:1px solid var(--border);border-radius:20px 20px 0 0;z-index:300;transform:translateY(100%);transition:transform 0.3s cubic-bezier(.4,0,.2,1);padding-bottom:env(safe-area-inset-bottom);}
+#drawer.open{transform:translateY(0);}
+#drawer-handle{width:40px;height:4px;background:rgba(255,255,255,0.13);border-radius:2px;margin:12px auto 4px;cursor:pointer;}
+#drawer-inner{padding:0 16px 20px;max-height:70vh;overflow-y:auto;scrollbar-width:thin;}
+@media (max-height:480px) and (orientation:landscape){
+  #drawer-inner{max-height:88vh;}
+}
+.drsec{margin-bottom:10px;}
+.drsec-title{font-size:9px;color:var(--dimmer);letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;padding-top:10px;border-top:1px solid rgba(70,130,255,0.08);font-weight:bold;}
+.drsec:first-child .drsec-title{border-top:none;padding-top:0;}
+.tog{display:flex;align-items:center;justify-content:space-between;padding:9px 12px;border-radius:10px;cursor:pointer;margin-bottom:4px;background:rgba(255,255,255,0.025);border:1px solid rgba(70,130,255,0.06);}
+.tog:hover{background:rgba(70,130,255,0.06);}
+.tog:focus-visible{outline:2px solid var(--accent);outline-offset:1px;}
+.tog:active{background:rgba(70,130,255,0.1);}
+.tog-left{display:flex;align-items:center;gap:10px;}
+.tog-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0;}
+.tog-name{font-size:12px;color:var(--dim);}
+.tog-sub{font-size:10px;color:var(--dimmer);display:block;margin-top:1px;}
+.sw{width:42px;height:24px;border-radius:12px;background:#1a2a38;position:relative;cursor:pointer;border:1px solid rgba(70,130,255,0.15);flex-shrink:0;}
+.sw.on{background:#2d5eaa;}
+.sw::after{content:'';position:absolute;top:3px;left:3px;width:16px;height:16px;border-radius:50%;background:#e0e8f8;transition:transform 0.2s;box-shadow:0 1px 3px rgba(0,0,0,0.4);}
+.sw.on::after{transform:translateX(18px);background:#fff;}
+/* SCALE ROWS */
+.srow{display:flex;align-items:center;gap:6px;padding:3px 0;}
+.sdot{width:8px;height:8px;flex-shrink:0;border-radius:50%;}
+.sdot.wire{background:transparent;border:1.5px solid;}
+.sname{color:var(--dim);font-size:10px;flex:1;}
+.sdist{color:var(--dimmer);font-size:9.5px;white-space:nowrap;}
+/* FAB */
+#fab{position:fixed;bottom:calc(20px + env(safe-area-inset-bottom));right:18px;width:52px;height:52px;border-radius:16px;background:#18305a;border:1px solid rgba(70,130,255,0.3);color:var(--accent);font-size:22px;display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:400;}
+#fab:focus-visible{outline:2px solid var(--accent);outline-offset:2px;}
+#fab.open{transform:rotate(45deg);}
+/* HINT BAR */
+#hintbar{position:fixed;bottom:14px;left:50%;transform:translateX(-50%);display:none;gap:9px;align-items:center;background:rgba(1,4,18,0.82);border:1px solid var(--border);border-radius:18px;padding:6px 14px;font-size:10px;color:var(--dim);}
+@media(min-width:601px){#hintbar{display:flex;}}
+kbd{background:rgba(70,130,255,0.09);border:1px solid rgba(70,130,255,0.18);border-radius:3px;padding:1px 5px;font-size:10px;font-family:'Courier New',monospace;color:var(--accent);}
+/* SEARCH */
+#srchOvl{position:fixed;inset:0;z-index:500;display:none;background:rgba(0,1,12,0.86);align-items:flex-start;justify-content:center;padding-top:72px;}
+#srchOvl.open{display:flex;}
+#srchBox{width:min(540px,94vw);background:rgba(2,8,28,0.99);border:1px solid rgba(70,130,255,0.35);border-radius:14px;overflow:hidden;box-shadow:0 24px 60px rgba(0,0,20,0.7);}
+#srchWrap{position:relative;}
+#srchWrap::before{content:'🔍';position:absolute;left:16px;top:50%;transform:translateY(-50%);font-size:14px;pointer-events:none;}
+#srchInp{width:100%;background:transparent;border:none;outline:none;padding:14px 16px 14px 44px;font-family:'Courier New',monospace;font-size:14px;color:#d0e8ff;caret-color:var(--accent);}
+#srchInp::placeholder{color:var(--dimmer);}
+#srchDiv{height:1px;background:rgba(70,130,255,0.1);}
+#srchRes{max-height:360px;overflow-y:auto;scrollbar-width:thin;}
+.sr{display:flex;align-items:center;gap:10px;padding:10px 18px;cursor:pointer;border-bottom:1px solid rgba(70,130,255,0.05);}
+.sr:hover,.sr.act{background:rgba(70,130,255,0.1);}
+.sr-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0;}
+.sr-name{font-size:12px;color:#b8d0e8;flex:1;}
+.sr-meta{font-size:9.5px;color:var(--dimmer);white-space:nowrap;}
+#srchHint{padding:8px 18px;font-size:9px;color:var(--dimmest);letter-spacing:1px;display:flex;gap:12px;border-top:1px solid rgba(70,130,255,0.06);flex-wrap:wrap;}
+#srchEmpty{padding:20px;text-align:center;font-size:11px;color:var(--dimmer);letter-spacing:1px;}
+/* TOUR PANEL */
+#tourPnl{position:fixed;bottom:0;left:0;right:0;z-index:450;background:rgba(1,5,20,0.97);border-top:1px solid rgba(70,130,255,0.18);display:none;padding-bottom:max(env(safe-area-inset-bottom),10px);}
+#tourHdr{display:flex;align-items:center;gap:8px;padding:10px 16px 0;}
+#tourLbl{font-size:9.5px;letter-spacing:2px;color:var(--dimmer);text-transform:uppercase;flex:1;font-weight:bold;}
+#tourStepInd{font-size:9px;color:var(--dimmer);}
+#tourClose{color:var(--dim);font-size:18px;cursor:pointer;padding:2px 6px;}
+#tourNarr{font-size:12px;color:#a8c0d8;line-height:1.78;padding:8px 16px;min-height:60px;}
+#tourCtrl{display:flex;align-items:center;gap:7px;padding:5px 16px 0;}
+.tcb{height:34px;min-width:38px;padding:0 10px;border-radius:8px;border:1px solid rgba(70,130,255,0.18);background:rgba(70,130,255,0.06);color:var(--dim);font-size:14px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-family:'Courier New',monospace;}
+.tcb:active,.tcb.on{background:rgba(70,130,255,0.18);color:var(--accent);}
+.tcb:focus-visible{outline:2px solid var(--accent);outline-offset:1px;}
+#tourProgWrap{flex:1;height:2px;background:rgba(70,130,255,0.08);border-radius:2px;overflow:hidden;}
+#tourProgBar{height:100%;width:0%;background:linear-gradient(90deg,#3a6acc,#5a8aee);transition:width 0.08s linear;border-radius:2px;}
+.tdrwBtn{display:flex;align-items:center;gap:9px;padding:9px 12px;border-radius:10px;cursor:pointer;margin-bottom:5px;background:rgba(255,255,255,0.022);border:1px solid rgba(70,130,255,0.06);}
+.tdrwBtn:hover{background:rgba(70,130,255,0.06);}
+.tdrwBtn:active{background:rgba(70,130,255,0.09);}
+.tdrwIcon{font-size:17px;width:24px;text-align:center;flex-shrink:0;}
+.tdrwName{font-size:11.5px;color:var(--dim);flex:1;}
+.tdrwSteps{font-size:9.5px;color:var(--dimmer);}
+/* TIME SLIDER */
+#timeDsp{font-size:13px;color:var(--accent);text-align:center;margin-bottom:3px;font-weight:bold;min-height:20px;}
+#timeAge{font-size:9.5px;color:var(--dimmer);text-align:center;margin-bottom:10px;letter-spacing:1px;}
+.timeRow{display:flex;align-items:center;gap:9px;margin-bottom:5px;}
+#timeSlider{flex:1;height:4px;cursor:pointer;-webkit-appearance:none;background:rgba(70,130,255,0.12);border-radius:2px;accent-color:#4a80cc;}
+#timeSlider::-webkit-slider-thumb{-webkit-appearance:none;width:18px;height:18px;border-radius:50%;background:#4a80cc;cursor:pointer;border:2px solid #2a5090;box-shadow:0 0 10px rgba(74,128,204,0.3);}
+#timePlayBtn{width:34px;height:34px;border-radius:8px;flex-shrink:0;border:1px solid rgba(70,130,255,0.2);background:rgba(70,130,255,0.07);color:var(--dim);font-size:14px;display:flex;align-items:center;justify-content:center;cursor:pointer;}
+.timeExtr{display:flex;justify-content:space-between;font-size:9px;color:var(--dimmer);margin-top:2px;}
+#shrinkInfo{font-size:9px;color:var(--dimmest);text-align:center;margin-top:6px;font-style:italic;line-height:1.4;}
+/* FLOATING LABELS */
+#flyLbl{position:fixed;top:58px;left:50%;transform:translateX(-50%);background:rgba(1,4,18,0.9);border:1px solid rgba(70,130,255,0.15);border-radius:20px;padding:5px 18px;font-size:10px;color:var(--dim);letter-spacing:2px;z-index:155;display:none;pointer-events:none;}
+#timeFloat{position:fixed;top:58px;left:50%;transform:translateX(-50%);background:rgba(1,4,18,0.94);border:1px solid rgba(70,130,255,0.18);border-radius:20px;padding:6px 18px;font-size:10.5px;color:#88aacc;letter-spacing:1px;z-index:160;display:none;white-space:nowrap;pointer-events:none;}
+
+/* ── MEASURE TOOL ──────────────────────────────────── */
+#measBadge{position:fixed;top:58px;left:50%;transform:translateX(-50%);background:rgba(2,18,10,0.94);border:1px solid rgba(40,220,120,0.32);border-radius:20px;padding:5px 18px;font-size:10px;color:var(--hot);letter-spacing:2px;z-index:156;display:none;pointer-events:none;}
+#measPnl{position:fixed;bottom:0;left:0;right:0;z-index:460;background:rgba(2,8,18,0.97);border-top:2px solid rgba(40,200,120,0.25);display:none;padding-bottom:max(env(safe-area-inset-bottom),10px);}
+#measHdr{display:flex;align-items:center;gap:8px;padding:10px 16px 0;}
+#measLbl{font-size:9.5px;letter-spacing:2px;color:#3a8050;text-transform:uppercase;flex:1;font-weight:bold;}
+#measClose{color:#3a8050;font-size:18px;cursor:pointer;padding:2px 6px;}
+#measBody{padding:8px 16px 4px;}
+.measObj{display:flex;align-items:center;gap:9px;padding:6px 0;border-bottom:1px solid rgba(40,200,120,0.08);}
+.measDot{width:11px;height:11px;border-radius:50%;flex-shrink:0;border:2px solid;}
+.measName{font-size:11.5px;color:#88b89c;flex:1;}
+.measTag{font-size:9px;letter-spacing:1px;color:#3a6048;}
+#measResult{margin-top:10px;display:grid;grid-template-columns:1fr 1fr;gap:5px;margin-bottom:4px;}
+.mR{background:rgba(40,200,120,0.04);border:1px solid rgba(40,200,120,0.1);border-radius:8px;padding:8px 10px;}
+.mRL{font-size:8.5px;color:#5a8870;letter-spacing:1px;margin-bottom:2px;text-transform:uppercase;}
+.mRV{font-size:12.5px;font-weight:bold;color:var(--hot);letter-spacing:0.5px;}
+#measHint{font-size:9.5px;color:#446050;text-align:center;padding:5px 16px 0;letter-spacing:0.5px;font-style:italic;}
+
+/* ── WAVELENGTH ────────────────────────────────────── */
+.wGrid{display:grid;grid-template-columns:1fr 1fr;gap:5px;margin-top:6px;}
+.wBtn{padding:9px 8px;border-radius:9px;cursor:pointer;border:1px solid rgba(70,130,255,0.1);background:rgba(255,255,255,0.02);text-align:center;transition:all 0.12s;}
+.wBtn:active,.wBtn.on{border-color:rgba(70,130,255,0.38);background:rgba(70,130,255,0.12);}
+.wBtn:focus-visible{outline:2px solid var(--accent);outline-offset:1px;}
+.wIcon{font-size:18px;display:block;margin-bottom:3px;}
+.wName{font-size:10.5px;color:var(--dim);line-height:1.3;display:block;}
+.wSub{font-size:9px;color:var(--dimmer);display:block;}
+
+/* ── HUBBLE FLOW ────────────────────────────────────── */
+#hubbleLbl{position:fixed;top:58px;right:16px;background:rgba(1,4,18,0.9);border:1px solid rgba(255,80,40,0.25);border-radius:20px;padding:5px 14px;font-size:10px;color:#ee7755;letter-spacing:1.5px;z-index:155;display:none;pointer-events:none;}
+
+/* ── STATS PANEL ─────────────────────────────────────── */
+#statsPnl{position:fixed;top:48px;left:0;width:min(300px,100vw);background:rgba(1,4,20,0.97);border-right:1px solid rgba(70,130,255,0.14);border-bottom:1px solid rgba(70,130,255,0.14);border-radius:0 0 14px 0;z-index:350;transform:translateX(-100%);transition:transform 0.3s cubic-bezier(.4,0,.2,1);max-height:calc(100vh - 48px);overflow-y:auto;scrollbar-width:thin;}
+#statsPnl.open{transform:translateX(0);}
+#statsInner{padding:12px 14px 18px;}
+.sHdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;}
+.sHdrTtl{font-size:9.5px;letter-spacing:2px;color:var(--dimmer);text-transform:uppercase;font-weight:bold;}
+#statsClose{color:var(--dim);font-size:18px;cursor:pointer;padding:2px 6px;}
+.sGrid{display:grid;grid-template-columns:1fr 1fr;gap:5px;margin-bottom:7px;}
+.sCard{background:rgba(255,255,255,0.025);border:1px solid rgba(70,130,255,0.08);border-radius:8px;padding:9px 10px;}
+.sNum{font-size:21px;font-weight:bold;color:#88c0e8;font-family:'Courier New',monospace;}
+.sLbl{font-size:9px;color:var(--dimmer);letter-spacing:1.5px;text-transform:uppercase;margin-top:2px;}
+.sCardFull{background:rgba(255,255,255,0.025);border:1px solid rgba(70,130,255,0.08);border-radius:8px;padding:9px 10px;margin-bottom:6px;}
+.sSecTtl{font-size:9.5px;color:var(--dimmer);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:5px;font-weight:bold;}
+.typeRow{display:flex;align-items:center;gap:7px;padding:4px 0;cursor:pointer;border-radius:4px;}
+.typeRow:active{background:rgba(70,130,255,0.05);}
+.typeDot{width:9px;height:9px;border-radius:50%;flex-shrink:0;}
+.typeName{font-size:11px;color:var(--dim);flex:1;}
+.typeCnt{font-size:11px;color:var(--dimmer);font-family:'Courier New',monospace;}
+.typeCk{width:13px;height:13px;border-radius:3px;border:1px solid rgba(70,130,255,0.3);background:rgba(70,130,255,0.08);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:10px;}
+.typeCk.on{background:#2d5eaa;border-color:#4a80cc;}
+#statHist{width:100%;height:54px;}
+.filtRow{display:flex;justify-content:space-between;font-size:9.5px;color:var(--dimmer);margin-bottom:4px;}
+.filtSlider{width:100%;height:4px;-webkit-appearance:none;background:rgba(70,130,255,0.12);border-radius:2px;accent-color:#4a80cc;margin:3px 0;cursor:pointer;}
+.filtSlider::-webkit-slider-thumb{-webkit-appearance:none;width:14px;height:14px;border-radius:50%;background:#4a80cc;cursor:pointer;border:2px solid #2a5090;}
+#csvBtn{width:100%;padding:9px;border-radius:8px;border:1px solid rgba(70,130,255,0.18);background:rgba(70,130,255,0.04);color:var(--dim);font-size:10.5px;cursor:pointer;font-family:'Courier New',monospace;letter-spacing:1px;margin-top:2px;}
+#csvBtn:active{background:rgba(70,130,255,0.14);}
+
+/* ── SHARE & BOOKMARK ───────────────────────────────── */
+.shareRow{display:flex;align-items:center;gap:9px;padding:9px 12px;border-radius:10px;cursor:pointer;margin-bottom:5px;background:rgba(255,255,255,0.022);border:1px solid rgba(70,130,255,0.06);}
+.shareRow:hover{background:rgba(70,130,255,0.06);}
+.shareRow:active{background:rgba(70,130,255,0.1);}
+.shareIcon{font-size:16px;flex-shrink:0;}
+.shareName{font-size:11.5px;color:var(--dim);}
+.shareSub{font-size:9.5px;color:var(--dimmer);display:block;margin-top:1px;}
+#shareNotif{position:fixed;top:60px;left:50%;transform:translateX(-50%);background:rgba(8,40,18,0.96);border:1px solid rgba(40,200,80,0.3);border-radius:20px;padding:6px 18px;font-size:10px;color:#66ee99;letter-spacing:2px;z-index:700;display:none;pointer-events:none;}
+.bkItem{display:flex;align-items:center;gap:8px;padding:9px 10px;border-radius:8px;cursor:pointer;background:rgba(255,255,255,0.02);border:1px solid rgba(70,130,255,0.06);margin-bottom:4px;}
+.bkItem:active{background:rgba(70,130,255,0.1);}
+.bkDot{width:9px;height:9px;border-radius:50%;flex-shrink:0;}
+.bkName{font-size:11.5px;color:var(--dim);flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.bkDist{font-size:9.5px;color:var(--dimmer);white-space:nowrap;}
+.bkDel{color:var(--dimmer);font-size:14px;padding:0 5px;flex-shrink:0;cursor:pointer;}
+#noBk{font-size:10.5px;color:var(--dimmer);text-align:center;padding:12px;letter-spacing:1px;}
+#bkBtn{width:100%;margin-top:10px;padding:9px;border-radius:8px;border:1px solid rgba(255,200,50,0.18);background:rgba(255,200,50,0.04);color:#bba255;font-size:10.5px;cursor:pointer;font-family:'Courier New',monospace;letter-spacing:1px;}
+#bkBtn:hover{background:rgba(255,200,50,0.1);}
+#bkBtn:active{background:rgba(255,200,50,0.18);}
+
+/* ── DID YOU KNOW WIDGET ────────────────────────────── */
+#dykWidget{position:fixed;left:14px;bottom:calc(80px + env(safe-area-inset-bottom));max-width:min(320px,calc(100vw - 100px));background:rgba(2,8,28,0.92);border:1px solid rgba(120,180,255,0.18);border-radius:12px;padding:10px 12px 9px;z-index:140;display:none;font-size:10.5px;line-height:1.55;color:#a0c0e0;backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);}
+#dykWidget.show{display:block;animation:dykIn 0.4s cubic-bezier(.4,0,.2,1);}
+@keyframes dykIn{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:translateY(0);}}
+#dykHdr{font-size:8.5px;letter-spacing:2px;color:#5a8aaa;text-transform:uppercase;margin-bottom:4px;display:flex;align-items:center;justify-content:space-between;}
+#dykClose{color:var(--dimmer);font-size:14px;cursor:pointer;padding:0 4px;line-height:1;}
+#dykText{font-style:italic;}
+#dykNext{font-size:8.5px;color:var(--dimmer);margin-top:6px;cursor:pointer;text-align:right;letter-spacing:1px;text-transform:uppercase;}
+#dykNext:hover{color:var(--accent);}
+@media (max-width:600px){#dykWidget{left:8px;right:74px;max-width:none;bottom:calc(80px + env(safe-area-inset-bottom));}}
+
+/* ── DRAG-DROP HINT ─────────────────────────────────── */
+#dropHint{position:fixed;inset:0;background:rgba(0,5,20,0.85);z-index:600;display:none;align-items:center;justify-content:center;border:3px dashed rgba(120,180,255,0.4);pointer-events:none;}
+#dropHint.show{display:flex;}
+#dropHint-inner{text-align:center;color:var(--accent);font-size:18px;letter-spacing:2px;}
+#dropHint-inner small{display:block;margin-top:8px;font-size:11px;color:var(--dim);font-style:italic;}
+
+/* ── NOSCRIPT ────────────────────────────────────────── */
+#noscriptMsg{position:fixed;inset:0;background:#000108;color:#c0d8f0;display:flex;align-items:center;justify-content:center;text-align:center;padding:20px;z-index:9999;font-family:'Courier New',monospace;}
+
+/* ── WEBGL FALLBACK ──────────────────────────────────── */
+#webglErr{position:fixed;inset:0;background:#000108;color:#c0d8f0;display:none;align-items:center;justify-content:center;text-align:center;padding:30px;z-index:9999;font-family:'Courier New',monospace;flex-direction:column;gap:14px;}
+#webglErr.show{display:flex;}
+#webglErr h2{font-size:14px;color:#ff8866;letter-spacing:2px;}
+#webglErr p{font-size:11px;color:var(--dim);max-width:400px;line-height:1.6;}
+</style>
+</head>
+<body>
+<noscript>
+  <div id="noscriptMsg">
+    <div>
+      <h2 style="font-size:16px;color:#ee7755;margin-bottom:14px;">⚠ JavaScript necesar</h2>
+      <p style="font-size:12px;line-height:1.6;color:#7a98b4;max-width:380px;">
+        Universul Observabil 3D necesită JavaScript activat pentru a randa scena WebGL și a procesa cele 115+ galaxii.<br><br>
+        Activează JavaScript și reîncarcă pagina.
+      </p>
+    </div>
+  </div>
+</noscript>
+
+<div id="webglErr" role="alert">
+  <h2>⚠ WebGL indisponibil</h2>
+  <p>Browser-ul nu suportă WebGL — necesar pentru randarea 3D. Încearcă un browser modern (Firefox, Chrome, Safari, Edge — versiuni 2020+) sau activează accelerarea hardware în setări.</p>
+  <p style="font-size:10px;color:#5a7088;">Pe iOS: Setări → Safari → Avansat → Activează WebGL.<br>Pe desktop: chrome://gpu sau about:support → caută "WebGL".</p>
+</div>
+
+<div id="dropHint" aria-hidden="true">
+  <div id="dropHint-inner">
+    📂 Lasă fișier CSV aici
+    <small>Format: nume,RA,Dec,Mly,morfologie,descriere</small>
+  </div>
+</div>
+
+<div id="topbar" role="banner">
+  <div><div id="ttl">UNIVERSUL OBSERVABIL · 3D</div><div id="sub">RA/DEC · ΛCDM · JWST 2024</div></div>
+  <div id="zhint" aria-live="polite"></div>
+  <div id="topbtns" role="toolbar" aria-label="Comenzi rapide">
+    <button class="tbtn" id="btnSearch" title="Caută (/)" aria-label="Deschide căutare">🔍</button>
+    <button class="tbtn" id="btnMeasure" title="Măsoară distanța (M)" aria-label="Activează modul măsurătoare">📏</button>
+    <button class="tbtn" id="btnStats" title="Statistici & Filtre" aria-label="Deschide panou statistici">📊</button>
+    <button class="tbtn" id="btnReset" title="Reset cameră (R)" aria-label="Resetează poziția camerei">⟳</button>
+    <button class="tbtn" id="btnRot" title="Auto-rotație" aria-label="Comută auto-rotația" aria-pressed="true">▶</button>
+  </div>
+</div>
+
+<!-- Stats panel (slides from left) -->
+<div id="statsPnl" role="region" aria-label="Statistici și filtre">
+  <div id="statsInner">
+    <div class="sHdr"><span class="sHdrTtl">📊 STATISTICI LIVE</span><button id="statsClose" aria-label="Închide statistici">✕</button></div>
+    <div class="sGrid">
+      <div class="sCard"><div class="sNum" id="sFOV">—</div><div class="sLbl">Vizibile în FOV</div></div>
+      <div class="sCard"><div class="sNum" id="sTotal">115</div><div class="sLbl">Total catalog</div></div>
+    </div>
+    <div class="sCardFull">
+      <div class="sSecTtl">Tip morfologic</div>
+      <div id="typeList"></div>
+    </div>
+    <div class="sCardFull">
+      <div class="sSecTtl">Distribuție distanță</div>
+      <svg id="statHist" viewBox="0 0 270 54" xmlns="http://www.w3.org/2000/svg" aria-label="Histogramă distanțe"></svg>
+    </div>
+    <div class="sCardFull">
+      <div class="sSecTtl">Filtru distanță</div>
+      <div class="filtRow"><span>Min: <span id="fMinVal">0</span> Mly</span><span>Max: <span id="fMaxVal">46.500</span> Mly</span></div>
+      <input type="range" class="filtSlider" id="fMin" min="0" max="46500" value="0" step="100" aria-label="Distanță minimă">
+      <input type="range" class="filtSlider" id="fMax" min="0" max="46500" value="46500" step="100" aria-label="Distanță maximă">
+    </div>
+    <button id="csvBtn">⬇ Exportă CSV (115 galaxii)</button>
+  </div>
+</div>
+
+<!-- Share notification -->
+<div id="shareNotif" role="status" aria-live="polite">✓ LINK COPIAT!</div>
+
+<!-- Canvas + label overlay – TREBUIE să fie primele după topbar -->
+<canvas id="c" aria-label="Vizualizare 3D Universul Observabil"></canvas>
+<div id="lw" aria-hidden="true"></div>
+
+<!-- Did You Know widget -->
+<div id="dykWidget" role="complementary" aria-live="polite">
+  <div id="dykHdr">💡 ȘTIAI CĂ <span id="dykClose" aria-label="Închide" role="button" tabindex="0">✕</span></div>
+  <div id="dykText"></div>
+  <div id="dykNext" role="button" tabindex="0">URMĂTORUL ▸</div>
+</div>
+
+<!-- Info panel -->
+<div id="pnl" role="dialog" aria-label="Detalii obiect" aria-modal="false">
+  <div class="phandle"></div>
+  <button id="cx" aria-label="Închide panou">✕</button>
+  <h2 id="pn"></h2>
+  <div class="row"><span class="lk">Tip</span><span class="lv" id="pt"></span></div>
+  <div class="morphTrans" id="pmt" style="display:none"></div>
+  <div class="row"><span class="lk">Distanță comovingă</span><span class="lv" id="pd"></span></div>
+  <div class="row"><span class="lk">Redshift z</span><span class="lv" id="pz"></span></div>
+  <div class="row"><span class="lk">Privire în trecut</span><span class="lv" id="ptlb"></span></div>
+  <div class="row"><span class="lk">Vârsta Universului atunci</span><span class="lv" id="pa"></span></div>
+  <div class="dsc" id="pc"></div>
+
+  <div id="cosmoCalcWrap">
+    <div id="cosmoToggle" role="button" tabindex="0" aria-expanded="false">📐 Detalii cosmologice avansate</div>
+    <div id="cosmoCalc">
+      <div class="ccRow"><span class="ccL">Distanță comoving (D_C)</span><span class="ccV" id="ccDC">—</span></div>
+      <div class="ccRow"><span class="ccL">Distanță luminozitate (D_L)</span><span class="ccV" id="ccDL">—</span></div>
+      <div class="ccRow"><span class="ccL">Distanță angulară (D_A)</span><span class="ccV" id="ccDA">—</span></div>
+      <div class="ccRow"><span class="ccL">Lookback time (t_LB)</span><span class="ccV" id="ccTLB">—</span></div>
+      <div class="ccRow"><span class="ccL">Factor de scară a(t_emit)</span><span class="ccV" id="ccA">—</span></div>
+      <div class="ccRow"><span class="ccL">Vit. recesiune Hubble</span><span class="ccV" id="ccVrec">—</span></div>
+      <div class="ccNote">D_L = (1+z) · D_C · D_A = D_C / (1+z) · ΛCDM cu H₀ = 67,4, Ω_m = 0,315</div>
+    </div>
+  </div>
+
+  <button id="bkBtn">⭐ Adaugă Bookmark</button>
+</div>
+
+<!-- Search overlay -->
+<div id="srchOvl" role="dialog" aria-modal="true" aria-label="Căutare obiecte cosmice">
+  <div id="srchBox">
+    <div id="srchWrap"><input id="srchInp" placeholder="Caută galaxie, quasar, orizont..." autocomplete="off" spellcheck="false" aria-label="Termen căutare" aria-controls="srchRes"></div>
+    <div id="srchDiv"></div>
+    <div id="srchRes" role="listbox" aria-label="Rezultate căutare"></div>
+    <div id="srchHint"><span><kbd>↑↓</kbd> nav</span><span><kbd>Enter</kbd> zboară</span><span><kbd>Esc</kbd> închide</span></div>
+  </div>
+</div>
+
+<!-- Tour panel -->
+<div id="tourPnl" role="region" aria-label="Tur ghidat" aria-live="polite">
+  <div id="tourHdr"><span id="tourLbl">TUR GHIDAT</span><span id="tourStepInd"></span><button id="tourClose" aria-label="Închide tur">✕</button></div>
+  <div id="tourNarr"></div>
+  <div id="tourCtrl">
+    <button class="tcb" id="tcPrev" aria-label="Pas anterior">‹</button>
+    <button class="tcb" id="tcPause" aria-label="Pauză">⏸</button>
+    <button class="tcb" id="tcNext" aria-label="Pas următor">›</button>
+    <div id="tourProgWrap" role="progressbar"><div id="tourProgBar"></div></div>
+    <button class="tcb" id="tcStop" aria-label="Oprește tur">✕</button>
+  </div>
+</div>
+
+<!-- Floating labels -->
+<div id="flyLbl" aria-hidden="true">NAVIGÂND...</div>
+<div id="timeFloat" aria-hidden="true"></div>
+<div id="measBadge" aria-hidden="true">📏 SELECTEAZĂ PRIMUL OBIECT</div>
+<div id="hubbleLbl" aria-hidden="true">FLUX HUBBLE ACTIV</div>
+
+<!-- Measure panel -->
+<div id="measPnl" role="region" aria-label="Măsurătoare distanță">
+  <div id="measHdr"><span id="measLbl">📏 MĂSURĂTOARE DISTANȚĂ</span><button id="measClose" aria-label="Închide măsurătoare">✕</button></div>
+  <div id="measBody">
+    <div class="measObj" id="measObj1"><div class="measDot" id="measDot1"></div><span class="measName" id="measName1">—</span><span class="measTag">OBJ 1</span></div>
+    <div class="measObj" id="measObj2"><div class="measDot" id="measDot2"></div><span class="measName" id="measName2">Click pe al 2-lea obiect…</span><span class="measTag">OBJ 2</span></div>
+    <div id="measResult" style="display:none">
+      <div class="mR"><div class="mRL">Separație 3D (comoving)</div><div class="mRV" id="mrDist">—</div></div>
+      <div class="mR"><div class="mRL">vs Andromeda</div><div class="mRV" id="mrAndro">—</div></div>
+      <div class="mR"><div class="mRL">Timp lumină (călătorie)</div><div class="mRV" id="mrLight">—</div></div>
+      <div class="mR"><div class="mRL">v_recesiune (obj. depărtat)</div><div class="mRV" id="mrHubble">—</div></div>
+    </div>
+    <div id="measHint">Click pe orice galaxie sau orizont pentru a măsura distanța</div>
+  </div>
+</div>
+
+<!-- Drawer overlay -->
+<div id="overlay"></div>
+<!-- Bottom drawer -->
+<div id="drawer">
+  <div id="drawer-handle"></div>
+  <div id="drawer-inner">
+    <div class="drsec">
+      <div class="drsec-title">Grilă & Coordonate</div>
+      <div class="tog" data-key="grid"><div class="tog-left"><div class="tog-dot" style="background:#2a4060"></div><div><span class="tog-name">Grilă RA/Dec</span><span class="tog-sub">Meridiane și paralele sferice</span></div></div><div class="sw on" id="sw-grid"></div></div>
+      <div class="tog" data-key="equator"><div class="tog-left"><div class="tog-dot" style="background:#2a4060;outline:1px solid #3a6090"></div><div><span class="tog-name">Ecuator ceresc</span><span class="tog-sub">Dec = 0°</span></div></div><div class="sw on" id="sw-equator"></div></div>
+      <div class="tog" data-key="axes"><div class="tog-left"><div class="tog-dot" style="background:#2a3d55"></div><div><span class="tog-name">Axe RA</span><span class="tog-sub">0h / 6h / 12h / 18h + pol</span></div></div><div class="sw on" id="sw-axes"></div></div>
+      <div class="tog" data-key="axlbl"><div class="tog-left"><div class="tog-dot" style="background:#1e2e3a"></div><div><span class="tog-name">Etichete axe</span><span class="tog-sub">Direcții astronomice</span></div></div><div class="sw on" id="sw-axlbl"></div></div>
+      <div class="tog" data-key="rings"><div class="tog-left"><div class="tog-dot" style="background:#3366cc"></div><div><span class="tog-name">Inele distanță</span><span class="tog-sub">Câte un inel per orizont</span></div></div><div class="sw on" id="sw-rings"></div></div>
+      <div class="tog" data-key="dlbl"><div class="tog-left"><div class="tog-dot" style="background:#22bb66"></div><div><span class="tog-name">Etichete distanțe</span><span class="tog-sub">Gly + redshift flotant</span></div></div><div class="sw on" id="sw-dlbl"></div></div>
+      <div class="tog" data-key="constel"><div class="tog-left"><div class="tog-dot" style="background:#5588cc"></div><div><span class="tog-name">Constelații</span><span class="tog-sub">88 constelații IAU pe sfera stelelor</span></div></div><div class="sw" id="sw-constel"></div></div>
+    </div>
+    <div class="drsec">
+      <div class="drsec-title">Orizonturi & Structuri</div>
+      <div class="tog" data-key="shells"><div class="tog-left"><div class="tog-dot" style="background:#336699"></div><div><span class="tog-name">Cochilii orizonturi</span><span class="tog-sub">Hubble, CMB, Univers Obs.</span></div></div><div class="sw on" id="sw-shells"></div></div>
+      <div class="tog" data-key="structs"><div class="tog-left"><div class="tog-dot" style="background:#ff7722"></div><div><span class="tog-name">Superclusteri & structuri</span><span class="tog-sub">Laniakea, Vela, Atractor</span></div></div><div class="sw on" id="sw-structs"></div></div>
+      <div class="tog" data-key="lightcone"><div class="tog-left"><div class="tog-dot" style="background:#ffaa44"></div><div><span class="tog-name">Con de lumină trecut</span><span class="tog-sub">Anim. expansiunii observ. din MW</span></div></div><div class="sw" id="sw-lightcone"></div></div>
+    </div>
+    <div class="drsec">
+      <div class="drsec-title">Galaxii</div>
+      <div class="tog" data-key="galLocal"><div class="tog-left"><div class="tog-dot" style="background:#aaddff"></div><div><span class="tog-name">Locale (&lt;100 Mly)</span><span class="tog-sub">MW, Andromeda, Grup Local...</span></div></div><div class="sw on" id="sw-galLocal"></div></div>
+      <div class="tog" data-key="galFar"><div class="tog-left"><div class="tog-dot" style="background:#ffddaa"></div><div><span class="tog-name">Îndepărtate (100–2.000 Mly)</span><span class="tog-sub">Virgo, Coma, Fornax...</span></div></div><div class="sw on" id="sw-galFar"></div></div>
+      <div class="tog" data-key="qso"><div class="tog-left"><div class="tog-dot" style="background:#ffff88"></div><div><span class="tog-name">Quasari & AGN</span><span class="tog-sub">3C 273, Mrk 231...</span></div></div><div class="sw on" id="sw-qso"></div></div>
+      <div class="tog" data-key="ehz"><div class="tog-left"><div class="tog-dot" style="background:#ff2200"></div><div><span class="tog-name">EHZ — z &gt; 4 (JWST)</span><span class="tog-sub">Până la z=14.32 (JADES record)</span></div></div><div class="sw on" id="sw-ehz"></div></div>
+      <div class="tog" data-key="pops"><div class="tog-left"><div class="tog-dot" style="background:#3399cc"></div><div><span class="tog-name">Populații fundal</span><span class="tog-sub">Mii de galaxii statistice</span></div></div><div class="sw on" id="sw-pops"></div></div>
+      <div class="tog" data-key="gallbl"><div class="tog-left"><div class="tog-dot" style="background:#4477aa"></div><div><span class="tog-name">Etichete galaxii</span><span class="tog-sub">Nume flotante (auto la zoom)</span></div></div><div class="sw" id="sw-gallbl"></div></div>
+    </div>
+    <div class="drsec">
+      <div class="drsec-title">Fundal & Altele</div>
+      <div class="tog" data-key="stars"><div class="tog-left"><div class="tog-dot" style="background:#ffffff44;border:1px solid #fff6"></div><div><span class="tog-name">Stele fundal</span><span class="tog-sub">10.000 stele + banda MW</span></div></div><div class="sw on" id="sw-stars"></div></div>
+      <div class="tog" data-key="zoa"><div class="tog-left"><div class="tog-dot" style="background:#441800"></div><div><span class="tog-name">Zona de Evitare</span><span class="tog-sub">Plan galactic — praf interstelar</span></div></div><div class="sw on" id="sw-zoa"></div></div>
+      <div class="tog" data-key="autorot"><div class="tog-left"><div class="tog-dot" style="background:#2a5080"></div><div><span class="tog-name">Auto-rotație</span><span class="tog-sub">Rotire lentă continuă</span></div></div><div class="sw on" id="sw-autorot"></div></div>
+    </div>
+    <div class="drsec">
+      <div class="drsec-title">⏳ Timp Cosmic · Shrinking Universe</div>
+      <div id="timeDsp">PREZENT · z = 0</div>
+      <div id="timeAge">Universul are 13,8 miliarde ani</div>
+      <div class="timeRow"><input type="range" id="timeSlider" min="0" max="138" value="138" step="1" aria-label="Timp cosmic"><div id="timePlayBtn" role="button" tabindex="0" aria-label="Redă animația cosmică">▶</div></div>
+      <div class="timeExtr"><span>Big Bang (z=1100)</span><span>Prezent (z=0)</span></div>
+      <div id="shrinkInfo">Slid-ează pentru a vedea Universul contractându-se spre Big Bang. Galaxiile se apropie cu factorul a(t)=1/(1+z).</div>
+    </div>
+    <div class="drsec">
+      <div class="drsec-title">🎬 Tururi Ghidate</div>
+      <div id="tourList"></div>
+    </div>
+    <div class="drsec">
+      <div class="drsec-title">🔗 Share · Export · Import</div>
+      <div class="shareRow" id="shareCopyBtn" role="button" tabindex="0">
+        <span class="shareIcon">📋</span>
+        <div><span class="shareName">Copiază link cu starea curentă</span><span class="shareSub">Cameră + toggle-uri + mod + timp</span></div>
+      </div>
+      <div class="shareRow" id="shareScreenshotBtn" role="button" tabindex="0">
+        <span class="shareIcon">📸</span>
+        <div><span class="shareName">Salvează screenshot</span><span class="shareSub">PNG cu randarea WebGL curentă</span></div>
+      </div>
+      <div class="shareRow" id="shareExportBtn" role="button" tabindex="0">
+        <span class="shareIcon">⬇</span>
+        <div><span class="shareName">Exportă catalog CSV</span><span class="shareSub">115 galaxii · RA/Dec/distanță/tip</span></div>
+      </div>
+      <div class="shareRow" id="shareImportBtn" role="button" tabindex="0">
+        <span class="shareIcon">📂</span>
+        <div><span class="shareName">Importă obiecte CSV</span><span class="shareSub">Drop sau click — formă: nume,RA,Dec,Mly,morf,desc</span></div>
+      </div>
+      <input type="file" id="csvImportInp" accept=".csv,text/csv" style="display:none">
+    </div>
+    <div class="drsec">
+      <div class="drsec-title">⭐ Bookmarks</div>
+      <div id="bkList"><div id="noBk">Niciun bookmark. Click pe o galaxie → ⭐.</div></div>
+    </div>
+
+    <div class="drsec">
+      <div class="drsec-title">Scara Distanțelor</div>
+      <div id="scale-rows"></div>
+    </div>
+
+    <div class="drsec">
+      <div class="drsec-title">🌈 Mod Lungime de Undă</div>
+      <div class="wGrid" id="waveGrid">
+        <div class="wBtn on" data-wave="optical"><span class="wIcon">👁</span><span class="wName">Optic</span><span class="wSub">Culori reale</span></div>
+        <div class="wBtn" data-wave="infrared"><span class="wIcon">🔴</span><span class="wName">Infraroșu</span><span class="wSub">JWST · z &gt; 4</span></div>
+        <div class="wBtn" data-wave="radio"><span class="wIcon">📡</span><span class="wName">Radio</span><span class="wSub">AGN · jeturi</span></div>
+        <div class="wBtn" data-wave="xray"><span class="wIcon">☢</span><span class="wName">Raze X</span><span class="wSub">Roiuri · gaz fierbinte</span></div>
+        <div class="wBtn" data-wave="dark"><span class="wIcon">🌑</span><span class="wName">Mat. Întunecată</span><span class="wSub">Haouri simulate</span></div>
+      </div>
+    </div>
+
+    <div class="drsec">
+      <div class="drsec-title">🚀 Vectori Hubble Flow</div>
+      <div class="tog" data-key="hubble"><div class="tog-left"><div class="tog-dot" style="background:#ff4422"></div><div><span class="tog-name">Vectori recesiune</span><span class="tog-sub">Roșu=recesiune · Albastru=blueshift</span></div></div><div class="sw" id="sw-hubble"></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- FAB -->
+<button id="fab" aria-label="Deschide meniu">☰</button>
+<div id="hintbar" aria-hidden="true">
+  <span><kbd>Drag</kbd> rotire</span><span><kbd>Scroll</kbd> zoom</span>
+  <span><kbd>Click</kbd> detalii</span><span><kbd>/</kbd> caută</span>
+  <span><kbd>M</kbd> măsoară</span><span><kbd>R</kbd> reset</span><span><kbd>L</kbd> etichete</span>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+// ═══ WEBGL DETECTION ═══════════════════════════════════════
+(function checkWebGL(){
+  try{
+    const c=document.createElement('canvas');
+    const gl=c.getContext('webgl')||c.getContext('experimental-webgl');
+    if(!gl){throw new Error('no-webgl');}
+  }catch(e){
+    document.getElementById('webglErr').classList.add('show');
+    throw new Error('WebGL not available — aborting init');
+  }
+})();
+
+// ═══ CONFIG (centralized magic numbers) ═════════════════════
+const CONFIG = {
+  SCALE_K: 28,                  // log10-distance scale factor
+  MAX_DIST_MLY: 46500,
+  CAM: {NEAR:0.005, FAR:3000, FOV:52, MIN_R:2, MAX_R:250, INIT_R:150, INIT_T:0.4, INIT_P:1.15},
+  ROT_SPEED: 0.005,
+  ZOOM_SPEED: 0.04,
+  AUTOROT_SPEED: 0.00025,
+  TIME_MAX: 138,                // 13.8 Gy × 10
+  H0: 67.4,                     // km/s/Mpc
+  MPC_PER_MLY: 1/3.2616,
+  OMEGA_M: 0.315,
+  OMEGA_L: 0.685,
+  ANDROMEDA_MLY: 2.537,
+  TAP_MOVE_THRESHOLD: 10,       // px — finger wiggle tolerance
+  TAP_TIME_THRESHOLD: 350,      // ms
+  LABEL_HIDE_DIST: 500,         // Mly above which labels need explicit zoom
+  LABEL_AUTO_ZOOM: 18,          // camR below which all labels show
+};
+
+// ═══ PREFERS-REDUCED-MOTION ═════════════════════════════════
+const REDUCED_MOTION = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches || false;
+
+// ═══ HELPERS ════════════════════════════════════════════════
+// Centralized distance formatter (replaces 4-5 inline duplicates)
+function fmtDist(mly){
+  if(mly<0.001) return '0';
+  if(mly<1) return (mly*1000).toFixed(0)+' kly';
+  if(mly<1000) return mly.toFixed(mly<10?2:1)+' Mly';
+  return (mly/1000).toFixed(mly>=10000?0:2)+' Gly';
+}
+
+// Morphology code → human-readable Romanian translation
+const MORPH_TRANS = {
+  'SBbc':'Spirală barată cu brațe medii',
+  'SBb':'Spirală barată cu brațe strânse',
+  'SBc':'Spirală barată cu brațe deschise',
+  'SBcd':'Spirală barată brațe larg deschise',
+  'SBd':'Spirală barată dezordonată',
+  'SBm':'Spirală barată tip Magellanic',
+  'SAa':'Spirală cu brațe foarte strânse',
+  'SAab':'Spirală cu brațe strânse',
+  'SAb':'Spirală cu brațe medii',
+  'SAbc':'Spirală cu brațe medii-deschise',
+  'SAc':'Spirală cu brațe deschise',
+  'SAcd':'Spirală cu brațe larg deschise',
+  'SAd':'Spirală cu brațe foarte larg deschise',
+  'SABab':'Spirală intermediară (a/ab)',
+  'SABb':'Spirală intermediară',
+  'SABbc':'Spirală intermediară cu brațe medii',
+  'SABc':'Spirală intermediară deschisă',
+  'SABcd':'Spirală intermediară larg deschisă',
+  'S0':'Lenticulară (disc fără brațe)',
+  'S0p':'Lenticulară peculiară',
+  'E0':'Eliptică sferică',
+  'E1':'Eliptică ușor turtită',
+  'E2':'Eliptică turtită',
+  'E3':'Eliptică turtită moderat',
+  'E4':'Eliptică turtită',
+  'E5':'Eliptică alungită',
+  'E0p':'Eliptică peculiară',
+  'cD':'Eliptică gigant centrală',
+  'Irr':'Galaxie neregulată',
+  'I0':'Galaxie neregulată tip 0',
+  'IBm':'Neregulată barată Magellanic',
+  'dSph':'Pitică sferoidă',
+  'dE':'Pitică eliptică',
+  'dIrr':'Pitică neregulată',
+  'QSO':'Quasar (nucleu galactic ultra-activ)',
+  'EHZ':'Galaxie la Extremely High Redshift',
+};
+function morphToText(m){
+  if(!m) return '';
+  if(MORPH_TRANS[m]) return MORPH_TRANS[m];
+  // fallback heuristics
+  if(m.startsWith('E')) return 'Eliptică';
+  if(m.startsWith('S0')) return 'Lenticulară';
+  if(m.includes('Irr')||m==='I0') return 'Neregulată';
+  if(m.startsWith('dS')||m.startsWith('dI')||m.startsWith('dE')) return 'Pitică';
+  if(m.startsWith('SB')) return 'Spirală barată';
+  if(m.startsWith('SA')||m.startsWith('SAB')) return 'Spirală';
+  return '';
+}
+
+// ═══ COSMOLOGY (proper ΛCDM, replaces LUT-based approximation) ═
+// Age of universe at redshift z (in Gy) — analytical solution for matter+lambda
+function zToAge(z){
+  if(z<=0) return 13.8;
+  if(z>=1100) return 0.00038;
+  const Om=CONFIG.OMEGA_M, OL=CONFIG.OMEGA_L;
+  // H0 in 1/Gy: H0 [km/s/Mpc] × 1.0227e-3 → 1/Gy
+  const H0_Gy = CONFIG.H0 * 1.0227e-3;
+  return (2/(3*H0_Gy*Math.sqrt(OL))) * Math.asinh(Math.sqrt(OL/Om)*Math.pow(1+z,-1.5));
+}
+// Lookback time = age_now - age_at_z
+function lookbackTime(z){return Math.max(0, 13.8 - zToAge(z));}
+// Comoving distance from z (numerical integration, simple trapezoidal — fast enough)
+function comovingDist(z){
+  if(z<=0) return 0;
+  const N=200, dz=z/N, c_kmps=299792.458, H0=CONFIG.H0;
+  const Om=CONFIG.OMEGA_M, OL=CONFIG.OMEGA_L;
+  const Ez=zp=>Math.sqrt(Om*Math.pow(1+zp,3)+OL);
+  let sum=0;
+  for(let i=0;i<N;i++){
+    const z1=i*dz, z2=(i+1)*dz;
+    sum += 0.5*(1/Ez(z1)+1/Ez(z2)) * dz;
+  }
+  return c_kmps/H0 * sum / 1e6 * 3.2616; // → Mly
+}
+
+// ═══ SETUP ════════════════════════════════════════════════
+const scene=new THREE.Scene();
+const camera=new THREE.PerspectiveCamera(CONFIG.CAM.FOV,innerWidth/innerHeight,CONFIG.CAM.NEAR,CONFIG.CAM.FAR);
+const renderer=new THREE.WebGLRenderer({canvas:document.getElementById('c'),antialias:true,powerPreference:'high-performance'});
+renderer.setSize(innerWidth,innerHeight);
+renderer.setClearColor(0x000108,1);
+renderer.setPixelRatio(Math.min(devicePixelRatio,2));
+// Webgl context loss handler (graceful)
+renderer.domElement.addEventListener('webglcontextlost',e=>{e.preventDefault();console.warn('WebGL context lost');},false);
+scene.add(new THREE.AmbientLight(0x223355,4));
+const lw=document.getElementById('lw');
+
+// ═══ COSMIC GROUP (for Shrinking Universe time effect) ═══════
+// Wraps all "cosmic content" so we can scale it as a unit.
+// Grid/axes stay outside (observer's reference frame).
+const cosmicGroup = new THREE.Group();
+scene.add(cosmicGroup);
+
+// ═══ SCALE (log): d_scene = log10(dMly+1)*K ══════════════
+const K=CONFIG.SCALE_K;
+function eqV(rh,dd,dM){
+  if(dM<5e-4)return new THREE.Vector3(0,0,0);
+  const ra=rh*Math.PI/12,dec=dd*Math.PI/180,d=Math.log10(dM+1)*K;
+  return new THREE.Vector3(d*Math.cos(dec)*Math.cos(ra),d*Math.sin(dec),d*Math.cos(dec)*Math.sin(ra));
+}
+function dS(dM){return Math.log10(dM+1)*K;}
+const MAX_R=dS(CONFIG.MAX_DIST_MLY);
+
+// ═══ GROUP ARRAYS (declared early so all code can push) ═══
+const grpLocal=[],grpFar=[],grpQSO=[],grpEHZ=[],grpPops=[],grpStars=[],
+      grpShells=[],grpStructs=[],grpRings=[],grpZoa=[],grpConstel=[],grpLightcone=[];
+const hitboxes=[],galPts=[],lblDivs=[],shellLblDivs=[],axDivs=[];
+const shellMeshes=[];
+const gridGroups={grid:null,equator:null,axes:null};
+let velaRing=null;     // direct ref instead of scene.children search
+let cameraDirty=true;  // dirty flag for FOV count optimization
+let needsRender=true;  // for future RAF gating
+let statsTick=0;
+
+// ═══ BACKGROUND STARS ══════════════════════════════════════
+(function(){
+  const N=10000,p=new Float32Array(N*3);
+  for(let i=0;i<N;i++){const r=900+Math.random()*200,th=Math.random()*Math.PI*2,ph=Math.acos(2*Math.random()-1);p[i*3]=r*Math.sin(ph)*Math.cos(th);p[i*3+1]=r*Math.cos(ph);p[i*3+2]=r*Math.sin(ph)*Math.sin(th);}
+  const g=new THREE.BufferGeometry();g.setAttribute('position',new THREE.BufferAttribute(p,3));
+  const m=new THREE.Points(g,new THREE.PointsMaterial({color:0xffffff,size:0.5,sizeAttenuation:false,transparent:true,opacity:0.58}));
+  scene.add(m);grpStars.push(m);
+  const N2=2800,p2=new Float32Array(N2*3);
+  for(let i=0;i<N2;i++){const r=220+Math.random()*680,ra=Math.random()*Math.PI*2,gd=-62.87*Math.PI/180*Math.cos(ra-4.938)+(Math.random()-0.5)*0.18;p2[i*3]=r*Math.cos(gd)*Math.cos(ra);p2[i*3+1]=r*Math.sin(gd);p2[i*3+2]=r*Math.cos(gd)*Math.sin(ra);}
+  const g2=new THREE.BufferGeometry();g2.setAttribute('position',new THREE.BufferAttribute(p2,3));
+  const m2=new THREE.Points(g2,new THREE.PointsMaterial({color:0xaabedd,size:0.38,sizeAttenuation:false,transparent:true,opacity:0.4}));
+  scene.add(m2);grpStars.push(m2);
+})();
+
+// ═══ COORDINATE GRID ═══════════════════════════════════════
+(function(){
+  const segs=60,pts=[];
+  for(let rh=0;rh<24;rh+=3){
+    const ra=rh*Math.PI/12;
+    for(let i=0;i<segs;i++){
+      const d1=-Math.PI/2+i/segs*Math.PI,d2=-Math.PI/2+(i+1)/segs*Math.PI;
+      pts.push(MAX_R*Math.cos(d1)*Math.cos(ra),MAX_R*Math.sin(d1),MAX_R*Math.cos(d1)*Math.sin(ra));
+      pts.push(MAX_R*Math.cos(d2)*Math.cos(ra),MAX_R*Math.sin(d2),MAX_R*Math.cos(d2)*Math.sin(ra));
+    }
+  }
+  for(let dd=-60;dd<=60;dd+=30){
+    if(dd===0)continue;
+    const dec=dd*Math.PI/180,r=MAX_R*Math.cos(dec),y=MAX_R*Math.sin(dec);
+    for(let i=0;i<segs;i++){const r1=i/segs*Math.PI*2,r2=(i+1)/segs*Math.PI*2;pts.push(r*Math.cos(r1),y,r*Math.sin(r1));pts.push(r*Math.cos(r2),y,r*Math.sin(r2));}
+  }
+  const geo=new THREE.BufferGeometry();geo.setAttribute('position',new THREE.BufferAttribute(new Float32Array(pts),3));
+  gridGroups.grid=new THREE.LineSegments(geo,new THREE.LineBasicMaterial({color:0x19293a,transparent:true,opacity:0.22}));
+  scene.add(gridGroups.grid);
+  // Equator
+  const ep=[]; for(let i=0;i<=128;i++){const a=i/128*Math.PI*2;ep.push(new THREE.Vector3(MAX_R*Math.cos(a),0,MAX_R*Math.sin(a)));}
+  gridGroups.equator=new THREE.Line(new THREE.BufferGeometry().setFromPoints(ep),new THREE.LineBasicMaterial({color:0x2a4060,transparent:true,opacity:0.45}));
+  scene.add(gridGroups.equator);
+  // Axes
+  const ap=[];
+  ap.push(0,-MAX_R,0,0,MAX_R,0);
+  [[0,0],[6,Math.PI/2],[12,Math.PI],[18,3*Math.PI/2]].forEach(([,ra])=>ap.push(0,0,0,MAX_R*Math.cos(ra),0,MAX_R*Math.sin(ra)));
+  const tick=2;
+  [46500,45638,31558,27345,16000,14513,10778,6165,1000,520].forEach(d=>{const r=dS(d);ap.push(r,-tick,0,r,tick,0,r,0,-tick,r,0,tick);});
+  const ag=new THREE.BufferGeometry();ag.setAttribute('position',new THREE.BufferAttribute(new Float32Array(ap),3));
+  gridGroups.axes=new THREE.LineSegments(ag,new THREE.LineBasicMaterial({color:0x2a3d55,transparent:true,opacity:0.35}));
+  scene.add(gridGroups.axes);
+  // Axis labels
+  const axDefs=[
+    {txt:'RA 0h · Vărsătorul',p3:new THREE.Vector3(MAX_R*1.04,0,0)},
+    {txt:'RA 6h · Orion',p3:new THREE.Vector3(0,0,MAX_R*1.04)},
+    {txt:'RA 12h · Fecioara',p3:new THREE.Vector3(-MAX_R*1.04,0,0)},
+    {txt:'RA 18h · Scorpion',p3:new THREE.Vector3(0,0,-MAX_R*1.04)},
+    {txt:'Dec +90°',p3:new THREE.Vector3(0,MAX_R*1.04,0)},
+    {txt:'Dec −90°',p3:new THREE.Vector3(0,-MAX_R*1.04,0)},
+  ];
+  axDefs.forEach(({txt,p3})=>{
+    const d=document.createElement('div');d.className='ax';d.textContent=txt;lw.appendChild(d);axDivs.push({div:d,p3});
+  });
+})();
+
+// ═══ ZoA DISK ══════════════════════════════════════════════
+(function(){
+  const gnRA=12.816*Math.PI/12,gnDec=27.13*Math.PI/180;
+  const gn=new THREE.Vector3(Math.cos(gnDec)*Math.cos(gnRA),Math.sin(gnDec),Math.cos(gnDec)*Math.sin(gnRA)).normalize();
+  const q=new THREE.Quaternion().setFromUnitVectors(new THREE.Vector3(0,1,0),gn);
+  const d=new THREE.Mesh(new THREE.RingGeometry(2,MAX_R*0.92,80),new THREE.MeshBasicMaterial({color:0x441800,transparent:true,opacity:0.08,side:THREE.DoubleSide,depthWrite:false}));
+  d.quaternion.copy(q);cosmicGroup.add(d);grpZoa.push(d);
+  const zDiv=document.createElement('div');zDiv.className='gl';zDiv.textContent='— Zona de Evitare —';zDiv.style.color='#442200';zDiv.style.fontSize='8.5px';lw.appendChild(zDiv);
+  const zPos=new THREE.Vector3(0,0,65).applyQuaternion(q);
+  lblDivs.push({div:zDiv,p3:zPos,R:2,d:999999,isZoA:true});
+})();
+
+// ═══ DISTANCE SHELLS ═══════════════════════════════════════
+const SHELLS=[
+  {n:'Laniakea (~520 Mly)',     dMly:520,    z:'~0.12',  tLB:'1,6 Gy', age:'12,2 Gy',  c:0x3366cc, op:0.055,wire:false,ringOp:0.28,
+   desc:'Superclusterul nostru natal — limita aproximativă a „vecinătății" cosmice. Cuprinde ~100.000 galaxii.'},
+  {n:'1 Gly',                  dMly:1000,   z:'~0.24',  tLB:'2,9 Gy', age:'10,9 Gy',  c:0x2299aa, op:0.05, wire:false,ringOp:0.25,
+   desc:'La această distanță, structura cosmică este bine formată. Universul era cu ~3 mld ani mai tânăr.'},
+  {n:'z = 0.5',                dMly:6165,   z:'0.50',   tLB:'5,1 Gy', age:'8,7 Gy',   c:0x22bb66, op:0.05, wire:false,ringOp:0.28,
+   desc:'Jumătatea vârstei Universului. Galaxiile erau mai mici și mai active. Rata de formare stelară spre maxim.'},
+  {n:'z = 1',                  dMly:10778,  z:'1.0',    tLB:'7,7 Gy', age:'6,1 Gy',   c:0x99cc22, op:0.05, wire:false,ringOp:0.28,
+   desc:'Vârful activității galactice — cel mai intens interval de formare stelară din istoria Universului.'},
+  {n:'★ Sfera Hubble (v = c)', dMly:14513,  z:'1.46',   tLB:'9,8 Gy', age:'4,0 Gy',   c:0xe8e8e8, op:0.22, wire:true, ringOp:0.55,major:true,
+   desc:'LIMITA HUBBLE: Galaxii de la această distanță recesionează exact cu viteza luminii. Fotoni emişi AZI de la aceste galaxii nu ne vor ajunge NICIODATĂ — deşi putem vedea lumina lor veche.'},
+  {n:'★ Orizont eveniment',    dMly:16000,  z:'→∞',     tLB:'—',      age:'—',        c:0x9944ff, op:0.20, wire:true, ringOp:0.52,major:true,
+   desc:'ORIZONTUL CAUZAL ABSOLUT: Niciun semnal emis AZI de la noi nu poate atinge galaxii aflate dincolo. Universul accelerat limitează definitiv ce putem influenţa.'},
+  {n:'z = 2 (quasari)',        dMly:16893,  z:'2.0',    tLB:'10,4 Gy',age:'3,4 Gy',   c:0xffcc22, op:0.05, wire:false,ringOp:0.28,
+   desc:'Apogeul quasarilor — găuri negre supermasive active la maxim. Universul concentra mai multă masă în structuri compacte.'},
+  {n:'Primele galaxii z ≈ 6',  dMly:27345,  z:'~6',     tLB:'12,8 Gy',age:'1,0 Gy',   c:0xff8833, op:0.05, wire:false,ringOp:0.28,
+   desc:'Primele galaxii confirmate (inclusiv JWST). Reionizarea se apropie de final. Universul în „Zorii Cosmici".'},
+  {n:'Primele stele z ≈ 10',   dMly:31558,  z:'~10',    tLB:'13,2 Gy',age:'500 My',   c:0xff5522, op:0.05, wire:false,ringOp:0.28,
+   desc:'Primele stele și proto-galaxii. Universul emerges din Era Întunecată. JWST detectează structuri la z > 13.'},
+  {n:'Reionizare z ≈ 20',      dMly:36086,  z:'~20',    tLB:'13,5 Gy',age:'180 My',   c:0xff3311, op:0.055,wire:false,ringOp:0.26,
+   desc:'Primele surse de lumină ionizează hidrogenul neutru. Universul devine transparent — finalul Erei Întunecate.'},
+  {n:'★ CMB (z = 1100)',       dMly:45638,  z:'1100',   tLB:'13,8 Gy',age:'380.000 ani',c:0xff1100,op:0.13, wire:false,ringOp:0.55,major:true,
+   desc:'SUPRAFAŢA ULTIMEI ÎMPRĂŞTIERI: Cel mai depărtat lucru observabil. Fotoni CMB au călătorit 13,8 mld ani. Temperatura: 2,725 K. Fluctuaţiile sale au generat toată structura cosmică actuală.'},
+  {n:'★ Universul Observabil', dMly:46500,  z:'~1100',  tLB:'13,8 Gy',age:'Big Bang',  c:0xff0000, op:0.20, wire:true, ringOp:0.55,major:true,
+   desc:'ORIZONTUL PARTICULELOR: Limita absolută observabilă. Distanţă comovingă ~46,5 mld al. Dincolo există univers care există, dar lumina sa nu a apucat să ajungă la noi de la Big Bang.'},
+];
+(function(){
+  SHELLS.forEach((s,i)=>{
+    const r=dS(s.dMly);
+    let mat;
+    if(s.wire)mat=new THREE.MeshBasicMaterial({color:s.c,wireframe:true,transparent:true,opacity:s.op,depthWrite:false});
+    else mat=new THREE.MeshPhongMaterial({color:s.c,emissive:new THREE.Color(s.c).multiplyScalar(0.06),transparent:true,opacity:s.op,side:THREE.BackSide,depthWrite:false});
+    const m=new THREE.Mesh(new THREE.SphereGeometry(r,s.wire?32:44,s.wire?18:24),mat);
+    m.userData={pn:s.n,pt:'Orizont cosmic',pd:(s.dMly>=1000?(s.dMly/1000).toFixed(1)+' Gly':s.dMly+' Mly'),pz:'z = '+s.z,ptlb:s.tLB,pa:s.age,pc:s.desc,aC:s.c};
+    cosmicGroup.add(m);shellMeshes.push(m);grpShells.push(m);hitboxes.push(m);
+    // Ring
+    const rp=[];for(let j=0;j<=90;j++){const a=j/90*Math.PI*2;rp.push(new THREE.Vector3(r*Math.cos(a),0,r*Math.sin(a)));}
+    const rln=new THREE.Line(new THREE.BufferGeometry().setFromPoints(rp),new THREE.LineBasicMaterial({color:s.c,transparent:true,opacity:s.ringOp}));
+    cosmicGroup.add(rln);grpRings.push(rln);
+    // Floating distance label
+    const ang=(i*2.618)*Math.PI;
+    const lp=new THREE.Vector3(r*0.97*Math.cos(ang),r*0.04,r*0.97*Math.sin(ang));
+    const dstr=s.dMly>=1000?(s.dMly/1000).toFixed(s.dMly>=10000?0:1)+' Gly':s.dMly+' Mly';
+    const dd=document.createElement('div');dd.className='dl'+(s.major?' major':'');
+    dd.textContent=dstr+' · z='+s.z;dd.style.color='#'+new THREE.Color(s.c).getHexString();
+    lw.appendChild(dd);shellLblDivs.push({div:dd,lp});
+  });
+  // CMB glow
+  const r=dS(45638);
+  cosmicGroup.add(new THREE.Mesh(new THREE.SphereGeometry(r*0.997,40,22),new THREE.MeshBasicMaterial({color:0xff1100,transparent:true,opacity:0.05,side:THREE.FrontSide,depthWrite:false})));
+})();
+
+// ═══ LARGE-SCALE STRUCTURES ════════════════════════════════
+(function(){
+  const STRUCTS=[
+    {ra:12.45,dec:12.7,d:53,R:3.5,c:0x4477ff,n:'Roiul Virgo'},
+    {ra:10.7,dec:-5,d:100,R:12,c:0xff7722,n:'Laniakea',tr:true,op:0.05},
+    {ra:16.15,dec:-60.2,d:250,R:4.5,c:0xff8833,n:'Marele Atractor'},
+    {ra:13.0,dec:27.98,d:321,R:3.5,c:0x5599ff,n:'Roiul Coma'},
+    {ra:13.5,dec:-31,d:650,R:5.0,c:0xffaa33,n:'Conc. Shapley'},
+    {ra:9.5,dec:-53,d:870,R:6.5,c:0xff1f55,n:'Vela-Banzi ★',isNew:true},
+  ];
+  STRUCTS.forEach(s=>{
+    const p3=eqV(s.ra,s.dec,s.d);
+    const m=s.tr?new THREE.MeshPhongMaterial({color:s.c,transparent:true,opacity:s.op,side:THREE.BackSide,depthWrite:false}):new THREE.MeshPhongMaterial({color:s.c,emissive:new THREE.Color(s.c).multiplyScalar(0.2),shininess:25});
+    const mesh=new THREE.Mesh(new THREE.SphereGeometry(s.R,16,10),m);
+    mesh.position.copy(p3);
+    mesh.userData={pn:s.n,pt:'Structură cosmică',pd:s.d+' Mly',pz:'z<0.3',ptlb:'<3 Gy',pa:'11-14 Gy',pc:'Structură la scara de zeci-sute Mly.',aC:s.c};
+    cosmicGroup.add(mesh);hitboxes.push(mesh);grpStructs.push(mesh);
+    if(!s.tr){
+      const gm=new THREE.Mesh(new THREE.SphereGeometry(s.R*1.85,10,7),new THREE.MeshBasicMaterial({color:s.c,transparent:true,opacity:s.isNew?0.17:0.06,side:THREE.BackSide,depthWrite:false}));
+      gm.position.copy(p3);cosmicGroup.add(gm);grpStructs.push(gm);
+      if(s.isNew){
+        const ring=new THREE.Mesh(new THREE.TorusGeometry(s.R*2.5,0.28,8,48),new THREE.MeshBasicMaterial({color:0xff3366,transparent:true,opacity:0.38}));
+        ring.position.copy(p3);ring.rotation.x=Math.PI/2;ring.userData={isRing:true};cosmicGroup.add(ring);grpStructs.push(ring);
+        velaRing=ring; // direct reference for animate loop
+      }
+    }
+    const div=document.createElement('div');div.className='gl';div.textContent=s.n;
+    div.style.color='#'+new THREE.Color(s.c).getHexString();if(s.isNew)div.style.fontWeight='bold';
+    lw.appendChild(div);lblDivs.push({div,p3,R:s.R,d:s.d});
+  });
+})();
+
+// ═══ GALAXY SHAPE GENERATORS ═══════════════════════════════
+function mkSp(R,nA,bar){const p=[];const pA=Math.round(240/nA),pB=80,pD=50,pBar=bar?42:0;for(let a=0;a<nA;a++){const off=(a/nA)*Math.PI*2;for(let i=0;i<pA;i++){const t=(i+1)/pA,r=R*(0.08+0.92*Math.sqrt(t)),θ=t*3.7*Math.PI+off,sc=R*0.075*t,h=(Math.random()-0.5)*R*0.02*(1-t*0.5);p.push(r*Math.cos(θ)+(Math.random()-0.5)*sc,h,r*Math.sin(θ)+(Math.random()-0.5)*sc);}}for(let i=0;i<pB;i++){const r=Math.pow(Math.random(),0.5)*R*0.15,th=Math.random()*Math.PI*2,ph=Math.acos(2*Math.random()-1);p.push(r*Math.sin(ph)*Math.cos(th),r*Math.cos(ph)*0.55,r*Math.sin(ph)*Math.sin(th));}for(let i=0;i<pD;i++){const r=Math.sqrt(Math.random())*R,th=Math.random()*Math.PI*2;p.push(r*Math.cos(th),(Math.random()-0.5)*R*0.015,r*Math.sin(th));}if(bar)for(let i=0;i<pBar;i++){const x=(Math.random()-0.5)*R*0.28;p.push(x,(Math.random()-0.5)*R*0.02,(Math.random()-0.5)*R*0.05);}return new Float32Array(p);}
+function mkEl(R,eN){const p=[],ry=R*(1-Math.min(eN,7)*0.1);for(let i=0;i<240;i++){const r=Math.pow(Math.random(),0.35)*R,th=Math.random()*Math.PI*2,ph=Math.acos(2*Math.random()-1);p.push(r*Math.sin(ph)*Math.cos(th),r*Math.cos(ph)*(ry/R),r*Math.sin(ph)*Math.sin(th));}return new Float32Array(p);}
+function mkIr(R){const p=[],cl=[];for(let c=0;c<2+Math.floor(Math.random()*2);c++)cl.push([(Math.random()-0.5)*R,(Math.random()-0.5)*R*0.12,(Math.random()-0.5)*R,R*(0.3+Math.random()*0.42)]);for(let i=0;i<260;i++){const c=cl[Math.floor(Math.random()*cl.length)],r=Math.random()*c[3],th=Math.random()*Math.PI*2,ph=Math.acos(2*Math.random()-1);p.push(c[0]+r*Math.sin(ph)*Math.cos(th),c[1]+r*Math.cos(ph)*0.27,c[2]+r*Math.sin(ph)*Math.sin(th));}return new Float32Array(p);}
+function mkLe(R){const p=[];for(let i=0;i<160;i++){const r=Math.sqrt(Math.random())*R,th=Math.random()*Math.PI*2;p.push(r*Math.cos(th),(Math.random()-0.5)*R*0.04*(1-r/R),r*Math.sin(th));}for(let i=0;i<80;i++){const r=Math.pow(Math.random(),0.45)*R*0.36,th=Math.random()*Math.PI*2,ph=Math.acos(2*Math.random()-1);p.push(r*Math.sin(ph)*Math.cos(th),r*Math.cos(ph)*0.6,r*Math.sin(ph)*Math.sin(th));}return new Float32Array(p);}
+function mkDw(R){const p=[];for(let i=0;i<80;i++){const r=Math.pow(Math.random(),0.4)*R,th=Math.random()*Math.PI*2,ph=Math.acos(2*Math.random()-1);p.push(r*Math.sin(ph)*Math.cos(th),r*Math.cos(ph)*0.58,r*Math.sin(ph)*Math.sin(th));}return new Float32Array(p);}
+function mkQS(R){const p=[];for(let i=0;i<30;i++){const r=Math.random()*R*0.25,th=Math.random()*Math.PI*2;p.push(r*Math.cos(th),(Math.random()-0.5)*R*0.05,r*Math.sin(th));}return new Float32Array(p);}
+function clrize(pos,R,aC,bC){const cols=new Float32Array(pos.length),ac=new THREE.Color(aC),bc=new THREE.Color(bC);for(let i=0;i<pos.length/3;i++){const x=pos[i*3],y=pos[i*3+1],z=pos[i*3+2],t=Math.min(Math.sqrt(x*x+y*y+z*z)/R,1),mix=t<0.15?0:t<0.4?(t-0.15)/0.25:1,c=bc.clone().lerp(ac,mix);cols[i*3]=c.r;cols[i*3+1]=c.g;cols[i*3+2]=c.b;}return cols;}
+
+// ═══ GALAXY CATALOG ══════════════════════════════════════════════
+// Format: [name, ra_h, dec°, dist_Mly, morph, displayR, incl°, armColor, bulgeColor, distStr, sizeStr, massStr, desc]
+const G=[
+ // ── CALEA LACTEE ──────────────────────────────────────────────
+ ['Calea Lactee',0,0,0,'SBbc',1.5,0,0xaaddff,0xffe8cc,'0','100.000 al','~10¹² M☉','Galaxia noastră — ~400 mld stele, bară centrală, 4 brațe spirale. Gaura neagră Sgr A*: 4 mil. M☉.'],
+ // ── SATELIȚI MW (<0.5 Mly) ────────────────────────────────────
+ ['LMC',5.39,-69.76,0.163,'Irr',0.42,40,0x99ccff,0xffddaa,'163.000 al','14.000 al','~10¹⁰ M☉','Norul Mare Magellanic — cel mai mare satelit al MW. Conține Nebulosa Tarantula.'],
+ ['SMC',0.88,-72.83,0.200,'Irr',0.28,30,0x88bbee,0xffddaa,'200.000 al','7.000 al','~7×10⁸ M☉','Norul Mic Magellanic. Sistem interacțional LMC-SMC-MW.'],
+ ['Câinele Mare Pitic',7.15,-27.67,0.025,'dSph',0.15,0,0x7799bb,0x7799bb,'25.000 al','~3.000 al','?','Cea mai apropiată galaxie față de Pământ — posibil rest de satelit absorbit de MW.'],
+ ['Săgetătorul Pitic',18.92,-30.48,0.065,'dSph',0.22,0,0x7799aa,0x7799aa,'65.000 al','7.000 al','~10⁸ M☉','Galaxie satelit în curs de absorbție — flux stelar masiv vizibil pe cer.'],
+ ['Ursa Minor Pitică',15.13,67.23,0.218,'dSph',0.12,0,0x7788aa,0x7788aa,'218.000 al','2.000 al','~10⁷ M☉','Dominată de materie întunecată — raport M/L extrem de mare.'],
+ ['Draco Pitică',17.33,57.92,0.260,'dSph',0.12,0,0x7788aa,0x7788aa,'260.000 al','2.000 al','~10⁷ M☉','Aproape nicio stea tânără — totul e materie veche și întunecată.'],
+ ['Sculptor Pitică',1.00,-33.71,0.287,'dSph',0.13,0,0x8899bb,0x8899bb,'287.000 al','3.000 al','~10⁷ M☉','Una din galaxiile pitice clasice ale MW. Stele vechi, metal-sărace.'],
+ ['Carina Pitică',6.63,-50.97,0.330,'dSph',0.12,0,0x7788aa,0x7788aa,'330.000 al','1.000 al','~10⁶ M☉','Una din cele mai slabe galaxii pitice satelit ale MW.'],
+ ['Fornax Pitică',2.67,-34.51,0.460,'dSph',0.18,0,0x9999bb,0x9999bb,'460.000 al','4.000 al','~7×10⁷ M☉','Cel mai luminos satelit pitic — 5-6 roiuri globulare, remarcabil pentru mărimea sa.'],
+ ['Leo I Pitică',10.08,12.31,0.820,'dSph',0.14,0,0x8899bb,0x8899bb,'820.000 al','3.000 al','~2×10⁷ M☉','Cel mai depărtat satelit important al MW.'],
+ ['Leo II Pitică',11.23,22.15,0.693,'dSph',0.10,0,0x8899bb,0x8899bb,'693.000 al','2.000 al','~10⁷ M☉','Galaxie pitică sferoidă în constelația Leul.'],
+ // ── GRUPUL ANDROMEDA ──────────────────────────────────────────
+ ['Andromeda M31',0.712,41.27,2.537,'SAb',2.2,77,0xccccff,0xffe8cc,'2,537 Mly','220.000 al','~10¹² M☉','Cea mai mare galaxie din Grupul Local. Va fuziona cu MW în ~4,5 mld ani (Andromilkway).'],
+ ['M32 (NGC 221)',0.712,40.87,2.490,'E2',0.30,0,0xddd5ff,0xddd5ff,'2,49 Mly','8.000 al','~3×10⁸ M☉','Satelit ultracompact al Andromedei — una din cele mai dense galaxii cunoscute.'],
+ ['M110 (NGC 205)',0.676,41.68,2.690,'E5',0.35,0,0xccbbee,0xccbbee,'2,69 Mly','17.000 al','~7×10⁸ M☉','Satelit eliptic al Andromedei cu stele albastre tinere și roiuri globulare.'],
+ ['NGC 185',0.649,48.34,2.080,'E3',0.25,0,0xbbaaee,0xbbaaee,'2,08 Mly','8.000 al','~10⁸ M☉','Satelit al Andromedei cu praf și nucleu compact (rar pentru o eliptică pitică).'],
+ ['NGC 147',0.548,48.51,2.530,'E5',0.22,0,0xbbaaee,0xbbaaee,'2,53 Mly','8.000 al','~10⁸ M☉','Satelit al Andromedei fără praf, fără activitate starburst.'],
+ ['IC 10',0.325,59.30,2.160,'Irr',0.18,0,0x88ddff,0xffaa88,'2,16 Mly','5.000 al','~10⁸ M☉','Singura galaxie starburst din Grupul Local — cea mai intensă rată de formare stelară/masă.'],
+ // ── TRIANGULUM & OUTER LOCAL GROUP ───────────────────────────
+ ['M33 Triangulum',1.564,30.66,2.730,'SAcd',1.2,57,0xaabbff,0xffe0bb,'2,73 Mly','60.000 al','~5×10¹⁰ M☉','A 3-a galaxie spirală din LG. Fără gaură neagră supermasivă centrală — excepție notabilă.'],
+ ['NGC 6822 Barnard',19.748,-14.79,1.630,'Irr',0.18,0,0x99aaff,0xffccaa,'1,63 Mly','7.000 al','~10⁸ M☉','Prima galaxie recunoscută ca insulă stelară (Barnard, 1884).'],
+ ['IC 1613',1.074,2.13,2.380,'Irr',0.18,0,0x99aaff,0xffccaa,'2,38 Mly','16.000 al','~10⁸ M☉','Galaxie pitică neregulată, membră LG. Halo de stele vechi.'],
+ ['WLM (Wolf-Lundmark)',0.019,-15.46,3.260,'Irr',0.18,0,0x8899ff,0xffccaa,'3,26 Mly','8.000 al','~10⁸ M☉','La marginea LG, izolată, neperturbată gravitațional.'],
+ // ── GRUPUL SCULPTOR (6-13 Mly) ───────────────────────────────
+ ['NGC 300',0.917,-37.68,6.07,'SAd',0.50,40,0xffddcc,0xffeedd,'6,07 Mly','35.000 al','~10⁹ M☉','Spirală mică față față din Grupul Sculptor.'],
+ ['NGC 55',0.225,-39.20,6.54,'SBm',0.55,80,0xffccbb,0xffeedd,'6,54 Mly','60.000 al','~3×10⁹ M☉','Quasi-edge-on, asemănătoare cu LMC dar mai mare. Activitate starburst.'],
+ ['NGC 247',0.785,-20.76,11.10,'SAd',0.45,75,0xffd0bb,0xffeedd,'11,1 Mly','70.000 al','~10⁹ M☉','Spirală cu o „gaură" circulară în disc — fără stele în acea zonă.'],
+ ['NGC 253 Sculptor',0.792,-25.29,11.42,'SABc',0.70,78,0xffddbb,0xffeedd,'11,42 Mly','100.000 al','~3×10¹⁰ M☉','Starburst intens — 10 milioane stele noi/an! Vizibilă cu binoclu.'],
+ ['NGC 7793',23.963,-32.59,12.70,'SAd',0.35,50,0xffccaa,0xffeedd,'12,7 Mly','30.000 al','~3×10⁹ M☉','Spirală deschisă, Sculptor Group — studiu clasic al brațelor spirale.'],
+ // ── GRUPUL M81 (10-16 Mly) ───────────────────────────────────
+ ['NGC 2403',7.618,65.60,10.41,'SABcd',0.45,63,0xffd0cc,0xffeedd,'10,41 Mly','55.000 al','~3×10¹⁰ M☉','Spirală cu regiuni HII proeminente — favorita telescoapelor amateur.'],
+ ['M81 Bode',9.926,69.07,11.74,'SAab',0.75,59,0xffeecc,0xfffaee,'11,74 Mly','90.000 al','~7×10¹⁰ M☉','Grand design spiral — brațe perfecte. Gaura neagră: ~70 mil. M☉.'],
+ ['M82 Trabuc',9.931,69.68,11.43,'Irr',0.40,80,0xff8855,0xffddaa,'11,43 Mly','37.000 al','~10¹⁰ M☉','Starburst violent — vânturi galactice 2000 km/s. Interacțiune cu M81.'],
+ ['NGC 3077',9.990,68.74,12.70,'E2',0.22,0,0xddbbaa,0xddbbaa,'12,7 Mly','20.000 al','~5×10⁹ M☉','Perturbată gravitațional de M81 și M82 — filamente de gaz vizibile.'],
+ ['NGC 4236',12.283,69.47,15.45,'SBm',0.40,80,0xffd0bb,0xffeedd,'15,45 Mly','90.000 al','~5×10⁹ M☉','Spirală de tip Magellanic, edge-on — M81 Group.'],
+ // ── IC 342 / MAFFEI GROUP (9-11 Mly) ─────────────────────────
+ ['IC 342',3.797,68.10,10.67,'SABcd',0.55,28,0xffddcc,0xffeedd,'10,67 Mly','75.000 al','~2×10¹⁰ M☉','Spirală grandioasă parțial ascunsă de ZoA. Fără absorpție, ar fi una din cele mai mari de pe cer.'],
+ ['Maffei 1',2.957,59.61,9.80,'E3',0.35,0,0xddbbaa,0xddbbaa,'9,8 Mly','30.000 al','~10¹¹ M☉','Eliptică masivă COMPLET ascunsă în ZoA — descoperită abia în 1968!'],
+ ['Maffei 2',2.979,59.61,9.80,'SBbc',0.30,60,0xffccbb,0xffeedd,'9,8 Mly','30.000 al','~4×10¹⁰ M☉','Spirală barată ascunsă în ZoA — vizibilă doar în infraroșu.'],
+ ['NGC 1569',4.300,64.85,10.96,'Irr',0.18,0,0x88ddff,0xffaa88,'10,96 Mly','10.000 al','~5×10⁸ M☉','Explozie starburst violentă — ~1000× rata MW. Roiuri globulare super-masive în formare.'],
+ // ── GRUPUL CENTAURUS A (12-16 Mly) ───────────────────────────
+ ['Centaurus A',13.425,-43.02,12.73,'E0p',0.55,70,0xffaa88,0xffaa88,'12,73 Mly','60.000 al','~10¹¹ M☉','AGN cu jet radio — cel mai activ nucleu galactic vecin. SMBH: 55 mil. M☉.'],
+ ['M83 Southern Pinwheel',13.617,-29.87,14.70,'SABc',0.55,24,0xff9966,0xffeedd,'14,7 Mly','55.000 al','~5×10¹⁰ M☉','Southern Pinwheel — 6 supernove observate în 100 ani!'],
+ ['NGC 4945',13.092,-49.47,12.70,'SBcd',0.45,78,0xffbbaa,0xffeedd,'12,7 Mly','90.000 al','~5×10¹⁰ M☉','Edge-on starburst cu nucleu Seyfert 2 — una din cele mai luminoase surse gamma locale.'],
+ ['NGC 4449',12.467,44.09,12.47,'Irr',0.22,0,0xaaddff,0xffbbaa,'12,47 Mly','20.000 al','~2×10⁹ M☉','Starburst cu arc tidal masiv — la fel de mare ca galaxia însăși!'],
+ ['Circinus',15.037,-65.34,13.00,'SAb',0.28,65,0xffbbaa,0xffeedd,'13,0 Mly','30.000 al','~10¹⁰ M☉','Galaxie Seyfert 2 ascunsă în ZoA, descoperită în 1977. Nucleu ultra-activ.'],
+ // ── GALAXII IZOLATE 14-35 Mly ────────────────────────────────
+ ['M94 (NGC 4736)',12.854,41.12,14.50,'SABab',0.38,35,0xffccaa,0xffeedd,'14,5 Mly','35.000 al','~7×10¹⁰ M☉','Ring galaxy — inel starburst dens în jurul unui nucleu strâns. Mișcare circulară peculiară.'],
+ ['NGC 4244',12.283,37.81,13.69,'SAcd',0.38,88,0xffd0bb,0xffeedd,'13,69 Mly','65.000 al','~3×10⁹ M☉','Spirală perfect edge-on — disc extrem de subțire, fără praf vizibil.'],
+ ['NGC 4631 Balena',12.700,32.54,25.10,'SBd',0.40,86,0xffddcc,0xffeedd,'25,1 Mly','85.000 al','~3×10¹⁰ M☉','Whale Galaxy — edge-on cu companion NGC 4627. Vânturi galactice spectaculoase.'],
+ ['M64 Ochiul Negru',12.947,21.68,17.00,'SAab',0.38,60,0xffddbb,0xffeedd,'17 Mly','55.000 al','~5×10¹⁰ M☉','Inel de praf contrarotitor față de stele — probabil fuziune veche cu un satelit.'],
+ ['M106 (NGC 4258)',12.315,47.30,23.72,'SABbc',0.50,72,0xffddaa,0xffeedd,'23,72 Mly','80.000 al','~4×10¹⁰ M☉','Megamaser de apă — permite măsurarea directă a distanței cu 3% precizie. SMBH: 40 mil. M☉.'],
+ ['NGC 5195',13.498,47.27,23.16,'SBm',0.18,45,0xddbbaa,0xffeedd,'23,16 Mly','15.000 al','~3×10⁹ M☉','Companion interacționar M51 — a trecut prin discul M51 acum ~500 mil. ani.'],
+ ['M51 Vârtej',13.498,47.20,23.16,'SAbc',0.60,20,0xffddbb,0xffeedd,'23,16 Mly','85.000 al','~10¹¹ M☉','Grand design spiral — brațe declanșate de gravitația NGC 5195.'],
+ ['M101 Pinwheel',14.053,54.35,20.87,'SABcd',0.65,18,0xffddcc,0xffeedd,'20,87 Mly','170.000 al','~10¹¹ M☉','Una din cele mai mari spirale față față — 170.000 al diametru.'],
+ ['NGC 6946 Focuri',20.583,60.15,22.50,'SABcd',0.42,33,0xffaa77,0xffeedd,'22,5 Mly','40.000 al','~5×10¹⁰ M☉','„Focuri de Artificii" — 10 supernove observate în 100 ani! Starburst activ.'],
+ ['NGC 891',2.378,42.35,27.40,'SAb',0.45,88,0xffeedd,0xffeedd,'27,4 Mly','80.000 al','~4×10¹⁰ M☉','Spirala edge-on perfectă — inel de praf ecuatorial vizibil ca linie centrală.'],
+ ['M104 Sombrero',12.667,-11.62,28.00,'SAa',0.40,84,0xffffcc,0xffeedd,'28 Mly','50.000 al','~10¹¹ M☉','Bulgur masiv + inel de praf. SMBH: 1 miliard M☉.'],
+ ['NGC 2903',9.525,21.50,30.65,'SABbc',0.42,65,0xffddbb,0xffeedd,'30,65 Mly','80.000 al','~3×10¹⁰ M☉','Spirală barată prominentă, adesea omisă din cataloagele Messier.'],
+ ['M63 Floarea-Soarelui',13.263,42.03,29.30,'SAbc',0.45,59,0xffddaa,0xffeedd,'29,3 Mly','98.000 al','~6×10¹⁰ M☉','Brațe spirale numeroase și fragmentate — aspect de floarea-soarelui.'],
+ ['M74 (NGC 628)',1.608,15.78,32.00,'SAc',0.45,7,0xffddcc,0xffeedd,'32 Mly','95.000 al','~10¹¹ M☉','Spirala față față clasică — perfect simetrică, frecvent fotografiată.'],
+ ['NGC 4565 Ac',12.604,25.99,41.60,'SAb',0.45,88,0xffeecc,0xffeedd,'41,6 Mly','100.000 al','~4×10¹⁰ M☉','The Needle Galaxy — spirală edge-on spectaculoasă cu dungă de praf.'],
+ ['NGC 3115 Fusiform',10.086,-7.72,32.00,'S0',0.28,86,0xffeedd,0xffeedd,'32 Mly','43.000 al','~10¹¹ M☉','Spindle Galaxy — lenticulară edge-on. SMBH: 10 mld M☉!'],
+ // ── GRUPUL LEO (35-50 Mly) ───────────────────────────────────
+ ['M96 (NGC 3368)',10.784,11.82,35.00,'SABab',0.40,50,0xffd8aa,0xffeedd,'35 Mly','90.000 al','~6×10¹⁰ M☉','Cea mai luminoasă galaxie din Leo I Group.'],
+ ['M95 (NGC 3351)',10.738,11.70,38.00,'SBb',0.38,45,0xffccaa,0xffeedd,'38 Mly','70.000 al','~3×10¹⁰ M☉','Spirală barată cu inel central starburst.'],
+ ['M105 (NGC 3379)',10.797,12.58,36.00,'E1',0.32,0,0xfff0cc,0xfff0cc,'36 Mly','55.000 al','~10¹¹ M☉','Eliptică prototipică — referință standard în morfologia galaxiilor.'],
+ ['M66 (NGC 3627)',11.335,12.99,36.00,'SABb',0.42,62,0xffccaa,0xffeedd,'36 Mly','95.000 al','~10¹¹ M☉','Leo Triplet — interacțiune gravitațională cu M65 și NGC 3628.'],
+ ['M65 (NGC 3623)',11.310,13.09,35.00,'SABa',0.40,65,0xffd0aa,0xffeedd,'35 Mly','90.000 al','~10¹¹ M☉','Leo Triplet — cea mai strânsă spirală din cele 3.'],
+ ['NGC 3628 Hamburger',11.338,13.59,35.00,'SAb',0.40,89,0xffeecc,0xffeedd,'35 Mly','90.000 al','~10¹¹ M☉','Leo Triplet — perfect edge-on cu dungă de praf proeminentă.'],
+ // ── DIVERSE 40-75 Mly ─────────────────────────────────────────
+ ['M77 (NGC 1068)',2.717,-0.01,47.00,'Sb',0.38,40,0xffaa88,0xffeedd,'47 Mly','85.000 al','~10¹¹ M☉','Prototipul galaxiei Seyfert 2 — nucleu galactic activ mascat de praf.'],
+ ['NGC 1097',2.775,-30.27,45.00,'SBb',0.38,42,0xffccaa,0xffeedd,'45 Mly','90.000 al','~10¹¹ M☉','Spirală barată cu inel starburst central spectacular — 2 galaxii satelit vizibile.'],
+ ['M108 (NGC 3556)',11.190,55.67,45.90,'SBcd',0.38,86,0xffd0bb,0xffeedd,'45,9 Mly','90.000 al','~3×10¹⁰ M☉','Edge-on lângă Nebulosa Bufniță — Ursa Major.'],
+ ['NGC 7331',22.617,34.42,46.70,'SAb',0.45,75,0xffeedd,0xffeedd,'46,7 Mly','100.000 al','~10¹¹ M☉','Uneori numită „gemena Căii Lactee" — spirală mare în Pegasus.'],
+ ['NGC 4038 Antena',12.017,-18.87,45.00,'Irr',0.28,0,0xff8866,0xffccaa,'45 Mly','30.000 al','~3×10¹⁰ M☉','Fuziunea spectaculoasă NGC 4038/4039 — prototipul coliziunilor galactice. JWST l-a fotografiat detaliat.'],
+ ['NGC 1300',3.193,-19.41,61.00,'SBbc',0.38,15,0xffddbb,0xffeedd,'61 Mly','85.000 al','~10¹¹ M☉','Spirala barată „clasică" din manualele de astronomie — Eridanus.'],
+ ['NGC 1232',3.158,-20.58,61.00,'SAc',0.30,25,0xffddcc,0xffeedd,'61 Mly','75.000 al','~10¹¹ M☉','Spirală față față frumoasă în Eridanus.'],
+ // ── ROIUL VIRGO (~50-65 Mly) ─────────────────────────────────
+ ['M87 Virgo A',12.513,12.39,53.49,'E0',0.40,0,0xfffadd,0xfffadd,'53,5 Mly','60.000 al','~6×10¹² M☉','SMBH fotografiată (EHT 2019): 6,5 mld M☉. Jet relativistic vizibil de pe Pământ.'],
+ ['M49 (NGC 4472)',12.497,8.00,55.74,'E4',0.35,0,0xffeedd,0xffeedd,'55,7 Mly','90.000 al','~10¹³ M☉','Cea mai luminoasă galaxie din Roiul Virgo.'],
+ ['M84 (NGC 4374)',12.418,12.89,60.30,'E1',0.30,0,0xffeedd,0xffeedd,'60,3 Mly','55.000 al','~10¹² M☉','Radio galaxy în centrul Roiului Virgo.'],
+ ['M86 (NGC 4406)',12.437,12.95,52.00,'E3',0.30,0,0xffeedd,0xffeedd,'52 Mly','55.000 al','~10¹² M☉','Vine spre noi (blueshift) — perturbată de potențialul Virgo.'],
+ ['M60 (NGC 4649)',12.727,11.55,55.33,'E2',0.30,0,0xffeedd,0xffeedd,'55,3 Mly','55.000 al','~10¹² M☉','Eliptică masivă în Virgo — pereche cu spirala NGC 4647.'],
+ ['M58 (NGC 4579)',12.612,11.82,62.00,'SBb',0.30,38,0xffddaa,0xffeedd,'62 Mly','75.000 al','~5×10¹¹ M☉','Una din puținele spirale din inima Roiului Virgo.'],
+ ['M61 (NGC 4303)',12.365,4.47,52.00,'SABbc',0.32,25,0xffddbb,0xffeedd,'52 Mly','85.000 al','~2×10¹¹ M☉','Spirala față față cu starburst activ în Virgo.'],
+ ['M89 (NGC 4552)',12.594,12.56,53.00,'E0',0.28,0,0xffeedd,0xffeedd,'53 Mly','50.000 al','~10¹² M☉','Eliptică sferică perfectă în inima Virgo.'],
+ ['M90 (NGC 4569)',12.613,13.16,58.00,'SABab',0.30,68,0xffddaa,0xffeedd,'58 Mly','80.000 al','~5×10¹¹ M☉','Blueshifted (vine spre noi) — intrușă în Virgo Cluster.'],
+ ['M99 (NGC 4254)',12.318,14.42,55.00,'SAc',0.32,20,0xffddcc,0xffeedd,'55 Mly','75.000 al','~10¹¹ M☉','Spirala față față cu brațe asimetrice — Virgo.'],
+ ['M100 (NGC 4321)',12.382,15.82,56.00,'SABbc',0.35,28,0xffddcc,0xffeedd,'56 Mly','90.000 al','~2×10¹¹ M☉','Grand design spiral — studiată cu HST. Virgo Cluster.'],
+ ['M88 (NGC 4501)',12.533,14.42,60.00,'SAb',0.30,68,0xffddaa,0xffeedd,'60 Mly','80.000 al','~5×10¹¹ M☉','Spirală în Virgo Cluster — brațe strânse, bulgur masiv.'],
+ ['NGC 4647',12.727,11.58,63.00,'SABc',0.25,35,0xffddcc,0xffeedd,'63 Mly','50.000 al','~2×10¹⁰ M☉','Pereche interacțională cu M60 în Virgo.'],
+ // ── ROIUL FORNAX (~58-70 Mly) ────────────────────────────────
+ ['NGC 1399 Fornax cD',3.638,-35.45,65.00,'E0',0.35,0,0xfff5dd,0xfff5dd,'65 Mly','60.000 al','~7×10¹² M☉','Galaxia centrală cD a Fornax Cluster.'],
+ ['NGC 1316 Fornax A',3.378,-37.21,70.00,'S0p',0.32,0,0xffeedd,0xffeedd,'70 Mly','60.000 al','~3×10¹² M☉','Radio galaxy puternic — rezultat din multiple fuziuni recente.'],
+ ['NGC 1365',3.557,-36.14,58.00,'SBb',0.40,40,0xffddbb,0xffeedd,'58 Mly','200.000 al','~2×10¹¹ M☉','Spirala barată „superba" a Fornax — una din cele mai mari și frumoase spirale barate.'],
+ ['NGC 1404',3.647,-35.59,65.00,'E1',0.25,0,0xfff0cc,0xfff0cc,'65 Mly','40.000 al','~4×10¹¹ M☉','Eliptică în Fornax — se mișcă rapid prin gazul inter-cluster (ram pressure stripping).'],
+ ['NGC 1052',2.708,-8.26,65.00,'E4',0.25,0,0xffeedd,0xffeedd,'65 Mly','50.000 al','~10¹² M☉','Radio galaxy eliptică — Eridanus Group. Jet de plasmă observat cu VLBI.'],
+ // ── GALAXII DISTANTE (80-350 Mly) ────────────────────────────
+ ['NGC 4889 Coma cD',13.000,27.98,321.0,'E4',0.30,0,0xfff2dd,0xfff2dd,'321 Mly','60.000 al','~7×10¹² M☉','Coma Cluster BCG. SMBH: 21 mld M☉ — una din cele mai masive găuri negre cunoscute.'],
+ ['NGC 4874 Coma',12.993,27.96,321.0,'E0',0.26,0,0xfff2dd,0xfff2dd,'321 Mly','55.000 al','~5×10¹² M☉','Co-centrală Coma Cluster — galaxie cD cu halo extins.'],
+ ['NGC 1275 Perseus A',3.333,41.51,237.0,'E',0.28,0,0xffcc88,0xffcc88,'237 Mly','70.000 al','~10¹³ M☉','Centrala Perseus Cluster — cea mai masivă structură nearby. Bule de gaz fierbinte vizibile în raze X.'],
+ ['Markarian 231',12.564,56.87,600.0,'Irr',0.25,0,0xffee99,0xffee99,'600 Mly','?','~10¹² M☉','Cel mai apropiat quasar (z=0.042) — galaxie în fuziune cu nucleu galactic ultra-activ. Primul quasar detectat cu ULIRG.'],
+ ['3C 273',12.490,2.05,2444.0,'QSO',0.20,0,0xffff88,0xffff88,'2,44 Gly (z=0.158)','?','?','Cel mai luminos quasar vizibil de pe Pământ (mag 12.9). Descoperit 1963 — primul quasar identificat spectroscopic.'],
+ ['Arp 220',15.347,23.50,250.0,'Irr',0.22,0,0xff9966,0xffddaa,'250 Mly','?','~10¹² M☉','Cel mai apropiat ULIRG (Ultra-Luminous Infrared Galaxy) — fuziune avansată cu starburst extrem.'],
+ // ══ GALAXII EXTREM DE ÎNDEPĂRTATE (z > 4) ══════════════════════
+ // Descoperite de JWST, HST, Subaru, Keck — la marginea Universului observabil
+ // Tip 'EHZ' = Extremely High-z · redate ca puncte roșii luminoase
+ // ── z = 4–7 ──────────────────────────────────────────────────
+ ['Wolfe Disk (z=4.26)',8.208,-10.748,21400,'EHZ',0.14,0,0xffcc77,0xffcc77,'21,4 Gly (z=4.26)','—','~7×10¹⁰ M☉','Prima galaxie disc rotitor Keplerian masiv la z>4 — contrazice modelele standard. Detectată via absorpție DLA în spectrul unui quasar.'],
+ ['GS-9209 (z=4.66)',3.470,-27.820,21900,'EHZ',0.14,0,0xffaa66,0xffaa66,'21,9 Gly (z=4.66)','—','~2×10¹¹ M☉','Prima galaxie masivă „moartă" (quiescent) confirmată spectroscopic la z>4. Și-a oprit brusc formarea stelară după ~200 mln ani. JWST 2023.'],
+ ['4C 41.17 (z=3.79)',6.500,41.06,20500,'EHZ',0.13,0,0xffbb55,0xffbb55,'20,5 Gly (z=3.79)','—','~10¹² M☉','Radio galaxie hipermasivă la z=3.79 — una din cele mai luminoase galaxii radio descoperite cu Hubble. Starburst extrem: ~1000 M☉/an.'],
+ ['SPT0418-47 (z=4.22)',4.300,-47.43,21200,'EHZ',0.13,0,0xffcc66,0xffcc66,'21,2 Gly (z=4.22)','—','~10¹² M☉','Galaxie rotitoare lentilată gravitațional cu ALMA. Disc Keplerian la z>4 — structură neașteptată pentru Universul timpuriu.'],
+ ['CR7 (z=6.60)',10.008,1.724,27900,'EHZ',0.13,0,0xff9944,0xff9944,'27,9 Gly (z=6.60)','—','~10¹¹ M☉','Cosmos Redshift 7 — candidat Populație III (stele primordiale fără metale). Emițător Lyman-alpha extrem. Descoperit cu VLT/X-Shooter.'],
+ ['IOK-1 (z=6.96)',13.900,27.70,28100,'EHZ',0.13,0,0xff8833,0xff8833,'28,1 Gly (z=6.96)','—','~10⁹ M☉','Galaxia cea mai îndepărtată la descoperire (2006, Subaru). La limita reionizării cosmice — z~7 marchează „sfarșitul Erei Întunecate".'],
+ // ── z = 7–9 ──────────────────────────────────────────────────
+ ['J0313-1806 (z=7.64)',3.217,-18.10,28840,'QSO',0.14,0,0xffff77,0xffff77,'28,8 Gly (z=7.64)','—','~10¹² M☉','Cel mai îndepărtat quasar confirmat spectroscopic (2021). SMBH de 1,6 miliarde M☉ la 670 mln ani de la Big Bang — formarea sa rămâne un mister.'],
+ ['ULAS J1342+0928 (z=7.54)',13.700,9.47,28740,'QSO',0.13,0,0xffee77,0xffee77,'28,7 Gly (z=7.54)','—','~10¹² M☉','Quasar la z=7.54 — SMBH de 800 mln M☉ în era reionizării. Spectrul arată că hidrogenul din jur este deja reionizat.'],
+ ['GN-108036 (z=7.21)',12.560,62.330,28500,'EHZ',0.13,0,0xff8833,0xff8833,'28,5 Gly (z=7.21)','—','~10¹⁰ M☉','Galaxie starburst descoperită Hubble/Subaru — rata de formare stelară ~100 M☉/an la z>7.'],
+ ['EGS-zs8-1 (z=7.73)',14.820,52.880,29000,'EHZ',0.13,0,0xff7722,0xff7722,'29,0 Gly (z=7.73)','—','~8×10⁸ M☉','Emițător Lyman-alpha confirmat cu Keck/MOSFIRE. O a doua galaxie vecină (EGS-zs8-2) confirmă că reionizarea era incompletă la z~8.'],
+ ['GRB090423 host (z=8.20)',9.692,18.148,29430,'EHZ',0.12,0,0xff6622,0xff6622,'29,4 Gly (z=8.20)','—','~10⁸ M☉','Galaxia gazdă a GRB-ului cel mai îndepărtat confirmat spectroscopic. Universul avea 630 mln ani. Detectat cu Swift + VLT.'],
+ ['Abell2744-YD4 (z=8.38)',0.002,-30.400,29590,'EHZ',0.12,0,0xff5522,0xff5522,'29,6 Gly (z=8.38)','—','~2×10⁹ M☉','Galaxie lentilată de Abell 2744 — JWST NIRSpec a confirmat O[III]+Hβ. Abundență de oxigen surprinzătoare pentru z>8.'],
+ ['MACS0647-JD (z=8.68)',6.796,70.238,29800,'EHZ',0.12,0,0xff5522,0xff5522,'29,8 Gly (z=8.68)','—','~3×10⁸ M☉','Lentilată de MACS J0647. JWST (2022) arată că e de fapt o pereche de galaxii fuzionând — prima coliziune galactică la z>8.'],
+ // ── z = 9–11 ─────────────────────────────────────────────────
+ ['MACS1149-JD1 (z=9.11)',11.800,22.390,30220,'EHZ',0.12,0,0xff4411,0xff4411,'30,2 Gly (z=9.11)','—','~10⁹ M☉','Prima detecție ALMA a emisiei [OIII]88μm la z>9. Conține stele cu vârsta ~300 mln ani — formate la z~15!'],
+ ['JADES-GS-z10-0 (z=10.38)',3.478,-27.800,31070,'EHZ',0.12,0,0xff3311,0xff3311,'31,1 Gly (z=10.38)','—','~10⁸ M☉','Confirmat spectroscopic JWST JADES 2023. La z=10.38 Universul avea ~460 mln ani. Spectru complet O[III], Hβ, [OII] detectat.'],
+ ['GN-z11 (z=10.96)',12.558,62.240,31490,'EHZ',0.13,0,0xff2f10,0xff2f10,'31,5 Gly (z=10.96)','—','~10⁹ M☉','Record Hubble (2016), confirmat JWST 2023. Conține AGN activ + azot ridicat neașteptat. Universul avea ~400 mln ani.'],
+ ['GLASS-z13 (z=12.20)',0.001,-30.41,32400,'EHZ',0.11,0,0xff2000,0xff2000,'32,4 Gly (z=12.20)','—','~5×10⁸ M☉','Prima galaxie candidat la z>12 anunțată de JWST (Castellano et al., 2022). Câmp Abell 2744. Confirmat spectroscopic ulterior.'],
+ ['Maisie\'s Galaxy (z=11.44)',14.820,52.820,31810,'EHZ',0.12,0,0xff2800,0xff2800,'31,8 Gly (z=11.44)','—','~10⁸ M☉','Descoperită JWST CEERS 2022, confirmată spectroscopic 2023. Numită după fiica astronomului Steven Finkelstein. Universul: 390 mln ani.'],
+ // ── z = 12–15 ────────────────────────────────────────────────
+ ['JADES-GS-z13-0 (z=13.20)',3.480,-27.810,32620,'EHZ',0.12,0,0xff1800,0xff1800,'32,6 Gly (z=13.20)','—','~10⁸ M☉','Confirmat spectroscopic JWST JADES 2023. Universul: ~320 mln ani. Printre primele galaxii vreodată formate în cosmos.'],
+ ['HD1 (z≈13.5)',9.600,62.800,32720,'EHZ',0.11,0,0xff1400,0xff1400,'32,7 Gly (z≈13.5)','—','~10¹⁰ M☉','Descoperit cu Subaru/UKIRT 2022 — candidat la cea mai luminoasă galaxie la z>13. Posibil conține stele Populație III sau AGN masiv.'],
+ ['JADES-GS-z14-1 (z=13.90)',3.540,-27.780,32820,'EHZ',0.12,0,0xff1000,0xff1000,'32,8 Gly (z=13.90)','—','~10⁸ M☉','Confirmat spectroscopic JWST JADES 2024. Universul: ~290 mln ani. Dimensiune surprinzător de mare pentru vârsta sa.'],
+ ['JADES-GS-z14-0 ★ RECORD',3.560,-27.740,32960,'EHZ',0.16,0,0xff0800,0xff0800,'32,96 Gly (z=14.32)','~1.700 al','~10⁸ M☉','★ RECORD ABSOLUT (mai 2024): Cea mai îndepărtată galaxie confirmată spectroscopic vreodată. Universul: 290 mln ani. Diametru ~1.700 al — neașteptat de mare. Emisii Ly-α și CIII] confirmate de JWST JADES. Conține oxigen — element greu format deja atât de devreme!'],
+];
+// ═══ GALAXY INSTANTIATION ══════════════════════════════════
+G.forEach((g,i)=>{
+  const [nm,rh,dd,dist,morph,R,inc,aC,bC,dstr,sstr,mstr,desc]=g;
+  const p3=eqV(rh,dd,dist);
+  const isQ=morph==='QSO',isE=morph==='EHZ';
+  const type=isQ?'qso':isE?'ehz':dist<100?'local':'far';
+  let pts;
+  if(isQ||isE)pts=mkQS(R);
+  else if(morph.startsWith('dS')||morph.startsWith('dI'))pts=mkDw(R);
+  else if(morph.includes('Irr')||morph==='I0')pts=mkIr(R);
+  else if(morph.startsWith('E'))pts=mkEl(R,parseInt(morph.slice(1))||0);
+  else if(morph.includes('S0'))pts=mkLe(R);
+  else pts=mkSp(R,morph.endsWith('a')||morph.endsWith('ab')?4:2,morph.includes('B'));
+  const cols=clrize(pts,R,aC,bC);
+  const geo=new THREE.BufferGeometry();
+  geo.setAttribute('position',new THREE.BufferAttribute(pts,3));
+  geo.setAttribute('color',new THREE.BufferAttribute(cols,3));
+  const ptSz=dist<3?1.4:dist<15?1.1:0.9;
+  const pm=new THREE.Points(geo,new THREE.PointsMaterial({vertexColors:true,size:ptSz,sizeAttenuation:false,transparent:true,opacity:(isQ||isE)?1.0:0.92}));
+  pm.rotation.x=inc*Math.PI/180;
+  if(dist>0.01){const tc=p3.clone().negate().normalize(),up=new THREE.Vector3(0,1,0),an=up.angleTo(tc);if(an>0.01){const ax=up.clone().cross(tc).normalize();pm.rotateOnWorldAxis(ax,an);}}
+  pm.position.copy(p3);
+  // Cache galaxy index and parsed redshift in userData (avoid galPts.indexOf O(n) lookups)
+  const _zMatch=(dstr||'').match(/z[=≈]([\d.]+)/);
+  const _z=_zMatch?parseFloat(_zMatch[1]):(dist<100?0:dist/4400); // crude fallback for far galaxies
+  pm.userData={galType:type,name:nm,morph,dMly:dist,rh,dd,galIdx:i,z:_z};
+  cosmicGroup.add(pm);galPts.push(pm);
+  // Group
+  (type==='qso'?grpQSO:type==='ehz'?grpEHZ:type==='local'?grpLocal:grpFar).push(pm);
+  // Glow
+  const glR=(isQ||isE)?Math.max(R*4,0.65):Math.max(R*1.5,0.14);
+  const glOp=(isQ||isE)?0.72:dist>60?0.38:0.1;
+  if(R<0.5||dist>20||isQ||isE){
+    const gm=new THREE.Mesh(new THREE.SphereGeometry(glR,isQ||isE?12:8,isQ||isE?8:6),new THREE.MeshBasicMaterial({color:aC,transparent:true,opacity:glOp,depthWrite:false}));
+    gm.position.copy(p3);cosmicGroup.add(gm);
+    if((isQ||isE)&&dist>20000){
+      const gm2=new THREE.Mesh(new THREE.SphereGeometry(glR*2.5,8,6),new THREE.MeshBasicMaterial({color:aC,transparent:true,opacity:0.25,depthWrite:false}));
+      gm2.position.copy(p3);cosmicGroup.add(gm2);
+    }
+  }
+  // Hitbox
+  const hit=new THREE.Mesh(new THREE.SphereGeometry(Math.max(R*1.5,0.5),6,4),new THREE.MeshBasicMaterial({transparent:true,opacity:0,depthWrite:false}));
+  hit.position.copy(p3);
+  hit.userData={pn:nm,pt:isQ?'Quasar / AGN':isE?'Galaxie EHZ (JWST)':morph,pd:dstr,pz:_zMatch?'z = '+_zMatch[1]:dist<100?'z≈0':'z>0',ptlb:dist<1?'<1 Mly':'—',pa:'13,8 mld ani',pc:desc,aC,dMly:dist,rh,dd,morph,z:_z,galIdx:i};
+  cosmicGroup.add(hit);hitboxes.push(hit);
+  // Label
+  const div=document.createElement('div');div.className='gl';
+  div.textContent=(isQ||isE)?'⬤ '+nm:nm;
+  if(isE){const tl=Math.min((dist-20000)/13000,1);div.style.color=`rgb(255,${Math.round(150*(1-tl))},0)`;div.style.fontSize='9px';}
+  else{div.style.color='#'+new THREE.Color(aC).getHexString();}
+  if(morph.startsWith('dS'))div.style.opacity='0.55';
+  if(isQ){div.style.fontWeight='bold';div.style.fontSize='10.5px';}
+  lw.appendChild(div);lblDivs.push({div,p3,R,d:dist});
+});
+
+// ═══ BACKGROUND GALAXY POPULATIONS ═════════════════════════
+[{d0:100,d1:500,n:700,c:0x5588bb,s:0.55},{d0:500,d1:2000,n:600,c:0x3399cc,s:0.50},
+ {d0:2000,d1:7000,n:450,c:0x44bb88,s:0.48},{d0:7000,d1:14000,n:350,c:0x88cc44,s:0.46},
+ {d0:14000,d1:20000,n:270,c:0xccaa22,s:0.45},{d0:20000,d1:28000,n:210,c:0xff8833,s:0.44},
+ {d0:28000,d1:36000,n:155,c:0xff5522,s:0.44},{d0:36000,d1:45000,n:95,c:0xff2200,s:0.43}
+].forEach(({d0,d1,n,c,s})=>{
+  const pos=new Float32Array(n*3);
+  for(let i=0;i<n;i++){const d=dS(d0+(Math.random()*(d1-d0))),th=Math.random()*Math.PI*2,ph=Math.acos(2*Math.random()-1);pos[i*3]=d*Math.sin(ph)*Math.cos(th);pos[i*3+1]=d*Math.cos(ph);pos[i*3+2]=d*Math.sin(ph)*Math.sin(th);}
+  const g=new THREE.BufferGeometry();g.setAttribute('position',new THREE.BufferAttribute(pos,3));
+  const pm=new THREE.Points(g,new THREE.PointsMaterial({color:c,size:s,sizeAttenuation:false,transparent:true,opacity:0.52}));
+  cosmicGroup.add(pm);grpPops.push(pm);
+});
+
+// ═══ SCALE PANEL ═══════════════════════════════════════════
+(function(){
+  const items=[
+    {n:'Calea Lactee',d:'0',c:'#aaddff'},{n:'Grupul Local',d:'~3 Mly',c:'#5566cc'},
+    {n:'Roiul Virgo',d:'53 Mly',c:'#4477ff'},{n:'Laniakea',d:'~520 Mly',c:'#ff7722'},
+    {n:'Vela-Banzi ★',d:'870 Mly',c:'#ff2255'},{n:'z = 1',d:'10,8 Gly',c:'#99cc22'},
+    {n:'Sfera Hubble ✦',d:'14,3 Gly',c:'#e0e0e0',wire:true},{n:'Orizont Eveniment ✦',d:'~16 Gly',c:'#9944ff',wire:true},
+    {n:'Primele galaxii z≈6',d:'27,3 Gly',c:'#ff8833'},{n:'CMB (z=1100) ✦',d:'45,6 Gly',c:'#ff1100'},
+    {n:'Univers Observabil ✦',d:'~46,5 Gly',c:'#ff0000',wire:true},
+    {n:'— JWST EHZ —',d:'',c:'#3a3a2a'},{n:'JADES-GS-z14-0 ★',d:'33 Gly (z=14.32)',c:'#ff0800'},
+  ];
+  const cont=document.getElementById('scale-rows');
+  items.forEach(it=>{
+    const row=document.createElement('div');row.className='srow';
+    const dot=document.createElement('div');dot.className='sdot'+(it.wire?' wire':'');
+    dot.style.cssText=it.wire?`border-color:${it.c}`:`background:${it.c}55;outline:1px solid ${it.c}`;
+    const nm=document.createElement('span');nm.className='sname';nm.style.color=it.c+'88';nm.textContent=it.n;
+    const ds=document.createElement('span');ds.className='sdist';ds.textContent=it.d;
+    row.append(dot,nm,ds);cont.appendChild(row);
+  });
+})();
+
+// ═══ TOGGLE STATE ══════════════════════════════════════════
+const STATE={grid:true,equator:true,axes:true,axlbl:true,rings:true,dlbl:true,
+  shells:true,structs:true,galLocal:true,galFar:true,qso:true,ehz:true,
+  pops:true,gallbl:false,stars:true,zoa:true,autorot:true,hubble:false,
+  constel:false,lightcone:false};
+function applyToggle(key,val){
+  STATE[key]=val;
+  switch(key){
+    case 'grid':    if(gridGroups.grid)gridGroups.grid.visible=val;break;
+    case 'equator': if(gridGroups.equator)gridGroups.equator.visible=val;break;
+    case 'axes':    if(gridGroups.axes)gridGroups.axes.visible=val;break;
+    case 'axlbl':   axDivs.forEach(({div})=>div.dataset.hide=val?'':'1');break;
+    case 'rings':   grpRings.forEach(r=>r.visible=val);break;
+    case 'dlbl':    shellLblDivs.forEach(({div})=>div.dataset.hide=val?'':'1');break;
+    case 'shells':  grpShells.forEach(m=>m.visible=val);break;
+    case 'structs': grpStructs.forEach(m=>m.visible=val);break;
+    case 'galLocal':grpLocal.forEach(m=>m.visible=val);break;
+    case 'galFar':  grpFar.forEach(m=>m.visible=val);break;
+    case 'qso':     grpQSO.forEach(m=>{m.visible=val&&timeVis[m.userData.galIdx];});break;
+    case 'ehz':     grpEHZ.forEach(m=>{m.visible=val&&timeVis[m.userData.galIdx];});break;
+    case 'pops':    grpPops.forEach(m=>m.visible=val);break;
+    case 'stars':   grpStars.forEach(m=>m.visible=val);break;
+    case 'zoa':     grpZoa.forEach(m=>m.visible=val);break;
+    case 'hubble':  grpHubble.forEach(m=>{m.visible=val;});document.getElementById('hubbleLbl').style.display=val?'block':'none';break;
+    case 'constel': grpConstel.forEach(m=>m.visible=val);break;
+    case 'lightcone':grpLightcone.forEach(m=>m.visible=val);if(val)startLightconeAnim();else stopLightconeAnim();break;
+  }
+  needsRender=true;cameraDirty=true;
+}
+document.querySelectorAll('[data-key]').forEach(row=>{
+  const key=row.dataset.key;
+  const sw=document.getElementById('sw-'+key);
+  if(!sw)return;
+  function doToggle(){const val=!STATE[key];sw.classList.toggle('on',val);applyToggle(key,val);if(key==='autorot')document.getElementById('btnRot').classList.toggle('on',val);}
+  row.addEventListener('click',e=>{if(e.target===sw)return;doToggle();});
+  sw.addEventListener('click',e=>{e.stopPropagation();doToggle();});
+});
+
+// ═══ DRAWER / FAB ══════════════════════════════════════════
+const fab=document.getElementById('fab');
+const drawer=document.getElementById('drawer');
+const overlay=document.getElementById('overlay');
+function openDrawer(){drawer.classList.add('open');overlay.classList.add('show');fab.classList.add('open');fab.textContent='+';}
+function closeDrawer(){drawer.classList.remove('open');overlay.classList.remove('show');fab.classList.remove('open');fab.textContent='☰';}
+fab.addEventListener('click',()=>drawer.classList.contains('open')?closeDrawer():openDrawer());
+overlay.addEventListener('click',closeDrawer);
+document.getElementById('drawer-handle').addEventListener('click',closeDrawer);
+let dTY=0;
+drawer.addEventListener('touchstart',e=>{dTY=e.touches[0].clientY;},{passive:true});
+drawer.addEventListener('touchend',e=>{if(e.changedTouches[0].clientY-dTY>55)closeDrawer();},{passive:true});
+
+// ═══ CAMERA ════════════════════════════════════════════════
+let theta=0.4,phi=1.15,camR=150,dragging=false,mx=0,my=0;
+const tgt=new THREE.Vector3(0,0,0);
+function updateCam(){camera.position.set(tgt.x+camR*Math.sin(phi)*Math.cos(theta),tgt.y+camR*Math.cos(phi),tgt.z+camR*Math.sin(phi)*Math.sin(theta));camera.lookAt(tgt);cameraDirty=true;needsRender=true;}
+updateCam();
+
+const cv=document.getElementById('c');
+
+// ═══ AUTOROT SYNC HELPER ═══════════════════════════════════
+// Single source of truth for auto-rotation state — keeps drawer switch + topbar btn in sync.
+function setAutorot(v){
+  STATE.autorot=!!v;
+  const sw=document.getElementById('sw-autorot');if(sw)sw.classList.toggle('on',v);
+  const bt=document.getElementById('btnRot');if(bt){bt.classList.toggle('on',v);bt.setAttribute('aria-pressed',v?'true':'false');}
+}
+
+// ═══ MOUSE ═════════════════════════════════════════════════
+cv.addEventListener('mousedown',e=>{if(e.button!==0)return;dragging=true;setAutorot(false);mx=e.clientX;my=e.clientY;});
+window.addEventListener('mousemove',e=>{if(!dragging)return;theta-=(e.clientX-mx)*CONFIG.ROT_SPEED;phi=Math.max(0.08,Math.min(Math.PI-0.08,phi+(e.clientY-my)*CONFIG.ROT_SPEED));mx=e.clientX;my=e.clientY;updateCam();});
+window.addEventListener('mouseup',()=>dragging=false);
+cv.addEventListener('wheel',e=>{camR=Math.max(CONFIG.CAM.MIN_R,Math.min(CONFIG.CAM.MAX_R,camR+e.deltaY*CONFIG.ZOOM_SPEED));updateCam();e.preventDefault();},{passive:false});
+
+// ═══ TOUCH (rotate + pinch zoom) ═══════════════════════════
+let _tp={},_ld=0,_tapT=0,_tapX=0,_tapY=0,_tapMoved=0;
+cv.addEventListener('touchstart',e=>{
+  e.preventDefault();
+  Array.from(e.changedTouches).forEach(t=>_tp[t.identifier]={x:t.clientX,y:t.clientY});
+  const n=Object.keys(_tp).length;
+  if(n===1){setAutorot(false);_tapT=Date.now();_tapX=e.touches[0].clientX;_tapY=e.touches[0].clientY;_tapMoved=0;}
+  if(n===2){const [a,b]=Object.values(_tp);_ld=Math.hypot(b.x-a.x,b.y-a.y);}
+},{passive:false});
+cv.addEventListener('touchmove',e=>{
+  e.preventDefault();
+  const n=Object.keys(_tp).length;
+  if(n===1){
+    const t=e.changedTouches[0],pr=_tp[t.identifier];
+    if(pr){
+      const dx=t.clientX-pr.x, dy=t.clientY-pr.y;
+      _tapMoved += Math.hypot(dx,dy); // accumulate true distance, not binary flag
+      theta-=dx*CONFIG.ROT_SPEED;
+      phi=Math.max(0.08,Math.min(Math.PI-0.08,phi+dy*CONFIG.ROT_SPEED));
+      updateCam();
+    }
+  }
+  else if(n===2){const [a,b]=Object.values(_tp);const nd=Math.hypot(b.x-a.x,b.y-a.y);if(_ld>0){camR=Math.max(CONFIG.CAM.MIN_R,Math.min(CONFIG.CAM.MAX_R,camR*(_ld/nd)));updateCam();}_ld=nd;}
+  Array.from(e.changedTouches).forEach(t=>{if(_tp[t.identifier])_tp[t.identifier]={x:t.clientX,y:t.clientY};});
+},{passive:false});
+cv.addEventListener('touchend',e=>{
+  // Tap = small movement (<10px total) and short duration (<350ms)
+  if(_tapMoved<CONFIG.TAP_MOVE_THRESHOLD && Object.keys(_tp).length===1 && Date.now()-_tapT<CONFIG.TAP_TIME_THRESHOLD){
+    handleSelectAt(_tapX,_tapY);
+  }
+  Array.from(e.changedTouches).forEach(t=>delete _tp[t.identifier]);_ld=0;
+},{passive:true});
+
+// ═══ KEYBOARD ══════════════════════════════════════════════
+document.addEventListener('keydown',e=>{
+  // Don't steal keystrokes when user is typing in an input/textarea
+  const tag=(e.target.tagName||'').toUpperCase();
+  if(tag==='INPUT'||tag==='TEXTAREA')return;
+  // Reset
+  if(e.key==='r'||e.key==='R'){theta=CONFIG.CAM.INIT_T;phi=CONFIG.CAM.INIT_P;camR=CONFIG.CAM.INIT_R;tgt.set(0,0,0);setAutorot(true);updateCam();}
+  // Labels
+  if(e.key==='l'||e.key==='L'){applyToggle('gallbl',!STATE.gallbl);document.getElementById('sw-gallbl').classList.toggle('on',!STATE.gallbl);}
+  // Measure mode
+  if(e.key==='m'||e.key==='M'){toggleMeasure();}
+  // Search (parens fixed: / OR (cmd-k))
+  if((e.key==='/' || (e.key==='k' && (e.metaKey||e.ctrlKey))) && !srchOvl.classList.contains('open')){e.preventDefault();openSearch();}
+  // Escape
+  if(e.key==='Escape'){srchOvl.classList.remove('open');document.getElementById('pnl').style.display='none';if(measureMode)toggleMeasure();}
+  // Search nav
+  if(srchOvl.classList.contains('open')){
+    if(e.key==='ArrowDown'){e.preventDefault();moveFocus(1);}
+    if(e.key==='ArrowUp'){e.preventDefault();moveFocus(-1);}
+    if(e.key==='Enter'){e.preventDefault();selectSR(srchFocusIdx>=0?srchFocusIdx:0);}
+  }
+});
+window.addEventListener('resize',()=>{camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight);cameraDirty=true;});
+
+// ═══ TOP BUTTONS ═══════════════════════════════════════════
+document.getElementById('btnReset').addEventListener('click',()=>{theta=CONFIG.CAM.INIT_T;phi=CONFIG.CAM.INIT_P;camR=CONFIG.CAM.INIT_R;tgt.set(0,0,0);setAutorot(true);updateCam();});
+document.getElementById('btnRot').classList.add('on');
+document.getElementById('btnRot').addEventListener('click',()=>setAutorot(!STATE.autorot));
+document.getElementById('btnSearch').addEventListener('click',openSearch);
+
+// ═══ UNIFIED SELECT/CLICK HANDLER (mode-aware) ═════════════
+const rc=new THREE.Raycaster();const mp2=new THREE.Vector2();
+window._lastClickHitPos=new THREE.Vector3();
+function handleSelectAt(px,py){
+  mp2.x=(px/innerWidth)*2-1;mp2.y=-(py/innerHeight)*2+1;
+  rc.setFromCamera(mp2,camera);
+  const hits=rc.intersectObjects(hitboxes,false);
+  if(hits.length){
+    // Convert to world position (since hitboxes are in cosmicGroup which may be scaled)
+    hits[0].object.getWorldPosition(window._lastClickHitPos);
+  }
+  if(measureMode){
+    handleMeasureClick(hits.length?hits[0].object.userData:null);
+    return;
+  }
+  if(hits.length)showPanel(hits[0].object.userData);
+  else document.getElementById('pnl').style.display='none';
+}
+cv.addEventListener('click',e=>{if(dragging)return;handleSelectAt(e.clientX,e.clientY);});
+
+// Throttled hover cursor — desktop only
+let _lastHoverT=0;
+cv.addEventListener('mousemove',e=>{
+  if(performance.now()-_lastHoverT<80)return; // ~12fps for raycasting
+  _lastHoverT=performance.now();
+  if(dragging){cv.style.cursor='grabbing';return;}
+  mp2.x=(e.clientX/innerWidth)*2-1;mp2.y=-(e.clientY/innerHeight)*2+1;
+  rc.setFromCamera(mp2,camera);
+  cv.style.cursor=rc.intersectObjects(hitboxes,false).length?'pointer':'default';
+});
+
+document.getElementById('cx').addEventListener('click',()=>document.getElementById('pnl').style.display='none');
+function showPanel(d){
+  if(!d?.pn)return;
+  document.getElementById('pn').innerHTML=d.pn;
+  document.getElementById('pn').style.color='#'+new THREE.Color(d.aC||0xffffff).getHexString();
+  ['pt','pd','pz','ptlb','pa'].forEach(k=>document.getElementById(k).textContent=d[k]||'—');
+  document.getElementById('pc').textContent=d.pc||'';
+  // Morphology translation (only for galaxies with a known morph code)
+  const pmt=document.getElementById('pmt');
+  const morphTxt=morphToText(d.morph);
+  if(morphTxt){pmt.textContent='≈ '+morphTxt;pmt.style.display='block';}
+  else{pmt.style.display='none';}
+  // Cosmology calculator
+  populateCosmoCalc(d);
+  document.getElementById('pnl').style.display='block';
+  closeDrawer();
+  needsRender=true;
+}
+
+// ═══ COSMOLOGY CALCULATOR ═══════════════════════════════════
+function populateCosmoCalc(d){
+  const wrap=document.getElementById('cosmoCalcWrap');
+  const z=(typeof d.z==='number'&&isFinite(d.z))?d.z:null;
+  // Show only if we have a sensible redshift (galaxies/quasars/EHZ — not horizons)
+  if(z===null || z<0){wrap.style.display='none';return;}
+  wrap.style.display='block';
+  const dC = z<0.001 ? (d.dMly||0) : comovingDist(z);
+  const dL = (1+z)*dC;
+  const dA = dC/(1+z);
+  const tLB = lookbackTime(z);
+  const a = 1/(1+z);
+  // Recession velocity at present epoch (proper distance × H0). Use D_C·H0 (≈ v_rec).
+  // 1 Mly ≈ 0.3066 Mpc; H0 = 67.4 km/s/Mpc
+  const dMpc = dC * 0.30659;
+  const vrec_kmps = CONFIG.H0 * dMpc;
+  const c_kmps = 299792.458;
+  const vrec_c = vrec_kmps/c_kmps;
+  document.getElementById('ccDC').textContent=fmtDist(dC);
+  document.getElementById('ccDL').textContent=fmtDist(dL);
+  document.getElementById('ccDA').textContent=fmtDist(dA);
+  document.getElementById('ccTLB').textContent=tLB<0.001?(tLB*1000).toFixed(1)+' My':tLB.toFixed(2)+' Gy';
+  document.getElementById('ccA').textContent=a.toFixed(a<0.1?4:3);
+  document.getElementById('ccVrec').textContent=vrec_c<1?(vrec_c*100).toFixed(1)+'% c':vrec_c.toFixed(2)+' c';
+}
+
+// Cosmocalc toggle
+document.getElementById('cosmoToggle').addEventListener('click',()=>{
+  const t=document.getElementById('cosmoToggle'), c=document.getElementById('cosmoCalc');
+  const open=!t.classList.contains('open');
+  t.classList.toggle('open',open);c.classList.toggle('open',open);
+  t.setAttribute('aria-expanded',open?'true':'false');
+});
+document.getElementById('cosmoToggle').addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();document.getElementById('cosmoToggle').click();}});
+
+// ═══ FLY-TO SYSTEM ═════════════════════════════════════════
+let flyAnim=null;
+function eIC(p){return p<0.5?4*p*p*p:(p-1)*(2*p-2)*(2*p-2)+1;}
+function flyTo(toT,toP,toR,dur,label){
+  let dT=toT-theta;while(dT>Math.PI)dT-=2*Math.PI;while(dT<-Math.PI)dT+=2*Math.PI;
+  flyAnim={fT:theta,fP:phi,fR:camR,tT:theta+dT,tP:toP,tR:toR,dur:dur||2200,t0:performance.now()};
+  STATE.autorot=false;
+  if(label){const fl=document.getElementById('flyLbl');fl.textContent=label.toUpperCase().slice(0,40);fl.style.display='block';setTimeout(()=>fl.style.display='none',(dur||2200)+500);}
+}
+function p2Ang(p3,mg){
+  const len=p3.length();if(len<0.01)return{toT:0.4,toP:1.15,toR:8};
+  const n=p3.clone().normalize();
+  return{toT:Math.atan2(n.z,n.x),toP:Math.acos(Math.max(-1,Math.min(1,n.y))),toR:Math.max(3,len*mg)};
+}
+function flyToItem(item,mg,dur){
+  if(item.isShell){const r=dS(SHELLS[item.shellIdx].dMly);flyTo(theta,phi,r*1.12,dur||2400,'');}
+  else{const {toT,toP,toR}=p2Ang(item.pos3,mg||2.2);flyTo(toT,toP,toR,dur||2400,item.name);}
+}
+
+// ═══ SEARCH ════════════════════════════════════════════════
+// (Note: zToAge is the analytical ΛCDM version defined earlier near CONFIG.)
+const galIdx=G.map((g,i)=>{
+  const zM=(g[9]||'').match(/z[=≈]([\d.]+)/);
+  const formAge=g[4]==='EHZ'||g[4]==='QSO'?(zM?zToAge(parseFloat(zM[1])):13.8):g[3]<5?0.5:1.5;
+  return{name:g[0],pos3:eqV(g[1],g[2],g[3]),dist:g[3],morph:g[4],aC:g[7],dstr:g[9]||'',formAge,idx:i};
+});
+const shellIdx=SHELLS.map((s,i)=>({name:s.n,dstr:(s.dMly>=1000?(s.dMly/1000).toFixed(1)+' Gly':s.dMly+' Mly'),aC:s.c,morph:'Orizont',isShell:true,shellIdx:i}));
+const srchOvl=document.getElementById('srchOvl');
+const srchInp=document.getElementById('srchInp');
+const srchRes=document.getElementById('srchRes');
+let srchFocusIdx=-1,srchFiltered=[];
+function openSearch(){srchOvl.classList.add('open');srchInp.value='';setTimeout(()=>srchInp.focus(),80);renderSearch('');closeDrawer();}
+srchOvl.addEventListener('click',e=>{if(e.target===srchOvl)srchOvl.classList.remove('open');});
+srchInp.addEventListener('input',()=>renderSearch(srchInp.value));
+function renderSearch(q){
+  srchFocusIdx=-1;const query=q.trim().toLowerCase();
+  if(!query){srchRes.innerHTML='<div id="srchEmpty">Introdu un nume de galaxie, quasar sau orizont...</div>';srchFiltered=[];return;}
+  // Score: 100 = starts with, 50 = whole word match, 25 = substring match, 0 = no match
+  const scored=[...galIdx,...shellIdx].map(it=>{
+    const lc=it.name.toLowerCase();
+    let score=0;
+    if(lc.startsWith(query))score=100;
+    else if(lc.split(/\s+/).some(w=>w.startsWith(query)))score=60;
+    else if(lc.includes(query))score=25;
+    return{it,score};
+  }).filter(o=>o.score>0).sort((a,b)=>b.score-a.score||a.it.name.length-b.it.name.length);
+  srchFiltered=scored.slice(0,12).map(o=>o.it);
+  if(!srchFiltered.length){srchRes.innerHTML='<div id="srchEmpty">Nicio galaxie găsită pentru „'+q+'"</div>';return;}
+  srchRes.innerHTML=srchFiltered.map((it,i)=>{
+    const col='#'+new THREE.Color(it.aC||0xffffff).getHexString();
+    const tp=it.morph==='EHZ'?'EHZ':it.morph==='QSO'?'QUASAR':it.isShell?'ORIZONT':it.morph?.startsWith('dS')?'PITIC':'GALAXIE';
+    return `<div class="sr" data-i="${i}" role="option"><div class="sr-dot" style="background:${col}"></div><span class="sr-name">${it.name}</span><span class="sr-meta"><span style="color:#5a7088;font-size:9px;margin-right:6px">${tp}</span>${it.dstr}</span></div>`;
+  }).join('');
+  srchRes.querySelectorAll('.sr').forEach(el=>el.addEventListener('click',()=>selectSR(parseInt(el.dataset.i))));
+}
+function moveFocus(d){const els=srchRes.querySelectorAll('.sr');if(!els.length)return;els[srchFocusIdx]?.classList.remove('act');srchFocusIdx=Math.max(0,Math.min(els.length-1,srchFocusIdx+d));els[srchFocusIdx]?.classList.add('act');els[srchFocusIdx]?.scrollIntoView({block:'nearest'});}
+function selectSR(i){
+  const item=srchFiltered[i];if(!item)return;
+  srchOvl.classList.remove('open');
+  flyToItem(item);
+  setTimeout(()=>{
+    if(!item.isShell&&hitboxes[item.idx]?.userData?.pn)showPanel(hitboxes[item.idx].userData);
+    else if(item.isShell&&shellMeshes[item.shellIdx]?.userData?.pn)showPanel(shellMeshes[item.shellIdx].userData);
+  },2600);
+}
+
+// ═══ TOURS ═════════════════════════════════════════════════
+const TOURS=[
+  {title:'Vecinii Căii Lactee',icon:'🌌',steps:[
+    {toT:0.4,toP:1.15,toR:20,dur:3000,txt:'Pornim din inima Grupului Local — Calea Lactee la centru, cu cei ~80 de vecini ai săi pe un volum de 3 milioane de ani-lumină.'},
+    {gal:'LMC',mg:3.5,dur:4000,txt:'Norul Mare Magellanic — satelitul nostru cel mai masiv, la 163.000 al distanță. Conține Nebulosa Tarantula: cea mai violentă regiune de formare stelară din Grupul Local.'},
+    {gal:'SMC',mg:4,dur:3500,txt:'Norul Mic Magellanic — al doilea satelit major al MW. Împreună cu LMC formează un sistem legat gravitațional printr-un flux de hidrogen (Magellanic Stream).'},
+    {gal:'Andromeda M31',mg:2.2,dur:5000,txt:'Andromeda — cea mai mare galaxie din LG, la 2,537 Mly. 1 trilion de stele. Va fuziona cu MW în ~4,5 mld ani, creând galaxia „Andromilkway".'},
+    {gal:'M33 Triangulum',mg:2.5,dur:3500,txt:'Triangulum (M33) — a treia galaxie spirală din LG. Fascinantă: nu pare să conțină o gaură neagră supermasivă centrală — o raritate astronomică.'},
+    {toT:0.4,toP:1.15,toR:28,dur:3000,txt:'Grupul Local în ansamblu: ~80 galaxii dominate de MW și Andromeda. Un mic colț dintr-un cosmos de 46 miliarde ani-lumină.'},
+  ]},
+  {title:'Galaxii Celebre',icon:'⭐',steps:[
+    {gal:'M87 Virgo A',mg:2.5,dur:5000,txt:'M87 — galaxia eliptică gigantă din inima Roiului Virgo. Gaura neagră de 6,5 miliarde M☉ a fost prima fotografiată vreodată (Event Horizon Telescope, 2019).'},
+    {gal:'M104 Sombrero',mg:2.8,dur:4000,txt:'Sombrero (M104) — bulgur masiv și inel de praf văzute quasi edge-on. Gaura neagră centrală: 1 miliard de mase solare.'},
+    {gal:'M51 Vârtej',mg:2.8,dur:4000,txt:'M51 — Galaxia Vârtej, cu brațe spirale perfecte declanșate gravitațional de companion-ul NGC 5195. Un grand design spiral clasic.'},
+    {gal:'NGC 4038 Antena',mg:3,dur:4500,txt:'Galaxiile Antenă (NGC 4038/4039) — fuziune galactică în plină desfășurare. Prototipul coliziunilor galactice. Starburst extrem documentat cu JWST.'},
+    {gal:'Centaurus A',mg:2.5,dur:4500,txt:'Centaurus A — cel mai activ nucleu galactic vecin, la 12,7 Mly. SMBH de 55 milioane M☉ produce un jet relativistic vizibil de la radio la raze gamma.'},
+  ]},
+  {title:'Record JWST — Primele Galaxii',icon:'🔭',steps:[
+    {toT:1.5,toP:1.3,toR:120,dur:3500,txt:'Privim spre marginile Universului observabil — acolo unde JWST a revelat galaxiile care existau când Universul era bebeluș. Lumina lor a călătorit 13+ miliarde de ani.'},
+    {gal:'GN-z11 (z=10.96)',mg:5,dur:5000,txt:'GN-z11 — detectată de Hubble (2016), confirmată de JWST în 2023. La z=10.96, Universul avea ~400 milioane ani. JWST a descoperit un AGN activ și azot neașteptat.'},
+    {gal:"Maisie's Galaxy (z=11.44)",mg:5,dur:4500,txt:"Maisie's Galaxy (z=11.44) — descoperită JWST/CEERS 2022, confirmată 2023. Numită după fiica astronomului Finkelstein. Universul: 390 milioane ani."},
+    {gal:'JADES-GS-z13-0 (z=13.20)',mg:5,dur:5000,txt:'JADES-GS-z13-0 (z=13.20) — la 320 milioane ani după Big Bang. Confirmat JWST/NIRSpec cu spectru complet [OIII], Hβ. Surprinzător de masivă pentru vârsta sa.'},
+    {gal:'JADES-GS-z14-0 ★ RECORD',mg:5.5,dur:6000,txt:'★ JADES-GS-z14-0 · RECORD ABSOLUT (mai 2024) · z=14.32 · Cea mai îndepărtată galaxie confirmată spectroscopic. Universul: 290 milioane ani. Conține deja oxigen — mister profund.'},
+  ]},
+  {title:'Limitele Cosmice',icon:'🌐',steps:[
+    {toT:0.4,toP:1.15,toR:55,dur:3000,txt:'Traversăm Universul observabil — de la vecinătatea noastră până la limita absolută.'},
+    {shell:4,dur:5000,txt:'Sfera Hubble — 14,3 Gly. Galaxii de la această distanță recesionează cu viteza luminii. Fotoni emiși AZI de la ele nu ne vor ajunge NICIODATĂ.'},
+    {shell:5,dur:5500,txt:'Orizontul Evenimentelor — ~16 Gly. Limita cauzală absolută. Expansiunea accelerată face imposibilă comunicarea cu ce e dincolo, pentru totdeauna.'},
+    {shell:11,dur:6000,txt:'CMB (z=1100) — 45,6 Gly. Cel mai depărtat lucru observabil: fotoni emişi la 380.000 ani după Big Bang. Temperatura: 2,725 K. Fluctuațiile sale au generat toată structura cosmică.'},
+    {shell:12,dur:5500,txt:'Orizontul Particulelor — ~46,5 Gly. Limita absolută. Dincolo există univers care funcționează normal, dar lumina sa n-a apucat să ajungă la noi de la Big Bang.'},
+  ]},
+  {title:'Vela & Structuri Gigantice',icon:'🔴',steps:[
+    {gal:'Marele Atractor',mg:2.2,dur:4500,txt:'Marele Atractor — la ~250 Mly, atrage MW cu ~600 km/s. Parțial ascuns în ZoA, a rămas misterios decenii. Asociat cu Norma Cluster.'},
+    {gal:'Conc. Shapley',mg:2,dur:4500,txt:'Concentrația Shapley — la 650 Mly: ~25 roiuri de galaxii. Contribuie semnificativ la mișcarea Căii Lactee în spațiu.'},
+    {gal:'Vela-Banzi ★',mg:2,dur:6000,txt:'★ Vela-Banzi (2016-2026) — ascuns în ZoA, descoperit recent. La 870 Mly: 33.800 trilioane M☉, ~300 Mly diametru, 20+ roiuri. Depășește gravitațional Marele Atractor!'},
+    {gal:'NGC 4889 Coma cD',mg:2.5,dur:4500,txt:'NGC 4889 — centrala Roiului Coma, la 321 Mly. SMBH: 21 miliarde M☉. Zwicky a dedus existența materiei întunecate din vitezele galaxiilor din Coma (1933).'},
+  ]},
+];
+
+(function(){
+  const tl=document.getElementById('tourList');
+  tl.innerHTML=TOURS.map((t,i)=>`<div class="tdrwBtn" data-tour="${i}"><span class="tdrwIcon">${t.icon}</span><span class="tdrwName">${t.title}</span><span class="tdrwSteps">${t.steps.length} pași</span></div>`).join('');
+  tl.querySelectorAll('.tdrwBtn').forEach(btn=>btn.addEventListener('click',()=>{closeDrawer();startTour(parseInt(btn.dataset.tour));}));
+})();
+
+let tourSt={active:false,idx:0,step:0,paused:false,timer:null,pi:null};
+function startTour(idx){
+  stopTour();tourSt={active:true,idx,step:0,paused:false,timer:null,pi:null};
+  document.getElementById('tourPnl').style.display='block';
+  document.getElementById('tourLbl').textContent=TOURS[idx].icon+' '+TOURS[idx].title;
+  document.getElementById('tcPause').textContent='⏸';runStep();
+}
+function stopTour(){clearTimeout(tourSt.timer);clearInterval(tourSt.pi);tourSt.active=false;document.getElementById('tourPnl').style.display='none';document.getElementById('tourProgBar').style.width='0%';}
+function runStep(){
+  const tour=TOURS[tourSt.idx],step=tour.steps[tourSt.step];
+  if(!step){stopTour();return;}
+  document.getElementById('tourStepInd').textContent=(tourSt.step+1)+'/'+tour.steps.length;
+  document.getElementById('tourNarr').textContent=step.txt;
+  document.getElementById('tourProgBar').style.width='0%';
+  const dur=step.dur||3000,flyDur=Math.min(dur-200,2400);
+  if(step.gal){const item=galIdx.find(g=>g.name===step.gal);if(item)flyToItem(item,step.mg||2.2,flyDur);}
+  else if(step.shell!=null){const r=dS(SHELLS[step.shell].dMly);flyTo(theta+0.3,phi+0.1,r*1.12,flyDur,'');}
+  else if(step.toT!=null)flyTo(step.toT,step.toP,step.toR,flyDur,'');
+  clearInterval(tourSt.pi);const t0=Date.now();
+  tourSt.pi=setInterval(()=>{if(!tourSt.paused){const pct=Math.min(100,(Date.now()-t0)/dur*100);document.getElementById('tourProgBar').style.width=pct+'%';if(pct>=100)clearInterval(tourSt.pi);}},50);
+  if(!tourSt.paused){clearTimeout(tourSt.timer);tourSt.timer=setTimeout(()=>{tourSt.step++;runStep();},dur);}
+}
+document.getElementById('tcPause').addEventListener('click',()=>{
+  tourSt.paused=!tourSt.paused;document.getElementById('tcPause').textContent=tourSt.paused?'▶':'⏸';
+  if(!tourSt.paused){clearTimeout(tourSt.timer);tourSt.timer=setTimeout(()=>{tourSt.step++;runStep();},TOURS[tourSt.idx]?.steps[tourSt.step]?.dur||3000);}
+  else clearTimeout(tourSt.timer);
+});
+document.getElementById('tcNext').addEventListener('click',()=>{clearTimeout(tourSt.timer);clearInterval(tourSt.pi);tourSt.step++;runStep();});
+document.getElementById('tcPrev').addEventListener('click',()=>{clearTimeout(tourSt.timer);clearInterval(tourSt.pi);tourSt.step=Math.max(0,tourSt.step-1);runStep();});
+document.getElementById('tcStop').addEventListener('click',stopTour);
+document.getElementById('tourClose').addEventListener('click',stopTour);
+
+// ═══ TIME SLIDER · SHRINKING UNIVERSE ═══════════════════════
+const timeVis=new Array(G.length).fill(true);
+let tPlaying=false,tTimer=null;
+const timeSlider=document.getElementById('timeSlider');
+
+// Estimated formation epochs for galaxy types (approximate, in Gy after Big Bang)
+function morphFormAge(morph){
+  if(morph==='EHZ') return 0.27;        // 280-400 My (JWST EHZ)
+  if(morph==='QSO') return 0.7;         // ~700 My (early quasars)
+  if(morph?.startsWith('dS')||morph?.startsWith('dI')||morph?.startsWith('dE')) return 1.5; // dwarfs ~10 Gy lookback
+  if(morph?.startsWith('Irr')) return 1.0;
+  if(morph?.startsWith('S0')||morph?.startsWith('cD')||morph?.startsWith('E')) return 3.5; // ellipticals (mergers)
+  return 2.0; // generic spiral
+}
+
+function updateTime(ageGy){
+  const isNow = ageGy >= 13.7;
+  // 1+z relation: ageGy → z (rough inverse)
+  let zEff;
+  if(isNow) zEff = 0;
+  else if(ageGy < 0.001) zEff = 1100;
+  else {
+    // Solve numerically: find z s.t. zToAge(z) ≈ ageGy. Bisection.
+    let lo=0, hi=20, mid=0;
+    for(let it=0;it<22;it++){
+      mid = (lo+hi)/2;
+      if(zToAge(mid) > ageGy) lo=mid; else hi=mid;
+    }
+    zEff = mid;
+  }
+
+  document.getElementById('timeDsp').textContent = isNow
+    ? 'PREZENT · z = 0'
+    : ageGy.toFixed(ageGy<1?3:1)+' Gy după BB · z ≈ '+(zEff<10?zEff.toFixed(2):zEff.toFixed(0));
+  document.getElementById('timeAge').textContent = isNow
+    ? 'Universul are 13,8 miliarde ani'
+    : ageGy<0.5 ? 'Zorii Cosmici — primele galaxii (z>10)'
+    : ageGy<3   ? 'Apogeul formării stelelor (z=2-6)'
+    : ageGy<10  ? 'Universul matur (z=0,5-2)' : 'Aproape prezent';
+  document.getElementById('timeFloat').style.display = isNow?'none':'block';
+  document.getElementById('timeFloat').textContent = isNow?'':lookbackTime(zEff).toFixed(2)+' Gly lookback · a='+(1/(1+zEff)).toFixed(3);
+
+  // SHRINKING UNIVERSE: scale the entire cosmic group by a(t) = 1/(1+z)
+  // At z=0 → scale 1; at z=10 → scale ~0.09; at z=1100 → scale ~0.001
+  // We use sqrt to make the visual effect less extreme (otherwise EHZ galaxies become invisible)
+  const scaleFactor = isNow ? 1 : Math.max(0.012, Math.pow(1/(1+zEff), 0.55));
+  cosmicGroup.scale.setScalar(scaleFactor);
+
+  // Hide galaxies that hadn't formed yet at this epoch
+  galPts.forEach((pm,idx)=>{
+    const ud = pm.userData;
+    const formAge = morphFormAge(ud.morph);
+    const formed = ageGy >= formAge;
+    timeVis[idx] = formed;
+    const gt = ud.galType;
+    const gOn = gt==='ehz'?STATE.ehz : gt==='qso'?STATE.qso : gt==='local'?STATE.galLocal : STATE.galFar;
+    pm.visible = formed && gOn;
+  });
+
+  // When traveling far in the past, hide measure markers (they reference present positions)
+  if(!isNow && measureMode){
+    if(measM1)measM1.visible=false;
+    if(measM2)measM2.visible=false;
+    if(measLine)measLine.visible=false;
+  } else if(measureMode){
+    if(measM1)measM1.visible=true;
+    if(measM2)measM2.visible=true;
+    if(measLine)measLine.visible=true;
+  }
+
+  needsRender=true;
+}
+timeSlider.addEventListener('input',()=>updateTime(parseInt(timeSlider.value)/10));
+document.getElementById('timePlayBtn').addEventListener('click',()=>{
+  tPlaying=!tPlaying;document.getElementById('timePlayBtn').textContent=tPlaying?'⏸':'▶';
+  if(tPlaying){if(parseInt(timeSlider.value)>=CONFIG.TIME_MAX)timeSlider.value=0;
+    tTimer=setInterval(()=>{const v=parseInt(timeSlider.value)+1;if(v>CONFIG.TIME_MAX){clearInterval(tTimer);tPlaying=false;document.getElementById('timePlayBtn').textContent='▶';return;}timeSlider.value=v;updateTime(v/10);},REDUCED_MOTION?400:180);}
+  else{clearInterval(tTimer);}
+});
+
+// ═══ CONSTELLATION OVERLAY ═══════════════════════════════════
+// 18 prominent constellations as line segments [[ra1_h, dec1_deg], [ra2_h, dec2_deg]] pairs
+// Coordinates are J2000 epoch, simplified line patterns
+const CONSTELLATIONS = {
+  'Orion': [[5.92,7.4],[5.42,6.35], [5.42,6.35],[5.20,-0.30], [5.20,-0.30],[5.24,-1.94], [5.24,-1.94],[5.68,-1.94], [5.68,-1.94],[5.92,7.4], [5.24,-1.94],[5.91,-9.67], [5.42,6.35],[5.92,7.4]],
+  'Ursa Major': [[11.06,61.75],[11.90,53.69], [11.90,53.69],[12.26,57.03], [12.26,57.03],[12.90,55.96], [12.90,55.96],[13.40,54.93], [13.40,54.93],[13.79,49.31], [13.79,49.31],[13.40,54.93]],
+  'Ursa Minor': [[14.84,74.16],[15.34,77.79], [15.34,77.79],[16.77,82.04], [16.77,82.04],[2.53,89.26], [16.77,82.04],[15.73,77.79], [15.73,77.79],[14.84,74.16]],
+  'Cassiopeia': [[0.15,59.15],[0.95,60.72], [0.95,60.72],[0.67,56.54], [0.67,56.54],[1.43,60.24], [1.43,60.24],[1.91,63.67]],
+  'Cygnus': [[20.69,45.28],[19.74,45.13], [19.74,45.13],[19.51,27.96], [19.51,27.96],[19.75,33.97], [19.75,33.97],[19.74,45.13], [19.75,33.97],[20.77,33.97]],
+  'Lyra': [[18.62,38.78],[18.75,37.61], [18.75,37.61],[18.83,36.06], [18.83,36.06],[18.96,33.36], [18.96,33.36],[18.83,36.06]],
+  'Aquila': [[19.85,8.87],[19.92,6.41], [19.92,6.41],[20.19,-0.82], [19.92,6.41],[19.45,3.11]],
+  'Scorpius': [[16.50,-26.43],[16.84,-34.29], [16.84,-34.29],[17.62,-37.10], [17.62,-37.10],[17.71,-39.03], [17.71,-39.03],[17.56,-37.30]],
+  'Crux': [[12.44,-63.10],[12.80,-59.69], [12.52,-57.11],[12.69,-60.40], [12.69,-60.40],[12.44,-63.10]],
+  'Leo': [[10.14,11.97],[10.33,19.84], [10.33,19.84],[11.24,20.52], [11.24,20.52],[11.82,14.57], [11.82,14.57],[11.24,20.52], [10.14,11.97],[9.84,9.89]],
+  'Virgo': [[13.42,-11.16],[12.93,-1.45], [12.93,-1.45],[13.42,3.40], [13.42,3.40],[13.04,10.96]],
+  'Andromeda': [[0.66,30.86],[1.16,35.62], [1.16,35.62],[1.62,41.41], [1.62,41.41],[2.07,42.33]],
+  'Pegasus': [[23.08,15.21],[0.22,15.18], [0.22,15.18],[0.22,28.08], [0.22,28.08],[23.08,28.08], [23.08,28.08],[23.08,15.21]],
+  'Perseus': [[3.41,49.86],[3.16,49.61], [3.16,49.61],[3.08,53.51], [3.16,49.61],[2.84,55.90]],
+  'Sagittarius': [[18.92,-26.30],[18.40,-29.83], [18.40,-29.83],[19.04,-29.88], [19.04,-29.88],[18.92,-26.30], [18.92,-26.30],[19.16,-21.74]],
+  'Taurus': [[4.60,16.51],[4.48,19.18], [4.48,19.18],[4.39,15.87], [5.43,28.61],[4.48,19.18]],
+  'Gemini': [[7.58,31.89],[7.74,28.03], [6.63,16.40],[6.97,33.96], [6.97,33.96],[7.58,31.89]],
+  'Auriga': [[5.99,44.95],[5.04,41.07], [5.04,41.07],[5.11,45.99], [5.11,45.99],[6.07,49.79], [6.07,49.79],[5.99,44.95]],
+};
+
+(function buildConstellations(){
+  const STAR_R = 900; // place lines on background star sphere radius
+  const mat = new THREE.LineBasicMaterial({color:0x4670bb, transparent:true, opacity:0.32, depthWrite:false});
+  const matLabel = new THREE.LineBasicMaterial({color:0x6688cc, transparent:true, opacity:0.5, depthWrite:false});
+  for(const [name, lines] of Object.entries(CONSTELLATIONS)){
+    const pts = [];
+    for(let i=0;i<lines.length;i+=2){
+      const [r1,d1] = lines[i], [r2,d2] = lines[i+1];
+      const v1 = eqV(r1, d1, 99); // any positive distance, normalize after
+      const v2 = eqV(r2, d2, 99);
+      v1.normalize().multiplyScalar(STAR_R);
+      v2.normalize().multiplyScalar(STAR_R);
+      pts.push(v1, v2);
+    }
+    const geo = new THREE.BufferGeometry().setFromPoints(pts);
+    const ln = new THREE.LineSegments(geo, name==='Orion'||name==='Ursa Major'||name==='Cygnus'?matLabel:mat);
+    ln.userData = {constName: name};
+    ln.visible = false; // off by default
+    scene.add(ln); // constellations are in the OBSERVER frame, NOT in cosmicGroup
+    grpConstel.push(ln);
+  }
+})();
+
+// ═══ LIGHT CONE (animated past observer cone) ═══════════════
+let lightconeMesh = null;
+let lightconeAnimRunning = false;
+let lightconeAnimT = 0;
+
+function buildLightcone(){
+  // Sphere expanding from origin (Milky Way) outward over time.
+  // Visualized as semi-transparent wireframe sphere that grows.
+  const geo = new THREE.SphereGeometry(1, 24, 16);
+  const mat = new THREE.MeshBasicMaterial({color:0xffaa44, wireframe:true, transparent:true, opacity:0.18, depthWrite:false});
+  lightconeMesh = new THREE.Mesh(geo, mat);
+  lightconeMesh.visible = false;
+  scene.add(lightconeMesh);
+  grpLightcone.push(lightconeMesh);
+}
+buildLightcone();
+
+function startLightconeAnim(){
+  if(lightconeAnimRunning)return;
+  lightconeAnimRunning = true;
+  lightconeAnimT = 0;
+  if(lightconeMesh)lightconeMesh.visible = true;
+}
+function stopLightconeAnim(){
+  lightconeAnimRunning = false;
+  if(lightconeMesh)lightconeMesh.visible = false;
+}
+function tickLightcone(dtSec){
+  if(!lightconeAnimRunning || !lightconeMesh)return;
+  lightconeAnimT += dtSec;
+  // Cycle: from 0.5 → MAX_R/3 over ~6 seconds, then reset
+  const cycle = 6.0;
+  const t = (lightconeAnimT % cycle) / cycle;
+  const radius = 0.5 + t * (MAX_R * 0.95 - 0.5);
+  lightconeMesh.scale.setScalar(radius);
+  // Fade out as it grows large
+  const fade = Math.max(0.04, 0.28 * (1 - t*0.65));
+  lightconeMesh.material.opacity = fade;
+  needsRender = true;
+}
+
+// ═══ MEASURE TOOL ══════════════════════════════════════════
+const grpHubble=[]; // declared here — hubble arrows will be added later
+let measMode=false,measPt1=null,measPt2=null,measLine=null,measM1=null,measM2=null;
+const ANDROMEDA_Mly=2.537, H0=67.4, MPC_PER_MLY=1/3.2616;
+
+function enterMeasure(){
+  measMode=true;measPt1=null;measPt2=null;
+  clearMeasLine();
+  document.getElementById('measPnl').style.display='block';
+  document.getElementById('measBadge').textContent='📏 CLICK PE PRIMUL OBIECT';
+  document.getElementById('measBadge').style.display='block';
+  document.getElementById('measResult').style.display='none';
+  document.getElementById('measName1').textContent='—';
+  document.getElementById('measName2').textContent='Click pe primul obiect…';
+  document.getElementById('measHint').textContent='Selectează orice galaxie sau orizont cosmic';
+  document.getElementById('btnMeasure').classList.add('on');
+  closeDrawer();
+}
+function exitMeasure(){
+  measMode=false;clearMeasLine();
+  document.getElementById('measPnl').style.display='none';
+  document.getElementById('measBadge').style.display='none';
+  document.getElementById('btnMeasure').classList.remove('on');
+}
+function clearMeasLine(){
+  if(measLine){scene.remove(measLine);measLine=null;}
+  if(measM1){scene.remove(measM1);measM1=null;}
+  if(measM2){scene.remove(measM2);measM2=null;}
+}
+function measRealDist(dA,rA,dA2,rB,dB2){
+  // law of cosines: dist² = dA²+dB²-2·dA·dB·cos(angle)
+  const dotAB=rA.dot(rB); // both normalized
+  const cos=Math.max(-1,Math.min(1,dotAB));
+  return Math.sqrt(dA*dA+dA2*dA2-2*dA*dA2*cos);
+}
+function setMeasPt(n,userData,scenePos){
+  const col=new THREE.Color(userData.aC||0x44cc88);
+  const dMly=userData.dMly||0;
+  const dir=scenePos.length()>0.01?scenePos.clone().normalize():new THREE.Vector3(0,1,0);
+  if(n===1){
+    measPt1={ud:userData,pos:scenePos.clone(),dir,dMly};
+    document.getElementById('measName1').textContent=userData.pn||'?';
+    document.getElementById('measDot1').style.borderColor='#'+col.getHexString();
+    document.getElementById('measBadge').textContent='📏 CLICK PE AL DOILEA OBIECT';
+    document.getElementById('measName2').textContent='Click pe al 2-lea obiect…';
+    // Marker 1
+    if(measM1)scene.remove(measM1);
+    measM1=new THREE.Mesh(new THREE.SphereGeometry(0.4,10,7),new THREE.MeshBasicMaterial({color:userData.aC||0x44cc88,transparent:true,opacity:0.55,depthWrite:false}));
+    measM1.position.copy(scenePos);scene.add(measM1);
+  } else {
+    measPt2={ud:userData,pos:scenePos.clone(),dir,dMly};
+    document.getElementById('measName2').textContent=userData.pn||'?';
+    document.getElementById('measDot2').style.borderColor='#'+col.getHexString();
+    document.getElementById('measBadge').style.display='none';
+    // Marker 2
+    if(measM2)scene.remove(measM2);
+    measM2=new THREE.Mesh(new THREE.SphereGeometry(0.4,10,7),new THREE.MeshBasicMaterial({color:userData.aC||0x44cc88,transparent:true,opacity:0.55,depthWrite:false}));
+    measM2.position.copy(scenePos);scene.add(measM2);
+    // Draw line
+    if(measLine)scene.remove(measLine);
+    const pts=[measPt1.pos.clone(),measPt2.pos.clone()];
+    const lg=new THREE.BufferGeometry().setFromPoints(pts);
+    measLine=new THREE.Line(lg,new THREE.LineBasicMaterial({color:0x44cc88,transparent:true,opacity:0.7}));
+    scene.add(measLine);
+    // Compute distance
+    const dA=measPt1.dMly, dB=measPt2.dMly;
+    let realDist;
+    if(dA<0.01)realDist=dB;
+    else if(dB<0.01)realDist=dA;
+    else realDist=measRealDist(dA,measPt1.dir,dB,measPt2.dir,dB);
+    const distStr=realDist>=1000?(realDist/1000).toFixed(2)+' Gly':realDist.toFixed(1)+' Mly';
+    const androMult=(realDist/ANDROMEDA_Mly).toFixed(1);
+    const lightYrs=realDist>=1000?(realDist/1000).toFixed(2)+' Gly':'~'+Math.round(realDist)+' Mly';
+    const hubbleV=Math.round(H0*Math.max(dA,dB)*MPC_PER_MLY);
+    document.getElementById('mrDist').textContent=distStr;
+    document.getElementById('mrAndro').textContent=androMult+'×';
+    document.getElementById('mrLight').textContent=lightYrs;
+    document.getElementById('mrHubble').textContent=hubbleV.toLocaleString()+' km/s';
+    document.getElementById('measResult').style.display='grid';
+    document.getElementById('measHint').textContent='Click pe alt obiect pentru o nouă măsurătoare';
+    measPt1=null; // ready for next pair
+  }
+}
+document.getElementById('btnMeasure').addEventListener('click',()=>measMode?exitMeasure():enterMeasure());
+document.getElementById('measClose').addEventListener('click',exitMeasure);
+
+// ═══ MULTI-WAVELENGTH MODE ══════════════════════════════════
+let currentWave='optical';
+// Radio sources (bright in radio mode)
+const RADIO_SRC=['Centaurus A','M87 Virgo A','3C 273','Markarian 231','NGC 1275 Perseus A',
+  'M84 (NGC 4374)','M86 (NGC 4406)','NGC 1316 Fornax A','NGC 4889 Coma cD','Maffei 2'];
+// X-ray bright (galaxy clusters and AGN)
+const XRAY_SRC=['M87 Virgo A','M49 (NGC 4472)','M84 (NGC 4374)','M86 (NGC 4406)','M60 (NGC 4649)',
+  'NGC 4889 Coma cD','NGC 4874 Coma','NGC 1399 Fornax cD','Centaurus A','NGC 1275 Perseus A'];
+
+const WAVE_DEFS={
+  optical:{bg:0x000108, galFn:(pm)=>({c:0xffffff,op:pm.material.userData?.origOp??0.92,vc:true})},
+  infrared:{bg:0x050104, galFn:(pm)=>{
+    const t=pm.userData.galType, nm=pm.userData.name||'';
+    if(t==='ehz')return{c:0xff5500,op:1.0,vc:false};
+    if(t==='qso')return{c:0xffaa33,op:0.9,vc:false};
+    if(t==='local')return{c:0xdd6622,op:0.65,vc:false};
+    return{c:0x882200,op:0.35,vc:false};
+  }},
+  radio:{bg:0x000005, galFn:(pm)=>{
+    const nm=pm.userData.name||'';
+    if(RADIO_SRC.some(r=>nm.includes(r.split(' ')[0])&&nm.length<r.length+5))return{c:0x4488ff,op:1.0,vc:false};
+    if(pm.userData.morph==='QSO'||pm.userData.galType==='qso')return{c:0x3366ee,op:0.8,vc:false};
+    return{c:0x334466,op:0.18,vc:false};
+  }},
+  xray:{bg:0x000008, galFn:(pm)=>{
+    const nm=pm.userData.name||'';
+    if(XRAY_SRC.some(r=>nm.includes(r.split(' ')[0])&&nm.length<r.length+5))return{c:0xff44cc,op:1.0,vc:false};
+    if(pm.userData.galType==='far')return{c:0xcc2288,op:0.45,vc:false};
+    return{c:0x332244,op:0.15,vc:false};
+  }},
+  dark:{bg:0x000310, galFn:(pm)=>({c:0x4466ff,op:0.75,vc:false})},
+};
+
+// Store original opacities
+galPts.forEach(pm=>{pm.material.userData={origOp:pm.material.opacity};});
+
+function applyWave(mode){
+  currentWave=mode;
+  const def=WAVE_DEFS[mode];
+  renderer.setClearColor(def.bg,1);
+  galPts.forEach(pm=>{
+    const {c,op,vc}=def.galFn(pm);
+    pm.material.vertexColors=vc;
+    pm.material.color.set(c);
+    pm.material.opacity=op;
+    pm.material.needsUpdate=true;
+  });
+  // Update wavelength button highlights
+  document.querySelectorAll('.wBtn').forEach(btn=>{
+    btn.classList.toggle('on',btn.dataset.wave===mode);
+  });
+}
+document.querySelectorAll('.wBtn').forEach(btn=>{
+  btn.addEventListener('click',()=>{applyWave(btn.dataset.wave);closeDrawer();});
+});
+
+// ═══ HUBBLE FLOW VECTORS ════════════════════════════════════
+// Galaxies known to approach us (negative radial velocity)
+const BLUESHIFT=new Set(['Andromeda M31','M33 Triangulum','M86 (NGC 4406)','M90 (NGC 4569)',
+  'IC 10','M32 (NGC 221)','M110 (NGC 205)','NGC 185','NGC 147']);
+
+(function buildHubble(){
+  galPts.forEach((pm,i)=>{
+    const d=pm.userData;
+    if(!d||d.galType==='ehz'||d.galType==='qso')return;
+    if(d.dMly===undefined||d.dMly>200)return; // only within 200 Mly
+    const p3=pm.position.clone();
+    const len3d=p3.length();
+    if(len3d<0.1)return;
+    const dMly=d.dMly;
+    const recession=H0*dMly*MPC_PER_MLY; // km/s Hubble flow
+    const isBlue=BLUESHIFT.has(d.name||'');
+    // Arrow direction: outward from MW (or inward for blueshifted)
+    const dir=p3.clone().normalize();
+    if(isBlue)dir.negate();
+    // Arrow length: scaled velocity, visible but not overlapping
+    const speed=isBlue?Math.abs(recession)+150:recession;
+    const arLen=Math.max(0.5,Math.min(4.0,speed/350));
+    const col=isBlue?0x4488ff:0xff5522;
+    const headLen=Math.min(arLen*0.3,0.8);
+    const headW=headLen*0.5;
+    const arrow=new THREE.ArrowHelper(dir,p3,arLen,col,headLen,headW);
+    arrow.visible=false; // starts hidden
+    arrow.userData={isHubble:true,recession,isBlue};
+    cosmicGroup.add(arrow);grpHubble.push(arrow);
+  });
+  // Also arrows for MW satellites (they're at p3≈0, show from origin)
+  const mwSats=[['LMC',eqV(5.39,-69.76,0.163)],['SMC',eqV(0.88,-72.83,0.200)]];
+  mwSats.forEach(([nm,p3])=>{
+    const dir=p3.clone().normalize();
+    const arrow=new THREE.ArrowHelper(dir,new THREE.Vector3(0,0,0),0.6,0xff7744,0.2,0.1);
+    arrow.visible=false;cosmicGroup.add(arrow);grpHubble.push(arrow);
+  });
+})();
+
+// ═══ MEASURE CLICK HANDLER (called from unified handleSelectAt) ════
+// The unified click handler at top calls handleMeasureClick when measureMode is true.
+// We need to expose `measureMode` and `handleMeasureClick` for it.
+let measureMode = false; // alias for measMode (set when toggleMeasure called)
+function toggleMeasure(){measMode?exitMeasure():enterMeasure();measureMode=measMode;}
+function handleMeasureClick(d){
+  if(d){
+    // We need world position — use last raycast hit if available
+    // For simplicity: use the userData and reconstruct position from the catalog
+    // Better: keep last hit object position (rc result is still in scope from handleSelectAt)
+    // We pass the position from the unified handler
+    const pos = window._lastClickHitPos || new THREE.Vector3();
+    if(!measPt1){setMeasPt(1,d,pos);}
+    else{setMeasPt(2,d,pos);}
+  } else {
+    // click on empty space resets pt1
+    measPt1=null;
+    document.getElementById('measBadge').textContent='📏 CLICK PE PRIMUL OBIECT';
+    document.getElementById('measName1').textContent='—';
+    document.getElementById('measName2').textContent='Click pe primul obiect…';
+    document.getElementById('measResult').style.display='none';
+    clearMeasLine();
+  }
+}
+
+// Patch enter/exitMeasure to keep measureMode synced
+const _origEnter=enterMeasure, _origExit=exitMeasure;
+enterMeasure=function(){_origEnter();measureMode=true;};
+exitMeasure=function(){_origExit();measureMode=false;};
+
+// Auto-pause tour when measure mode is entered (resolves z-index conflict)
+const _enter2=enterMeasure;
+enterMeasure=function(){
+  // If a tour is running, pause it
+  if(typeof tourSt!=='undefined' && tourSt.active && !tourSt.paused){
+    tourSt.paused=true;
+    clearTimeout(tourSt.timer);
+    clearInterval(tourSt.pi);
+    const pb=document.getElementById('tcPause');if(pb)pb.textContent='▶';
+  }
+  _enter2();
+};
+
+
+// ═══ STATS PANEL ═══════════════════════════════════════════
+const frustum=new THREE.Frustum();
+const camMat=new THREE.Matrix4();
+let statsOpen=false;
+
+const MORPH_TYPES=[
+  {key:'spiral',  label:'Spirale',    color:'#aaccff', check:m=>/^S[AB]?[abcd]/.test(m)&&!m.includes('S0')&&m!=='SBm'&&!m.includes('Irr')&&m!=='I0'},
+  {key:'ellip',   label:'Eliptice',   color:'#fff8cc', check:m=>m.startsWith('E')||m.startsWith('cD')},
+  {key:'lent',    label:'Lenticulare',color:'#ddeeff', check:m=>m.includes('S0')},
+  {key:'irr',     label:'Neregulate', color:'#88ffcc', check:m=>m.includes('Irr')||m==='I0'||m==='SBm'||m.endsWith('m')||m.includes('IBm')},
+  {key:'dwarf',   label:'Pitice',     color:'#7788aa', check:m=>m.startsWith('dS')||m.startsWith('dI')},
+  {key:'ehz',     label:'EHZ z>4',   color:'#ff4400', check:m=>m==='EHZ'},
+  {key:'qso',     label:'Quasari',    color:'#ffff88', check:m=>m==='QSO'},
+];
+const activeMorphTypes=new Set(MORPH_TYPES.map(t=>t.key));
+let distMin=0,distMax=46500;
+
+function getMorphKey(morph=''){for(const t of MORPH_TYPES)if(t.check(morph))return t.key;return 'spiral';}
+
+function applyFilters(){
+  galPts.forEach((pm,i)=>{
+    const d=pm.userData;
+    const dOk=(d.dMly||0)>=distMin&&(d.dMly||0)<=distMax;
+    const mOk=activeMorphTypes.has(getMorphKey(d.morph||''));
+    const type=d.galType;
+    const gOn=type==='local'?STATE.galLocal:type==='far'?STATE.galFar:type==='qso'?STATE.qso:type==='ehz'?STATE.ehz:true;
+    pm.visible=gOn&&(timeVis[i]??true)&&dOk&&mOk;
+  });
+}
+
+function buildTypeList(){
+  const counts={};galPts.forEach(pm=>{const k=getMorphKey(pm.userData.morph||'');counts[k]=(counts[k]||0)+1;});
+  const list=document.getElementById('typeList');
+  list.innerHTML=MORPH_TYPES.map(t=>`<div class="typeRow" data-mk="${t.key}">
+    <div class="typeDot" style="background:${t.color}55;outline:1px solid ${t.color}"></div>
+    <span class="typeName">${t.label}</span><span class="typeCnt">${counts[t.key]||0}</span>
+    <div class="typeCk on" id="tck-${t.key}">✓</div></div>`).join('');
+  list.querySelectorAll('.typeRow').forEach(row=>{
+    row.addEventListener('click',()=>{
+      const k=row.dataset.mk,ck=document.getElementById('tck-'+k);
+      if(activeMorphTypes.has(k)){activeMorphTypes.delete(k);ck.classList.remove('on');ck.textContent='';}
+      else{activeMorphTypes.add(k);ck.classList.add('on');ck.textContent='✓';}
+      applyFilters();
+    });
+  });
+}
+
+function buildHistogram(){
+  const bins=[{l:'LG',a:0,b:3},{l:'15M',a:3,b:15},{l:'60M',a:15,b:60},{l:'200M',a:60,b:200},
+    {l:'1G',a:200,b:1000},{l:'10G',a:1000,b:10000},{l:'30G',a:10000,b:30000},{l:'46G',a:30000,b:46500}];
+  bins.forEach(bn=>{bn.n=galPts.filter(pm=>{const d=pm.userData.dMly||0;return d>=bn.a&&d<bn.b;}).length;});
+  const mx=Math.max(...bins.map(bn=>bn.n),1),W=270,H=52,bw=W/bins.length-3;
+  document.getElementById('statHist').innerHTML=bins.map((bn,i)=>{
+    const bh=Math.max(2,(bn.n/mx)*(H-14)),x=i*(bw+3)+1,y=H-14-bh;
+    const col=['#4488cc','#3399cc','#22aa66','#88bb22','#ccaa22','#ee8822','#ff5522','#ff3300'][i];
+    return `<rect x="${x}" y="${y}" width="${bw}" height="${bh}" fill="${col}" opacity="0.7" rx="2"/>
+      <text x="${x+bw/2}" y="${H-1}" text-anchor="middle" fill="#2a3e4e" font-size="5.5" font-family="monospace">${bn.l}</text>
+      ${bn.n?`<text x="${x+bw/2}" y="${y-2}" text-anchor="middle" fill="#4a6e88" font-size="7" font-family="monospace">${bn.n}</text>`:''}`;
+  }).join('');
+}
+
+function updateFOVCount(){
+  camera.updateMatrixWorld();
+  camMat.multiplyMatrices(camera.projectionMatrix,camera.matrixWorldInverse);
+  frustum.setFromProjectionMatrix(camMat);
+  const n=galPts.filter(pm=>pm.visible&&frustum.containsPoint(pm.position)).length;
+  document.getElementById('sFOV').textContent=n;
+}
+
+function openStats(){statsOpen=true;document.getElementById('statsPnl').classList.add('open');document.getElementById('btnStats').classList.add('on');buildTypeList();buildHistogram();updateFOVCount();closeDrawer();}
+function closeStats(){statsOpen=false;document.getElementById('statsPnl').classList.remove('open');document.getElementById('btnStats').classList.remove('on');}
+
+document.getElementById('btnStats').addEventListener('click',()=>statsOpen?closeStats():openStats());
+document.getElementById('statsClose').addEventListener('click',closeStats);
+
+document.getElementById('fMin').addEventListener('input',function(){
+  distMin=parseInt(this.value);if(distMin>distMax){distMax=distMin;document.getElementById('fMax').value=distMax;}
+  document.getElementById('fMinVal').textContent=distMin>=1000?(distMin/1000).toFixed(1)+'k':distMin;applyFilters();
+});
+document.getElementById('fMax').addEventListener('input',function(){
+  distMax=parseInt(this.value);if(distMax<distMin){distMin=distMax;document.getElementById('fMin').value=distMin;}
+  document.getElementById('fMaxVal').textContent=distMax>=1000?(distMax/1000).toFixed(1)+'k':distMax;applyFilters();
+});
+
+function doExportCSV(){
+  const hdr='Nume,RA (ore),Dec (grade),Distanta (Mly),Morfologie,Tip,Culoare\n';
+  const rows=G.map(g=>{
+    const [nm,rh,dd,dMly,morph,,,,aC]=g;
+    const tp=MORPH_TYPES.find(t=>t.check(morph))?.label||'Spiral';
+    return `"${nm}",${rh},${dd},${dMly},"${morph}","${tp}","#${new THREE.Color(aC).getHexString()}"`;
+  }).join('\n');
+  // UTF-8 BOM (\uFEFF) ensures Excel reads diacritics correctly
+  const blob=new Blob(['\uFEFF'+hdr+rows],{type:'text/csv;charset=utf-8'});
+  const url=URL.createObjectURL(blob);const a=document.createElement('a');
+  a.href=url;a.download='galaxii_univers_observabil.csv';a.click();URL.revokeObjectURL(url);
+}
+document.getElementById('csvBtn').addEventListener('click',doExportCSV);
+document.getElementById('shareExportBtn').addEventListener('click',()=>{doExportCSV();closeDrawer();});
+
+// ═══ SHARE LINK ═════════════════════════════════════════════
+const SK=['grid','equator','axes','axlbl','rings','dlbl','shells','structs',
+  'galLocal','galFar','qso','ehz','pops','gallbl','stars','zoa','hubble','constel','lightcone'];
+
+function getShareURL(){
+  try{
+    const base=window.location.href.split('?')[0];
+    const p=new URLSearchParams();
+    p.set('cam',[theta.toFixed(3),phi.toFixed(3),camR.toFixed(1)].join(','));
+    let bits=0;SK.forEach((k,i)=>{if(STATE[k])bits|=(1<<i);});p.set('s',bits.toString(36));
+    p.set('w',currentWave);p.set('t',document.getElementById('timeSlider').value);
+    return base+'?'+p.toString();
+  }catch(e){return window.location.href;}
+}
+
+function showNotif(msg){
+  const n=document.getElementById('shareNotif');n.textContent=msg;n.style.display='block';
+  setTimeout(()=>n.style.display='none',2200);
+}
+
+document.getElementById('shareCopyBtn').addEventListener('click',()=>{
+  const u=getShareURL();
+  if(navigator.clipboard){navigator.clipboard.writeText(u).then(()=>showNotif('✓ LINK COPIAT!')).catch(()=>prompt('Link:',u));}
+  else prompt('Link:',u);
+  closeDrawer();
+});
+
+function applyURLParams(){
+  try{
+    const p=new URLSearchParams(window.location.search);
+    if(!p.has('cam'))return;
+    const c=p.get('cam').split(',').map(Number);
+    if(c.length===3&&!c.some(isNaN)){theta=c[0];phi=Math.max(0.08,Math.min(Math.PI-0.08,c[1]));camR=Math.max(CONFIG.CAM.MIN_R,Math.min(CONFIG.CAM.MAX_R,c[2]));}
+    if(p.has('s')){const bits=parseInt(p.get('s'),36);SK.forEach((k,i)=>{const v=!!(bits&(1<<i));applyToggle(k,v);const sw=document.getElementById('sw-'+k);if(sw)sw.classList.toggle('on',v);});}
+    if(p.has('w'))applyWave(p.get('w'));
+    if(p.has('t')){const tv=parseInt(p.get('t'));document.getElementById('timeSlider').value=tv;updateTime(tv/10);}
+    setAutorot(false);
+    updateCam();
+  }catch(e){}
+}
+
+// ═══ SCREENSHOT ══════════════════════════════════════════════
+function takeScreenshot(){
+  // Render once with current scene → grab WebGL canvas as PNG
+  renderer.render(scene,camera);
+  try{
+    cv.toBlob(blob=>{
+      if(!blob){showNotif('✗ EROARE SCREENSHOT');return;}
+      const url=URL.createObjectURL(blob);
+      const a=document.createElement('a');
+      const ts=new Date().toISOString().replace(/[:.]/g,'-').slice(0,19);
+      a.href=url;a.download=`univers_3d_${ts}.png`;a.click();
+      URL.revokeObjectURL(url);
+      showNotif('✓ SCREENSHOT SALVAT');
+    },'image/png');
+  }catch(e){
+    // Fallback for older browsers without toBlob support
+    try{
+      const dataUrl=cv.toDataURL('image/png');
+      const a=document.createElement('a');
+      a.href=dataUrl;a.download='univers_3d.png';a.click();
+      showNotif('✓ SCREENSHOT SALVAT');
+    }catch(e2){showNotif('✗ SCREENSHOT INDISPONIBIL');}
+  }
+  closeDrawer();
+}
+document.getElementById('shareScreenshotBtn').addEventListener('click',takeScreenshot);
+
+// ═══ CSV IMPORT (file picker + drag-drop) ═══════════════════
+function parseCSVLine(line){
+  // Simple parser: handles quoted strings with commas inside
+  const out=[];let cur='',inQ=false;
+  for(let i=0;i<line.length;i++){
+    const c=line[i];
+    if(c==='"'){inQ=!inQ;continue;}
+    if(c===','&&!inQ){out.push(cur.trim());cur='';continue;}
+    cur+=c;
+  }
+  out.push(cur.trim());
+  return out;
+}
+function importCSV(text){
+  const lines=text.split(/\r?\n/).filter(l=>l.trim().length);
+  if(!lines.length){showNotif('✗ FIȘIER GOL');return;}
+  // Skip header if first line contains non-numeric RA
+  let start=0;
+  const probe=parseCSVLine(lines[0]);
+  if(probe.length>=4 && isNaN(parseFloat(probe[1]))) start=1;
+  let added=0;
+  const importMat=new THREE.PointsMaterial({color:0x00ff88,size:1.4,sizeAttenuation:false,transparent:true,opacity:0.95});
+  for(let i=start;i<lines.length;i++){
+    const cols=parseCSVLine(lines[i]);
+    if(cols.length<4)continue;
+    const nm=cols[0]||'Imported '+i;
+    const ra=parseFloat(cols[1]);
+    const dec=parseFloat(cols[2]);
+    const dMly=parseFloat(cols[3]);
+    const morph=cols[4]||'Imp';
+    const desc=cols[5]||'Obiect importat de utilizator';
+    if(isNaN(ra)||isNaN(dec)||isNaN(dMly))continue;
+    const p3=eqV(ra,dec,dMly);
+    // Visual: small green sphere marker
+    const m=new THREE.Mesh(
+      new THREE.SphereGeometry(0.45,8,6),
+      new THREE.MeshBasicMaterial({color:0x00ff88,transparent:true,opacity:0.85,depthWrite:false})
+    );
+    m.position.copy(p3);
+    m.userData={pn:'⬢ '+nm,pt:'IMPORT · '+morph,pd:fmtDist(dMly),pz:dMly>100?'z>0':'z≈0',ptlb:'—',pa:'—',pc:desc,aC:0x00ff88,dMly,rh:ra,dd:dec,morph,z:dMly>100?dMly/4400:0};
+    cosmicGroup.add(m);hitboxes.push(m);
+    // Glow halo
+    const halo=new THREE.Mesh(new THREE.SphereGeometry(1.2,8,6),new THREE.MeshBasicMaterial({color:0x00ff88,transparent:true,opacity:0.18,depthWrite:false}));
+    halo.position.copy(p3);cosmicGroup.add(halo);
+    // Label
+    const div=document.createElement('div');div.className='gl';div.textContent='⬢ '+nm;
+    div.style.color='#00ff88';div.style.fontWeight='bold';
+    lw.appendChild(div);lblDivs.push({div,p3,R:0.45,d:dMly});
+    added++;
+  }
+  showNotif(added>0?`✓ ${added} OBIECTE IMPORTATE`:'✗ NICIO LINIE VALIDĂ');
+}
+document.getElementById('shareImportBtn').addEventListener('click',()=>{
+  document.getElementById('csvImportInp').click();
+});
+document.getElementById('csvImportInp').addEventListener('change',e=>{
+  const f=e.target.files?.[0];if(!f)return;
+  const r=new FileReader();
+  r.onload=ev=>{importCSV(ev.target.result);closeDrawer();};
+  r.readAsText(f);
+  e.target.value=''; // allow re-importing same file
+});
+
+// Drag & drop CSV anywhere on the body
+let _dropCounter=0;
+const dropHint=document.getElementById('dropHint');
+document.body.addEventListener('dragenter',e=>{
+  e.preventDefault();_dropCounter++;
+  if(e.dataTransfer?.types?.includes('Files'))dropHint.classList.add('show');
+});
+document.body.addEventListener('dragover',e=>{e.preventDefault();});
+document.body.addEventListener('dragleave',e=>{
+  e.preventDefault();_dropCounter--;
+  if(_dropCounter<=0){_dropCounter=0;dropHint.classList.remove('show');}
+});
+document.body.addEventListener('drop',e=>{
+  e.preventDefault();_dropCounter=0;dropHint.classList.remove('show');
+  const f=e.dataTransfer?.files?.[0];if(!f)return;
+  if(!f.name.match(/\.csv$/i)&&f.type!=='text/csv'){showNotif('✗ DOAR .CSV');return;}
+  const r=new FileReader();
+  r.onload=ev=>importCSV(ev.target.result);
+  r.readAsText(f);
+});
+
+// ═══ DID YOU KNOW WIDGET ════════════════════════════════════
+const DYK_TIPS = [
+  'Lumina galaxiei JADES-GS-z14-0 a călătorit 13,5 miliarde de ani — o vedem aproape de Big Bang.',
+  'Andromeda (M31) se apropie de noi cu ~110 km/s. Coliziunea va începe peste ~4,5 miliarde de ani.',
+  'CMB este radiația de la 380.000 de ani după Big Bang — restul fotonilor liberi din Universul timpuriu.',
+  'Quasarul ULAS J1342+0928 este alimentat de o gaură neagră de 800 milioane mase solare la doar 690 My după Big Bang.',
+  'Marele Atractor ne trage spre el cu ~600 km/s — nu știm exact ce este, fiind ascuns de Zona de Evitare.',
+  'Sloan Great Wall, lung de 1,4 Gly, este una dintre cele mai mari structuri cunoscute din Univers.',
+  'Universul observabil are diametru de 93 Gly, deși are doar 13,8 Gy vechime — datorită expansiunii spațiului.',
+  'Roiul Coma conține peste 1.000 de galaxii într-o regiune de doar 20 Mly — densitate enormă.',
+  'Galaxiile la z>10 (vârstă <500 My) ne arată că formarea galactică a fost mai rapidă decât prevedeau modelele.',
+  'Pitica Sagittarius este în proces de canibalizare de către Calea Lactee — ne va fi parte într-un miliard de ani.',
+  'Vela Supercluster, descoperit în 2017, era ascuns în spatele planului galactic — un gigant la 800 Mly.',
+  'Constelațiile sunt aranjamente accidentale: stelele lor pot fi la distanțe foarte diferite.',
+  'Hubble flow: galaxiile la 100 Mly se depărtează cu ~7.000 km/s. La distanțe mari, vedem doar lumina lor veche.',
+  'Lacta-Andromeda Group conține ~80 galaxii pitice — multe sub limita de detecție optică.',
+  'Catalogul JWST 2024 conține peste 700 galaxii confirmate la z>9 — mai multe decât prevedea ΛCDM standard.',
+];
+let _dykIdx = -1, _dykShown = false, _dykTimer = null;
+const dyk = document.getElementById('dykWidget');
+const dykText = document.getElementById('dykText');
+function showDyk(){
+  _dykIdx = (_dykIdx+1) % DYK_TIPS.length;
+  dykText.textContent = DYK_TIPS[_dykIdx];
+  dyk.classList.add('show');
+  _dykShown = true;
+}
+function hideDyk(){dyk.classList.remove('show');_dykShown=false;clearTimeout(_dykTimer);}
+document.getElementById('dykClose').addEventListener('click',hideDyk);
+document.getElementById('dykNext').addEventListener('click',showDyk);
+// Keyboard activation for accessibility
+['dykClose','dykNext'].forEach(id=>{
+  document.getElementById(id).addEventListener('keydown',e=>{
+    if(e.key==='Enter'||e.key===' '){e.preventDefault();document.getElementById(id).click();}
+  });
+});
+// Show first tip after 8 seconds, then cycle every 30s while user idle
+setTimeout(()=>{if(!_dykShown && !document.getElementById('pnl').style.display==='block')showDyk();},8000);
+setInterval(()=>{
+  // Don't interrupt active interactions
+  if(_dykShown)return;
+  if(document.getElementById('pnl').style.display==='block')return;
+  if(document.getElementById('drawer').classList.contains('open'))return;
+  if(srchOvl.classList.contains('open'))return;
+  if(measureMode)return;
+  showDyk();
+},45000);
+
+// ═══ BOOKMARKS ══════════════════════════════════════════════
+const BK='univers_obs_bk';
+function loadBK(){try{return JSON.parse(localStorage.getItem(BK)||'[]');}catch(e){return[];}}
+function saveBK(bks){try{localStorage.setItem(BK,JSON.stringify(bks));}catch(e){}}
+
+function addBookmark(){
+  const pnEl=document.getElementById('pn');
+  const name=(pnEl.textContent||pnEl.innerText||'').trim();
+  if(!name||name==='—')return;
+  const bks=loadBK();
+  if(bks.find(b=>b.name===name)){showNotif('★ Deja în bookmarks');return;}
+  const g=G.find(gg=>gg[0]===name);
+  if(!g){showNotif('⚠ Galaxie negăsită');return;}
+  bks.push({name:g[0],rh:g[1],dd:g[2],dMly:g[3],aC:g[7]});
+  saveBK(bks);renderBK();showNotif('⭐ Bookmark adăugat!');
+}
+
+function renderBK(){
+  const bks=loadBK(),cont=document.getElementById('bkList');
+  if(!bks.length){cont.innerHTML='<div id="noBk">Niciun bookmark. Click pe o galaxie → ⭐.</div>';return;}
+  cont.innerHTML=bks.map((b,i)=>{
+    const col='#'+new THREE.Color(b.aC||0xffffff).getHexString();
+    const ds=b.dMly<1?(b.dMly*1000).toFixed(0)+'kly':b.dMly<1000?b.dMly.toFixed(1)+' Mly':(b.dMly/1000).toFixed(2)+' Gly';
+    return `<div class="bkItem" data-bi="${i}"><div class="bkDot" style="background:${col}44;outline:1px solid ${col}"></div><span class="bkName">${b.name}</span><span class="bkDist">${ds}</span><span class="bkDel" data-del="${i}">✕</span></div>`;
+  }).join('');
+  cont.querySelectorAll('.bkItem').forEach(el=>{
+    el.addEventListener('click',e=>{
+      if(e.target.dataset.del!==undefined)return;
+      const b=loadBK()[parseInt(el.dataset.bi)];if(!b)return;
+      const pos3=eqV(b.rh,b.dd,b.dMly);
+      flyToItem({name:b.name,pos3,dist:b.dMly,isShell:false});closeDrawer();
+    });
+    el.querySelectorAll('[data-del]').forEach(d=>{
+      d.addEventListener('click',e=>{
+        e.stopPropagation();const bks2=loadBK();bks2.splice(parseInt(d.dataset.del),1);saveBK(bks2);renderBK();
+      });
+    });
+  });
+}
+
+document.getElementById('bkBtn').addEventListener('click',addBookmark);
+renderBK();
+function pr(v){const u=v.clone().project(camera);return{x:(u.x+1)/2*innerWidth,y:-(u.y-1)/2*innerHeight,b:u.z>1};}
+function setLbl(div,p3){const s=pr(p3);if(s.b||s.x<0||s.x>innerWidth||s.y<0||s.y>innerHeight){div.style.display='none';}else{div.style.display='block';div.style.left=s.x+'px';div.style.top=s.y+'px';}}
+const zNms=[[3,'Grup Local'],[22,'Volum Local'],[55,'Superclusteri'],[85,'Nearby Univers'],[112,'z < 1'],[125,'Univers Profund'],[145,'Aproape de CMB'],[999,'Universul Observabil']];
+function zoneName(r){for(const[l,n] of zNms)if(r<l)return n;return zNms[zNms.length-1][1];}
+
+// ═══ ANIMATE ═══════════════════════════════════════════════
+let animT=0;
+let _lastFrameT = performance.now();
+function animate(){
+  requestAnimationFrame(animate);
+  const now = performance.now();
+  const dtSec = Math.min(0.1, (now - _lastFrameT) / 1000);
+  _lastFrameT = now;
+  animT+=REDUCED_MOTION?0.0015:0.004;
+
+  // Fly-to
+  if(flyAnim){
+    const prog=Math.min((now-flyAnim.t0)/flyAnim.dur,1);
+    const ease=eIC(prog);
+    theta=flyAnim.fT+(flyAnim.tT-flyAnim.fT)*ease;
+    phi=Math.max(0.08,Math.min(Math.PI-0.08,flyAnim.fP+(flyAnim.tP-flyAnim.fP)*ease));
+    camR=flyAnim.fR+(flyAnim.tR-flyAnim.fR)*ease;
+    updateCam();
+    if(prog>=1)flyAnim=null;
+  } else if(STATE.autorot && !REDUCED_MOTION){
+    theta+=CONFIG.AUTOROT_SPEED;updateCam();
+  }
+
+  // Vela ring (direct ref instead of scene.children.forEach)
+  if(velaRing && velaRing.visible){
+    velaRing.scale.setScalar(0.9+0.15*Math.sin(animT*2.5));
+  }
+  // Hubble flow pulse (cached array)
+  if(STATE.hubble){
+    grpHubble.forEach(ch=>{
+      if(!ch.visible)return;
+      const op=0.55+0.35*Math.sin(animT*(ch.userData.isBlue?2.2:1.8));
+      ch.children.forEach(c=>{if(c.material)c.material.opacity=op;});
+    });
+  }
+  // Light cone animation
+  tickLightcone(dtSec);
+
+  // Measure markers pulse
+  if(measM1){const s=1+0.12*Math.sin(animT*3);measM1.scale.setScalar(s);}
+  if(measM2){const s=1+0.12*Math.sin(animT*3+1);measM2.scale.setScalar(s);}
+
+  // Apply cosmic group scale to label positions (so labels follow shrunk galaxies)
+  const gScale = cosmicGroup.scale.x;
+
+  // Shell labels
+  shellLblDivs.forEach(({div,lp})=>{
+    if(!STATE.dlbl||div.dataset.hide){div.style.display='none';return;}
+    const wp = lp.clone().multiplyScalar(gScale);
+    setLbl(div,wp);
+  });
+  // Axis labels (NOT in cosmicGroup → no scale)
+  axDivs.forEach(({div,p3})=>{if(!STATE.axlbl||div.dataset.hide){div.style.display='none';return;}setLbl(div,p3);});
+  // Galaxy labels
+  const showGL=STATE.gallbl||(camR<CONFIG.LABEL_AUTO_ZOOM);
+  lblDivs.forEach(({div,p3,R,d,isZoA})=>{
+    if(!showGL&&!isZoA&&d>12&&camR>25){div.style.display='none';return;}
+    if(!showGL&&d>CONFIG.LABEL_HIDE_DIST&&!isZoA){div.style.display='none';return;}
+    const wp = p3.clone().multiplyScalar(gScale).add(new THREE.Vector3(0,R*1.5*gScale,0));
+    setLbl(div,wp);
+  });
+  document.getElementById('zhint').textContent=zoneName(camR);
+  // Live stats tick (every ~90 frames ≈ 1.5s) — only recompute when camera moved
+  statsTick++;
+  if(statsOpen && statsTick%90===0 && cameraDirty){updateFOVCount();cameraDirty=false;}
+  renderer.render(scene,camera);
+}
+animate();
+// Apply URL state after scene is fully built
+applyURLParams();
+</script>
+</body>
+</html>
