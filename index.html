@@ -12,6 +12,10 @@
 <meta property="og:title" content="Universul Observabil · 3D">
 <meta property="og:description" content="Călătorie prin Universul observabil — de la Calea Lactee până la MoM-z14, cea mai îndepărtată galaxie cunoscută (z=14,44, JWST 2026). Aplicație într-un singur fișier, complet offline (Three.js înglobat).">
 <meta property="og:type" content="website">
+<!-- TODO#10 + TODO#3: meta versioning pentru comparare cross-mirror -->
+<meta name="up3-version" content="1.2">
+<meta name="up3-build-date" content="2026-05-06">
+<!-- Hash-ul real al catalogului e calculat la runtime — vezi computeCatalogHash() în JS -->
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='14' fill='%23040814' stroke='%234a80cc' stroke-width='1.5'/><circle cx='16' cy='16' r='1.5' fill='%23ffe8a0'/><circle cx='10' cy='12' r='0.7' fill='%23aaccff'/><circle cx='22' cy='10' r='0.5' fill='%23ffaa66'/><circle cx='9' cy='21' r='0.6' fill='%23ff6644'/><circle cx='23' cy='22' r='0.5' fill='%23ffffff'/><circle cx='16' cy='6' r='0.4' fill='%23ffcc44'/><circle cx='6' cy='17' r='0.4' fill='%23ddeeff'/><circle cx='26' cy='17' r='0.4' fill='%23ff8844'/></svg>">
 <link rel="manifest" href='data:application/manifest+json;charset=utf-8,{"name":"Universul Observabil 3D","short_name":"Univers 3D","description":"Hartă 3D interactivă a Universului observabil","start_url":"./","display":"standalone","background_color":"%23040814","theme_color":"%23040814","orientation":"any","icons":[{"src":"data:image/svg+xml;utf8,<svg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 192 192%27><circle cx=%2796%27 cy=%2796%27 r=%2784%27 fill=%27%23040814%27 stroke=%27%234a80cc%27 stroke-width=%279%27/><circle cx=%2796%27 cy=%2796%27 r=%279%27 fill=%27%23ffe8a0%27/><circle cx=%2760%27 cy=%2772%27 r=%274%27 fill=%27%23aaccff%27/><circle cx=%27132%27 cy=%2760%27 r=%273%27 fill=%27%23ffaa66%27/><circle cx=%2754%27 cy=%27126%27 r=%273.5%27 fill=%27%23ff6644%27/><circle cx=%27138%27 cy=%27132%27 r=%273%27 fill=%27%23ffffff%27/></svg>","sizes":"192x192","type":"image/svg+xml"}]}'>
 <style>
@@ -317,6 +321,26 @@ kbd{background:rgba(70,130,255,0.09);border:1px solid rgba(70,130,255,0.18);bord
 #timePlayBtn{width:34px;height:34px;border-radius:8px;flex-shrink:0;border:1px solid rgba(70,130,255,0.2);background:rgba(70,130,255,0.07);color:var(--dim);font-size:14px;display:flex;align-items:center;justify-content:center;cursor:pointer;}
 .timeExtr{display:flex;justify-content:space-between;font-size:9px;color:var(--dimmer);margin-top:2px;}
 #shrinkInfo{font-size:9px;color:var(--dimmest);text-align:center;margin-top:6px;font-style:italic;line-height:1.4;}
+/* ── COSMO-PARAM SEGMENTED CONTROLS (H₀ Planck/SH0ES + Lookback/Comoving) ── TODO#2 + TODO#9 ── */
+.cpRow{display:flex;flex-direction:column;gap:4px;margin-top:8px;padding-top:8px;border-top:1px solid rgba(70,130,255,0.08);}
+.cpLabel{font-size:9px;color:var(--dimmer);letter-spacing:1px;text-transform:uppercase;font-weight:700;display:flex;justify-content:space-between;align-items:center;}
+.cpLabel .cpVal{color:#88aacc;font-weight:600;letter-spacing:0;text-transform:none;font-size:10px;}
+.cpSeg{display:flex;background:rgba(70,130,255,0.06);border:1px solid rgba(70,130,255,0.13);border-radius:6px;padding:2px;gap:2px;}
+.cpSeg-btn{flex:1;padding:5px 4px;font-size:10px;color:var(--dim);text-align:center;cursor:pointer;border-radius:4px;border:none;background:transparent;font-family:inherit;line-height:1.25;transition:all .18s;}
+.cpSeg-btn:hover{color:#aaccee;background:rgba(70,130,255,0.07);}
+.cpSeg-btn.act{background:linear-gradient(135deg,#2a5090,#4a80cc);color:#fff;font-weight:600;box-shadow:0 1px 4px rgba(70,130,255,0.3);}
+.cpSeg-btn small{display:block;font-size:8.5px;opacity:0.78;font-weight:400;margin-top:1px;}
+.cpHelp{font-size:9px;color:var(--dimmest);font-style:italic;line-height:1.45;margin-top:3px;}
+/* ── TODO#4: Legendă EHZ spec-z vs phot-z ──────────── */
+#ehzLegend{position:fixed;bottom:14px;right:14px;background:rgba(2,5,18,0.94);border:1px solid rgba(255,85,119,0.32);border-radius:9px;padding:9px 12px;font-size:10.5px;color:var(--dim);z-index:158;display:none;flex-direction:column;gap:5px;max-width:280px;backdrop-filter:blur(6px);box-shadow:0 4px 16px rgba(0,0,0,0.45);}
+.ehzL-title{font-size:9.5px;letter-spacing:1.4px;color:#ff88aa;font-weight:700;text-transform:uppercase;}
+.ehzL-row{display:flex;align-items:center;gap:9px;font-size:10px;line-height:1.35;}
+.ehzL-row strong{color:#ffaacc;}
+.ehzL-bar{display:inline-block;width:32px;height:4px;border-radius:2px;flex-shrink:0;}
+.ehzL-spec{background:linear-gradient(90deg,#ff5577,#ff8855,#ff5577);box-shadow:0 0 6px rgba(255,85,119,0.5);}
+.ehzL-phot{background:linear-gradient(90deg,#ff44dd,#cc66ff,#ff44dd);box-shadow:0 0 6px rgba(204,102,255,0.5);}
+.ehzL-foot{font-size:9px;color:var(--dimmer);font-style:italic;border-top:1px solid rgba(255,85,119,0.15);padding-top:4px;margin-top:1px;}
+@media (max-width:600px){#ehzLegend{bottom:auto;top:60px;right:8px;font-size:10px;max-width:230px;padding:7px 9px;}}
 /* FLOATING LABELS */
 #flyLbl{position:fixed;top:58px;left:50%;transform:translateX(-50%);background:rgba(1,4,18,0.9);border:1px solid rgba(70,130,255,0.15);border-radius:20px;padding:5px 18px;font-size:10px;color:var(--dim);letter-spacing:2px;z-index:155;display:none;pointer-events:none;}
 #timeFloat{position:fixed;top:58px;left:50%;transform:translateX(-50%);background:rgba(1,4,18,0.94);border:1px solid rgba(70,130,255,0.18);border-radius:20px;padding:6px 18px;font-size:10.5px;color:#88aacc;letter-spacing:1px;z-index:160;display:none;white-space:nowrap;pointer-events:none;}
@@ -429,6 +453,48 @@ kbd{background:rgba(70,130,255,0.09);border:1px solid rgba(70,130,255,0.18);bord
 #webglErr.show{display:flex;}
 #webglErr h2{font-size:14px;color:#ff8866;letter-spacing:2px;}
 #webglErr p{font-size:11px;color:var(--dim);max-width:400px;line-height:1.6;}
+
+/* ── v1.1: GENTLE START MODE — ascunde funcționalități avansate ── */
+/* Când <body> are clasa .gentle-start, se ascund: detalii cosmologice (D_A, factor scară),
+   toggle-uri tehnice (BAO, vectori Hubble, con de lumină, populații, constelații) */
+body.gentle-start #cosmoCalcWrap{display:none;}
+body.gentle-start .tog[data-key="hubble"],
+body.gentle-start .tog[data-key="lightcone"],
+body.gentle-start .tog[data-key="constel"],
+body.gentle-start .tog[data-key="bao"],
+body.gentle-start .tog[data-key="uncert"]{display:none;}
+body.gentle-start #bibtexWrap{display:none !important;}
+/* Indicator vizual subtil în topbar când modul blând e activ */
+body.gentle-start #ttl::after{
+  content:' · 🌱';font-size:11px;opacity:0.6;letter-spacing:0;
+}
+
+/* ── v1.1: Buton mod blând în drawer ── */
+.gentleRow{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:9px;
+  background:linear-gradient(135deg,rgba(60,180,120,0.08),rgba(120,200,160,0.04));
+  border:1px solid rgba(80,180,130,0.18);cursor:pointer;transition:background 0.15s,border-color 0.15s;
+  margin-bottom:6px;}
+.gentleRow:hover{background:linear-gradient(135deg,rgba(60,180,120,0.14),rgba(120,200,160,0.08));border-color:rgba(80,180,130,0.32);}
+.gentleRow.on{background:linear-gradient(135deg,rgba(60,180,120,0.22),rgba(120,200,160,0.12));border-color:rgba(80,200,140,0.5);}
+.gentleIcon{font-size:18px;}
+.gentleTxt{flex:1;display:flex;flex-direction:column;gap:1px;}
+.gentleName{font-size:11px;color:#aaccdd;font-weight:600;letter-spacing:0.4px;}
+.gentleSub{font-size:9px;color:#5a7088;line-height:1.3;}
+.gentleSw{width:32px;height:18px;border-radius:9px;background:#1a2838;border:1px solid #2a4060;position:relative;flex-shrink:0;}
+.gentleSw::after{content:'';position:absolute;left:2px;top:1px;width:13px;height:13px;border-radius:50%;background:#3a5070;transition:left 0.18s,background 0.18s;}
+.gentleRow.on .gentleSw{background:rgba(80,200,140,0.3);border-color:rgba(80,200,140,0.6);}
+.gentleRow.on .gentleSw::after{left:16px;background:#5fcc8c;}
+
+/* ── v1.1: Buton glTF export ── */
+#shareGltfBtn .shareIcon{color:#aaccff;}
+
+/* ── v1.1: Toast pentru export glTF ── */
+#gltfNotif{position:fixed;bottom:80px;left:50%;transform:translateX(-50%);
+  background:rgba(20,30,50,0.95);color:#aaddff;padding:11px 18px;border-radius:10px;
+  font-size:11px;letter-spacing:0.5px;border:1px solid rgba(80,140,220,0.4);
+  z-index:9000;display:none;box-shadow:0 6px 24px rgba(0,0,0,0.5);}
+#gltfNotif.show{display:block;animation:gltfFade 0.25s;}
+@keyframes gltfFade{from{opacity:0;transform:translate(-50%,8px);}to{opacity:1;transform:translate(-50%,0);}}
 </style>
 </head>
 <body>
@@ -499,6 +565,7 @@ kbd{background:rgba(70,130,255,0.09);border:1px solid rgba(70,130,255,0.18);bord
 
 <!-- Share notification -->
 <div id="shareNotif" role="status" aria-live="polite">✓ LINK COPIAT!</div>
+<div id="gltfNotif" role="status" aria-live="polite"></div>
 
 <!-- Canvas + label overlay – TREBUIE să fie primele după topbar -->
 <canvas id="c" aria-label="Vizualizare 3D Universul Observabil"></canvas>
@@ -543,6 +610,9 @@ kbd{background:rgba(70,130,255,0.09);border:1px solid rgba(70,130,255,0.18);bord
   <div id="bibtexWrap">
     <button id="bibtexBtn">📋 Copiază BibTeX</button>
     <div id="bibtexNotif">✓ BIBTEX COPIAT!</div>
+    <!-- TODO#5: buton pentru citația aplicației (Zenodo DOI) -->
+    <button id="appCiteBtn" title="Copiază citația aplicației în BibTeX (cu DOI Zenodo)" style="width:100%;margin-top:5px;padding:6px 8px;border-radius:6px;border:1px solid rgba(180,140,255,0.25);background:rgba(140,90,200,0.07);color:var(--dimmer);font-size:9.5px;cursor:pointer;font-family:Arial,sans-serif;letter-spacing:0.5px;">📚 Citează această aplicație</button>
+    <div id="appCiteNotif" style="font-size:9px;color:var(--hot);text-align:center;margin-top:3px;display:none;letter-spacing:1px;">✓ CITAȚIE APP COPIATĂ!</div>
   </div>
 </div>
 
@@ -602,6 +672,14 @@ kbd{background:rgba(70,130,255,0.09);border:1px solid rgba(70,130,255,0.18);bord
 <div id="measBadge" aria-hidden="true">📏 SELECTEAZĂ PRIMUL OBIECT</div>
 <div id="hubbleLbl" aria-hidden="true">FLUX HUBBLE ACTIV</div>
 
+<!-- TODO#4: Legendă spec-z vs phot-z (apare când toggle „Bare incertitudine z" e activ) -->
+<div id="ehzLegend" aria-hidden="true">
+  <div class="ehzL-title">📏 Bare de eroare EHZ</div>
+  <div class="ehzL-row"><span class="ehzL-bar ehzL-spec"></span><span><strong>spec-z</strong> · spectroscopic (precis, σ_z &lt; 0,01)</span></div>
+  <div class="ehzL-row"><span class="ehzL-bar ehzL-phot"></span><span><strong>phot-z</strong> · photometric (estimat, σ_z ≈ 0,1–0,5)</span></div>
+  <div class="ehzL-foot">Lungimea barei = ±1σ în distanța comovingă</div>
+</div>
+
 <!-- Measure panel -->
 <div id="measPnl" role="region" aria-label="Măsurătoare distanță">
   <div id="measHdr"><span id="measLbl">📏 MĂSURĂTOARE DISTANȚĂ</span><button id="measClose" aria-label="Închide măsurătoare">✕</button></div>
@@ -624,6 +702,16 @@ kbd{background:rgba(70,130,255,0.09);border:1px solid rgba(70,130,255,0.18);bord
 <div id="drawer">
   <div id="drawer-handle"></div>
   <div id="drawer-inner">
+    <div class="drsec" style="padding-bottom:6px;">
+      <div class="gentleRow" id="gentleStartRow" role="button" tabindex="0" aria-pressed="false">
+        <span class="gentleIcon">🌱</span>
+        <div class="gentleTxt">
+          <span class="gentleName">Mod început blând</span>
+          <span class="gentleSub">Ascunde detalii avansate (D_A, BAO, vectori, BibTeX) — pentru întâlnirea cu Universul fără jargon.</span>
+        </div>
+        <span class="gentleSw"></span>
+      </div>
+    </div>
     <div class="drsec">
       <div class="drsec-title">Grilă & Coordonate</div>
       <div class="tog" data-key="grid"><div class="tog-left"><div class="tog-dot" style="background:#2a4060"></div><div><span class="tog-name">Grilă RA/Dec</span><span class="tog-sub">Meridiane și paralele sferice</span></div></div><div class="sw on" id="sw-grid"></div></div>
@@ -639,6 +727,8 @@ kbd{background:rgba(70,130,255,0.09);border:1px solid rgba(70,130,255,0.18);bord
       <div class="tog" data-key="shells"><div class="tog-left"><div class="tog-dot" style="background:#336699"></div><div><span class="tog-name">Cochilii orizonturi</span><span class="tog-sub">Hubble, CMB, Univers Obs.</span></div></div><div class="sw on" id="sw-shells"></div></div>
       <div class="tog" data-key="structs"><div class="tog-left"><div class="tog-dot" style="background:#ff7722"></div><div><span class="tog-name">Superclusteri & structuri</span><span class="tog-sub">Laniakea, Vela, Atractor</span></div></div><div class="sw on" id="sw-structs"></div></div>
       <div class="tog" data-key="lightcone"><div class="tog-left"><div class="tog-dot" style="background:#ffaa44"></div><div><span class="tog-name">Con de lumină trecut</span><span class="tog-sub">Anim. expansiunii observ. din MW</span></div></div><div class="sw" id="sw-lightcone"></div></div>
+      <div class="tog" data-key="bao"><div class="tog-left"><div class="tog-dot" style="background:#88ccff"></div><div><span class="tog-name">Scală BAO (~490 Mly)</span><span class="tog-sub">Oscilații baronice acustice · tensiunea Hubble</span></div></div><div class="sw" id="sw-bao"></div></div>
+      <div class="tog" data-key="uncert"><div class="tog-left"><div class="tog-dot" style="background:#ff5577"></div><div><span class="tog-name">Bare incertitudine z</span><span class="tog-sub">Eroare distanță pe galaxiile EHZ (z fot. vs spec.)</span></div></div><div class="sw" id="sw-uncert"></div></div>
     </div>
     <div class="drsec">
       <div class="drsec-title">Galaxii</div>
@@ -661,8 +751,28 @@ kbd{background:rgba(70,130,255,0.09);border:1px solid rgba(70,130,255,0.18);bord
       <div id="timeDsp">PREZENT · z = 0</div>
       <div id="timeAge">Universul are 13,8 miliarde ani</div>
       <div class="timeRow"><input type="range" id="timeSlider" min="0" max="138" value="138" step="1" aria-label="Timp cosmic"><div id="timePlayBtn" role="button" tabindex="0" aria-label="Redă animația cosmică">▶</div></div>
-      <div class="timeExtr"><span>Big Bang (z=1100)</span><span>Prezent (z=0)</span></div>
-      <div id="shrinkInfo">Slid-ează pentru a vedea Universul contractându-se spre Big Bang. Galaxiile se apropie cu factorul a(t)=1/(1+z).</div>
+      <div class="timeExtr"><span title="z=1100 marchează Recombinarea (eliberarea CMB la ~380.000 ani după Big Bang), nu Big Bang-ul însuși (t=0).">Recombinare (z=1100)</span><span>Prezent (z=0)</span></div>
+      <div id="shrinkInfo">Slid-ează pentru a vedea Universul contractându-se spre <em>Recombinare</em> (z=1100, ~380.000 ani după Big Bang — momentul eliberării CMB). Galaxiile se apropie cu factorul a(t)=1/(1+z).</div>
+
+      <!-- TODO#2: H₀ Planck vs SH0ES (Tensiunea Hubble) -->
+      <div class="cpRow">
+        <div class="cpLabel"><span>H₀ · Constanta Hubble</span><span class="cpVal" id="cpH0Val">67,4 km/s/Mpc</span></div>
+        <div class="cpSeg" role="radiogroup" aria-label="Selectează valoarea H₀">
+          <button class="cpSeg-btn act" data-h0="planck" role="radio" aria-checked="true" title="Planck 2018 — derivat din CMB (Universul timpuriu)">Planck<small>67,4</small></button>
+          <button class="cpSeg-btn" data-h0="shoes" role="radio" aria-checked="false" title="SH0ES 2022 — derivat din scara distanțelor cu cefeide (Riess et al.)">SH0ES<small>73,0</small></button>
+        </div>
+        <div class="cpHelp">Diferența dintre cele două = <strong>tensiunea Hubble</strong> (~5σ). Planck implică t₀≈13,8 Gyr · SH0ES ≈ 12,7 Gyr.</div>
+      </div>
+
+      <!-- TODO#9: Lookback ↔ Comoving (Mod afișare distanțe) -->
+      <div class="cpRow">
+        <div class="cpLabel"><span>Mod distanțe</span><span class="cpVal" id="cpDistVal">Comoving (prezent)</span></div>
+        <div class="cpSeg" role="radiogroup" aria-label="Selectează modul distanțe">
+          <button class="cpSeg-btn act" data-dmode="comoving" role="radio" aria-checked="true" title="Distanța comovingă curentă — unde se află galaxia ACUM, după extinderea spațiului">Comoving<small>azi</small></button>
+          <button class="cpSeg-btn" data-dmode="lookback" role="radio" aria-checked="false" title="Distanța de privire-înapoi = c × t_LB — cât a călătorit lumina">Lookback<small>c · t_LB</small></button>
+        </div>
+        <div class="cpHelp">Pentru obiecte apropiate sunt egale. Pentru EHZ z=14 diferența e enormă: comoving ≈ 33 Gly · lookback ≈ 13,5 Gly.</div>
+      </div>
     </div>
     <div class="drsec">
       <div class="drsec-title">🎬 Tururi Ghidate</div>
@@ -685,6 +795,10 @@ kbd{background:rgba(70,130,255,0.09);border:1px solid rgba(70,130,255,0.18);bord
       <div class="shareRow" id="shareImportBtn" role="button" tabindex="0">
         <span class="shareIcon">📂</span>
         <div><span class="shareName">Importă obiecte CSV</span><span class="shareSub">Drop sau click — formă: nume,RA,Dec,Mly,morf,desc</span></div>
+      </div>
+      <div class="shareRow" id="shareGltfBtn" role="button" tabindex="0">
+        <span class="shareIcon">🎨</span>
+        <div><span class="shareName">Exportă scenă glTF (.glb)</span><span class="shareSub">Pentru Blender, three.js, Babylon — material didactic offline</span></div>
       </div>
       <input type="file" id="csvImportInp" accept=".csv,text/csv" style="display:none">
     </div>
@@ -783,7 +897,8 @@ const STRINGS = {
     bk_btn:'⭐ Adaugă Bookmark', search_ph:'Caută galaxie, quasar, orizont...',
     screenshot_name:'Salvează screenshot', screenshot_sub:'PNG 2K cu titlu și legendă',
     lang_next:'EN',
-    footer:'Catalog: mai 2026 · Record JWST: MoM-z14, z=14,44 · Univers Observabil 3D',
+    footer:'Catalog: mai 2026 · Record JWST: MoM-z14, z=14,44 · Univers Observabil 3D · v{V} · build {D} · #{H}',
+    footer_tip:'Versiune & hash catalog — click pentru detalii build. Comparați hash-ul între cele două oglinzi pentru a verifica sincronizarea.',
     bibtex_btn:'📋 Copiază BibTeX', bibtex_ok:'✓ BIBTEX COPIAT!',
   },
   en: {
@@ -793,16 +908,67 @@ const STRINGS = {
     bk_btn:'⭐ Add Bookmark', search_ph:'Search galaxy, quasar, horizon...',
     screenshot_name:'Save screenshot', screenshot_sub:'2K PNG with title & legend',
     lang_next:'RO',
-    footer:'Catalog: May 2026 · JWST record: MoM-z14, z=14.44 · Observable Universe 3D',
+    footer:'Catalog: May 2026 · JWST record: MoM-z14, z=14.44 · Observable Universe 3D · v{V} · build {D} · #{H}',
+    footer_tip:'Version & catalog hash — click for build details. Compare the hash between mirrors to verify sync.',
     bibtex_btn:'📋 Copy BibTeX', bibtex_ok:'✓ BIBTEX COPIED!',
   }
 };
+
+// ═══ TODO#10: VERSIUNE VIZIBILĂ — data build + hash catalog ═══
+const BUILD_DATE = '2026-05-06';     // data build-ului curent (ISO)
+const APP_VERSION = '1.2';            // bump de la 1.1 (UI cosmologic + sci-correctness)
+// FNV-1a hash 32-bit, codat base36 — produce ~6 caractere stabile pentru același input
+function fnv1aHash(str){
+  let h = 0x811c9dc5;
+  for(let i=0;i<str.length;i++){
+    h ^= str.charCodeAt(i);
+    h = (h + ((h<<1) + (h<<4) + (h<<7) + (h<<8) + (h<<24))) >>> 0;
+  }
+  return (h>>>0).toString(36);
+}
+// Hash deterministic peste structura catalogului (independent de ordinea câmpurilor irelevante)
+function computeCatalogHash(){
+  try{
+    // Folosim doar câmpurile structurale: nume + RA + Dec + distanță + morfologie
+    const galSig = (typeof G!=='undefined'?G:[]).map(g=>`${g[0]}|${g[1]}|${g[2]}|${g[3]}|${g[4]}`).join(';');
+    const shellSig = (typeof SHELLS!=='undefined'?SHELLS:[]).map(s=>`${s.n}|${s.dMly}|${s.z}`).join(';');
+    const ehzSig = (typeof EHZ_UNCERTAINTIES!=='undefined')
+      ? Object.keys(EHZ_UNCERTAINTIES).sort().map(k=>`${k}|${EHZ_UNCERTAINTIES[k].sigmaZ}|${EHZ_UNCERTAINTIES[k].type}`).join(';')
+      : '';
+    return fnv1aHash(galSig + '#' + shellSig + '#' + ehzSig).slice(0,7);
+  }catch(e){
+    return 'nohash';
+  }
+}
 function t(k){ return (STRINGS[LANG]||STRINGS.ro)[k]||k; }
 function applyLang(){
   document.getElementById('ttl').textContent = t('title');
   document.getElementById('sub').textContent = t('sub');
   const btnLang=document.getElementById('btnLang'); if(btnLang) btnLang.textContent=t('lang_next');
-  const footer=document.getElementById('versionFooter'); if(footer) footer.textContent=t('footer');
+  const footer=document.getElementById('versionFooter');
+  if(footer){
+    // TODO#10: substituție placeholder-e {V} / {D} / {H}
+    const tmpl = t('footer');
+    const hash = (typeof computeCatalogHash==='function') ? computeCatalogHash() : '?';
+    footer.textContent = tmpl.replace('{V}', APP_VERSION).replace('{D}', BUILD_DATE).replace('{H}', hash);
+    footer.title = t('footer_tip');
+    footer.style.pointerEvents = 'auto';
+    footer.style.cursor = 'help';
+    if(!footer.dataset.bound){
+      footer.dataset.bound = '1';
+      footer.addEventListener('click', ()=>{
+        try{
+          const h = computeCatalogHash();
+          const galN = (typeof G!=='undefined')?G.length:0;
+          const shN  = (typeof SHELLS!=='undefined')?SHELLS.length:0;
+          const ehzN = (typeof EHZ_UNCERTAINTIES!=='undefined')?Object.keys(EHZ_UNCERTAINTIES).length:0;
+          const msg = `Universul Observabil 3D · v${APP_VERSION}\nBuild: ${BUILD_DATE}\nCatalog hash: #${h}\n\nObiecte:\n  · ${galN} galaxii\n  · ${shN} cochilii / orizonturi\n  · ${ehzN} galaxii EHZ cu incertitudini\n\nH₀ curent: ${CONFIG.H0} km/s/Mpc (${CONFIG.H0_MODE})\nt₀ = ${universeAgeNow().toFixed(3)} Gyr\nMod distanțe: ${CONFIG.DIST_MODE}\n\nPentru sincronizare cu oglinda, comparați hash-ul.`;
+          if(typeof showToast==='function') showToast(`#${h} · v${APP_VERSION} · ${BUILD_DATE} · ${galN}+${shN} obj.`, 4500);
+          console.log('[UP3 v'+APP_VERSION+'] '+msg);
+        }catch(e){}
+      });
+    }
+  }
   const bkBtn=document.getElementById('bkBtn'); if(bkBtn) bkBtn.textContent=t('bk_btn');
   const bibtexBtn=document.getElementById('bibtexBtn'); if(bibtexBtn) bibtexBtn.textContent=t('bibtex_btn');
   const bibtexNotif=document.getElementById('bibtexNotif'); if(bibtexNotif) bibtexNotif.textContent=t('bibtex_ok');
@@ -874,13 +1040,36 @@ const BIBTEX_DB = {
   year    = {2020},
   doi     = {10.1126/science.abb3524}
 }`,
+  // ── TODO#5: Citație pentru aplicația în sine — DOI Zenodo persistent ──
+  // Pentru a obține DOI-ul Zenodo:
+  //  1. Înregistrați repo-ul GitHub la https://zenodo.org/account/settings/github/
+  //  2. Activați swich-ul pentru repo
+  //  3. Creați un release pe GitHub (tag vX.Y) → Zenodo va atribui un DOI automat
+  //  4. Înlocuiți DOI-ul de mai jos cu cel real (concept DOI sau version DOI)
+  // Concept DOI = stabil pentru toate versiunile (recomandat pentru citații generice)
+  // Version DOI = unic pentru fiecare release
+  '__APP__': `@software{chiuta2026universul,
+  title   = {{Universul Observabil 3D}: Hartă interactivă 3D a galaxiilor și orizonturilor cosmice},
+  author  = {Chiuță, Alexandru Ionuț},
+  year    = {2026},
+  month   = {may},
+  version = {1.2},
+  publisher = {ASFAN-România},
+  url     = {https://alexio.tf/},
+  doi     = {10.5281/zenodo.PLACEHOLDER},
+  note    = {Aplicație web single-file, Three.js. Date JWST până la MoM-z14 (z=14,44).}
+}`,
 };
 function getBibTeX(name){
   // Exact match first
   if(BIBTEX_DB[name]) return BIBTEX_DB[name];
   // Partial match
-  for(const k of Object.keys(BIBTEX_DB)){if(name.includes(k)||k.includes(name.split(' ')[0])) return BIBTEX_DB[k];}
+  for(const k of Object.keys(BIBTEX_DB)){if(k==='__APP__') continue; if(name.includes(k)||k.includes(name.split(' ')[0])) return BIBTEX_DB[k];}
   return null;
+}
+// TODO#5: returnează citația aplicației în sine (pentru tab-ul "Cite this app")
+function getAppCitation(){
+  return BIBTEX_DB['__APP__'];
 }
 
 // ═══ HIPPARCOS STAR BACKGROUND ══════════════════════════════
@@ -944,7 +1133,11 @@ const CONFIG = {
   ZOOM_SPEED: 0.04,
   AUTOROT_SPEED: 0.00025,
   TIME_MAX: 138,                // 13.8 Gy × 10
-  H0: 67.4,                     // km/s/Mpc
+  H0: 67.4,                     // km/s/Mpc — valoare curentă (mutabilă, comutabilă Planck/SH0ES)
+  H0_PLANCK: 67.4,              // Planck 2018 — CMB-derivat (rețeaua cosmologică)
+  H0_SHOES: 73.04,              // SH0ES 2022 — scara distanțelor cefeide (Riess et al.)
+  H0_MODE: 'planck',            // 'planck' | 'shoes' — comutabil din UI (TODO#2)
+  DIST_MODE: 'comoving',        // 'comoving' | 'lookback' — mod afișare distanțe (TODO#9)
   MPC_PER_MLY: 1/3.2616,
   OMEGA_M: 0.315,
   OMEGA_L: 0.685,
@@ -1020,17 +1213,24 @@ function morphToText(m){
 }
 
 // ═══ COSMOLOGY (proper ΛCDM, replaces LUT-based approximation) ═
+// Vârsta universului la prezent (z=0) — depinde de H₀ ales (TODO#2)
+// Planck (H₀=67.4): t₀ ≈ 13.797 Gyr · SH0ES (H₀=73): t₀ ≈ 12.74 Gyr
+function universeAgeNow(){
+  const Om=CONFIG.OMEGA_M, OL=CONFIG.OMEGA_L;
+  const H0_Gy = CONFIG.H0 * 1.0227e-3;
+  return (2/(3*H0_Gy*Math.sqrt(OL))) * Math.asinh(Math.sqrt(OL/Om));
+}
 // Age of universe at redshift z (in Gy) — analytical solution for matter+lambda
 function zToAge(z){
-  if(z<=0) return 13.8;
+  if(z<=0) return universeAgeNow();
   if(z>=1100) return 0.00038;
   const Om=CONFIG.OMEGA_M, OL=CONFIG.OMEGA_L;
   // H0 in 1/Gy: H0 [km/s/Mpc] × 1.0227e-3 → 1/Gy
   const H0_Gy = CONFIG.H0 * 1.0227e-3;
   return (2/(3*H0_Gy*Math.sqrt(OL))) * Math.asinh(Math.sqrt(OL/Om)*Math.pow(1+z,-1.5));
 }
-// Lookback time = age_now - age_at_z
-function lookbackTime(z){return Math.max(0, 13.8 - zToAge(z));}
+// Lookback time = age_now - age_at_z (depinde dinamic de H₀)
+function lookbackTime(z){return Math.max(0, universeAgeNow() - zToAge(z));}
 // Comoving distance from z (numerical integration, simple trapezoidal — fast enough)
 function comovingDist(z){
   if(z<=0) return 0;
@@ -1044,9 +1244,12 @@ function comovingDist(z){
   }
   return c_kmps/H0 * sum / 1e6 * 3.2616; // → Mly
 }
+// Lookback distance = c × lookback_time (în Mly) — utilă pentru toggle TODO#9
+function lookbackDist(z){return lookbackTime(z) * 1000;} // Gyr → Mly (1 ly/yr)
 
 // ═══ SETUP ════════════════════════════════════════════════
 const scene=new THREE.Scene();
+window.scene = scene; // expus pentru export glTF (v1.1)
 const camera=new THREE.PerspectiveCamera(CONFIG.CAM.FOV,innerWidth/innerHeight,CONFIG.CAM.NEAR,CONFIG.CAM.FAR);
 const renderer=new THREE.WebGLRenderer({canvas:document.getElementById('c'),antialias:true,powerPreference:'high-performance'});
 renderer.setSize(innerWidth,innerHeight);
@@ -1206,9 +1409,9 @@ const SHELLS=[
   {n:'Reionizare z ≈ 20',      dMly:36086,  z:'~20',    tLB:'13,5 Gy',age:'180 My',   c:0xff3311, op:0.055,wire:false,ringOp:0.26,
    desc:'Primele surse de lumină ionizează hidrogenul neutru. Universul devine transparent — finalul Erei Întunecate.'},
   {n:'★ CMB (z = 1100)',       dMly:45638,  z:'1100',   tLB:'13,8 Gy',age:'380.000 ani',c:0xff1100,op:0.13, wire:false,ringOp:0.55,major:true,
-   desc:'SUPRAFAŢA ULTIMEI ÎMPRĂŞTIERI: Cel mai depărtat lucru observabil. Fotoni CMB au călătorit 13,8 mld ani. Temperatura: 2,725 K. Fluctuaţiile sale au generat toată structura cosmică actuală.'},
+   desc:'SUPRAFAŢA ULTIMEI ÎMPRĂŞTIERI: Cel mai depărtat lucru observabil <em>direct</em>. Fotonii CMB au călătorit 13,8 mld ani. Temperatura: 2,725 K. Distanţa comovingă <strong>45,6 Gly</strong> — locul de unde a fost emis CMB-ul, calculat la momentul prezent. Diferenţa de ~0,9 Gly faţă de Orizontul Particulelor reprezintă spaţiul care s-a putut extinde între Big Bang şi Recombinare. Fluctuaţiile sale au generat toată structura cosmică actuală.'},
   {n:'★ Universul Observabil', dMly:46500,  z:'~1100',  tLB:'13,8 Gy',age:'Big Bang',  c:0xff0000, op:0.20, wire:true, ringOp:0.55,major:true,
-   desc:'ORIZONTUL PARTICULELOR: Limita absolută observabilă. Distanţă comovingă ~46,5 mld al. Dincolo există univers care există, dar lumina sa nu a apucat să ajungă la noi de la Big Bang.'},
+   desc:'ORIZONTUL PARTICULELOR: Limita absolută <em>teoretică</em> — distanţa comovingă maximă de la care orice semnal (chiar şi unde gravitaţionale primordiale) ar fi putut ajunge la noi de la Big Bang. Valoare standard ΛCDM (Planck 2018, H₀=67,4): <strong>~46,5 Gly</strong>. Notă: 45,6 Gly (CMB) ≠ 46,5 Gly (Orizont) — sunt mărimi distincte, ambele corecte. Diferenţa este intervalul opac dintre Big Bang şi Recombinare.'},
 ];
 (function(){
   SHELLS.forEach((s,i)=>{
@@ -1234,6 +1437,48 @@ const SHELLS=[
   // CMB glow
   const r=dS(45638);
   cosmicGroup.add(new THREE.Mesh(new THREE.SphereGeometry(r*0.997,40,22),new THREE.MeshBasicMaterial({color:0xff1100,transparent:true,opacity:0.05,side:THREE.FrontSide,depthWrite:false})));
+})();
+
+// ═══ v1.1: BAO LAYER — Oscilații Baronice Acustice ════════════
+// Scala caracteristică BAO: ~150 Mpc comoving = ~490 Mly.
+// Aceasta este "rigla cosmică standard": o feature acustică
+// înghețată în CMB, care servește la calibrarea distanțelor cosmice
+// și are un rol central în dezbaterea privind tensiunea Hubble
+// (H0 din BAO+CMB ≈ 67,4 vs. H0 din SH0ES ≈ 73 km/s/Mpc).
+const grpBAO=[];
+(function(){
+  const BAO_MLY = 490; // ~150 Mpc comoving
+  const r = dS(BAO_MLY);
+  // Cochilie semitransparentă cu wireframe
+  const baoMat = new THREE.MeshBasicMaterial({color:0x88ccff, wireframe:true, transparent:true, opacity:0.18, depthWrite:false});
+  const baoMesh = new THREE.Mesh(new THREE.SphereGeometry(r, 28, 16), baoMat);
+  baoMesh.userData = {pn:'Scală BAO (~490 Mly)', pt:'Oscilație baronică acustică',
+    pd:'~490 Mly (~150 Mpc comoving)', pz:'z ≈ 0.11', ptlb:'~1,5 Gy', pa:'~12,3 Gy',
+    pc:'Scala caracteristică a oscilațiilor baronice acustice — „rigla cosmică standard". Înghețată în Universul timpuriu (~380.000 ani după Big Bang) când fotonii și barionii s-au decuplat, această scală apare astăzi ca o supra-densitate slabă în distribuția galaxiilor la ~150 Mpc comoving. Folosită pentru calibrarea ΛCDM (BAO + CMB → H₀ ≈ 67,4) — în tensiune cu măsurătorile locale SH0ES (H₀ ≈ 73). „Tensiunea Hubble" este una dintre marile întrebări deschise ale cosmologiei contemporane. Confirmată empiric: SDSS (2005), 6dFGS, BOSS, eBOSS, DESI (2024).',
+    aC:0x88ccff};
+  baoMesh.visible = false; // start hidden — toggle 'bao'
+  cosmicGroup.add(baoMesh);
+  grpBAO.push(baoMesh);
+  hitboxes.push(baoMesh);
+  // Inel orizontal pe planul ecuatorial pentru a sublinia scala
+  const ringPts=[]; for(let j=0;j<=120;j++){const a=j/120*Math.PI*2; ringPts.push(new THREE.Vector3(r*Math.cos(a),0,r*Math.sin(a)));}
+  const ring = new THREE.Line(new THREE.BufferGeometry().setFromPoints(ringPts),
+    new THREE.LineBasicMaterial({color:0x88ccff, transparent:true, opacity:0.5}));
+  ring.visible = false;
+  cosmicGroup.add(ring);
+  grpBAO.push(ring);
+  // Etichetă plutitoare
+  const baoLbl = document.createElement('div');
+  baoLbl.className = 'gl';
+  baoLbl.textContent = '◯ BAO ~490 Mly';
+  baoLbl.style.color = '#88ccff';
+  baoLbl.style.fontSize = '10px';
+  baoLbl.style.letterSpacing = '0.4px';
+  baoLbl.style.fontWeight = '600';
+  baoLbl.style.display = 'none';
+  lw.appendChild(baoLbl);
+  // Poziție eticheta la (r,0,0) aproximativ
+  lblDivs.push({div:baoLbl, p3:new THREE.Vector3(r*0.95, r*0.05, 0), R:0, d:BAO_MLY, isBAO:true});
 })();
 
 // ═══ LARGE-SCALE STRUCTURES ════════════════════════════════
@@ -1427,6 +1672,64 @@ const G=[
  ['MoM-z14 ★ RECORD',10.00624,2.27325,33020,'EHZ',0.18,0,0xff0500,0xff0500,'33,02 Gly (z=14.44)','~480 al','~3×10⁸ M☉','★ RECORD ABSOLUT (confirmat ianuarie 2026): Cea mai îndepărtată galaxie cunoscută. Coordonate oficiale (NASA/STScI): RA 10:00:22.45, Dec +02:16:23.70 — în constelația Sextans, câmpul COSMOS Legacy. Descoperită de Rohan Naidu (MIT) și 45 de coautori cu JWST/NIRSpec, prin programul „Mirage or Miracle". Universul avea doar 280 mln ani — 2% din vârsta lui actuală. Lyman-α + cinci linii UV (inclusiv azot). Foarte compactă (rază ~241 al), formare stelară explozivă — masă stelară comparabilă cu Norul Mic Magellanic. Publicată în Open Journal of Astrophysics, ianuarie 2026 (arXiv: 2505.11263).'],
 ];
 // ═══ GALAXY INSTANTIATION ══════════════════════════════════
+// ── v1.1: INCERTITUDINI z (σ_z) pentru galaxiile EHZ ──────────
+// Sursa: literatura primară (arXiv) pentru fiecare obiect.
+// σ_z reflectă diferența între redshift spectroscopic confirmat
+// (~0.001-0.01) și redshift fotometric (~0.1-0.5). Distanța comovingă
+// se modifică ne-liniar cu z, dar pentru z>4 putem aproxima cu derivata
+// dD_C/dz folosind ΛCDM: la z~14, dD_C/dz ≈ 100 Mly per unitate z.
+// Aceste valori sunt utilizate la randarea "barelor de incertitudine".
+const EHZ_UNCERTAINTIES = {
+  'Wolfe Disk (z=4.26)':       {sigmaZ: 0.005, type: 'spec'}, // ALMA spectroscopic
+  'GS-9209 (z=4.66)':          {sigmaZ: 0.003, type: 'spec'}, // JWST NIRSpec
+  '4C 41.17 (z=3.79)':         {sigmaZ: 0.005, type: 'spec'}, // VLA + Keck spec
+  'SPT0418-47 (z=4.22)':       {sigmaZ: 0.003, type: 'spec'}, // ALMA CO spectroscopic
+  'CR7 (z=6.60)':              {sigmaZ: 0.020, type: 'spec'}, // Lyman-α spec
+  'IOK-1 (z=6.96)':            {sigmaZ: 0.030, type: 'spec'}, // Subaru spec
+  'J0313-1806 (z=7.64)':       {sigmaZ: 0.005, type: 'spec'}, // Quasar Mg II spec
+  'ULAS J1342+0928 (z=7.54)':  {sigmaZ: 0.008, type: 'spec'},
+  'GN-108036 (z=7.21)':        {sigmaZ: 0.040, type: 'spec'},
+  'EGS-zs8-1 (z=7.73)':        {sigmaZ: 0.040, type: 'spec'},
+  'GRB090423 host (z=8.20)':   {sigmaZ: 0.030, type: 'spec'},
+  'Abell2744-YD4 (z=8.38)':    {sigmaZ: 0.020, type: 'spec'}, // JWST O[III]
+  'MACS0647-JD (z=8.68)':      {sigmaZ: 0.150, type: 'phot'}, // photometric, dual system
+  'MACS1149-JD1 (z=9.11)':     {sigmaZ: 0.030, type: 'spec'}, // ALMA + JWST
+  'JADES-GS-z10-0 (z=10.38)':  {sigmaZ: 0.020, type: 'spec'}, // JWST NIRSpec
+  'GN-z11 (z=10.96)':          {sigmaZ: 0.013, type: 'spec'}, // JWST 2023 spec
+  'GLASS-z13 (z=12.20)':       {sigmaZ: 0.300, type: 'phot'}, // initial photometric, debated
+  'Maisie\'s Galaxy (z=11.44)':{sigmaZ: 0.025, type: 'spec'}, // CEERS spec 2023
+  'EGS-z11-R0 (z=11.45) ❖ NOU':{sigmaZ: 0.180, type: 'phot'}, // SED fitting, no spec yet
+  'JADES-GS-z13-0 (z=13.20)':  {sigmaZ: 0.040, type: 'spec'}, // JADES NIRSpec
+  'HD1 (z≈13.5)':              {sigmaZ: 0.500, type: 'phot'}, // Subaru/UKIRT photometric, controversial
+  'JADES-GS-z14-1 (z=13.90)':  {sigmaZ: 0.060, type: 'spec'},
+  'JADES-GS-z14-0 (z=14.32)':  {sigmaZ: 0.020, type: 'spec'}, // JADES spec
+  'MoM-z14 ★ RECORD':          {sigmaZ: 0.025, type: 'spec'}, // confirmed Jan 2026
+};
+
+// Helper: estimează δD_C în Mly dat un z central și σ_z, în aproximarea ΛCDM
+// Folosește o derivată numerică folosind funcția ageAtZ existentă.
+function distFromZApprox(z){
+  // Foarte simplu: D_C ≈ c·∫(1/E(z'))dz' de la 0 la z; E(z)=√(Ωm(1+z)³+ΩΛ)
+  // Pentru viteza, calculăm doar la cerere (cache map)
+  const Om=CONFIG.OMEGA_M, Ol=CONFIG.OMEGA_L, Hubble_dist_Mly=4408; // c/H0 în Mly cu H0=67.4
+  const N=200; let dz=z/N, sum=0;
+  for(let i=0;i<N;i++){
+    const zi=(i+0.5)*dz;
+    sum += 1/Math.sqrt(Om*Math.pow(1+zi,3)+Ol);
+  }
+  return Hubble_dist_Mly*sum*dz;
+}
+// Cache pentru viteză
+const _distZCache=new Map();
+function distFromZ(z){
+  const key=Math.round(z*1000);
+  if(!_distZCache.has(key))_distZCache.set(key, distFromZApprox(z));
+  return _distZCache.get(key);
+}
+
+// Group pentru barele de incertitudine — controlat de toggle 'uncert'
+const grpUncert=[];
+
 G.forEach((g,i)=>{
   const [nm,rh,dd,dist,morph,R,inc,aC,bC,dstr,sstr,mstr,desc]=g;
   const p3=eqV(rh,dd,dist);
@@ -1469,7 +1772,18 @@ G.forEach((g,i)=>{
   // Hitbox
   const hit=new THREE.Mesh(new THREE.SphereGeometry(Math.max(R*1.5,0.5),6,4),new THREE.MeshBasicMaterial({transparent:true,opacity:0,depthWrite:false}));
   hit.position.copy(p3);
-  hit.userData={pn:nm,pt:isQ?'Quasar / AGN':isE?'Galaxie EHZ (JWST)':morph,pd:dstr,pz:_zMatch?'z = '+_zMatch[1]:dist<100?'z≈0':'z>0',ptlb:dist<1?'<1 Mly':'—',pa:'13,8 mld ani',pc:desc,aC,dMly:dist,rh,dd,morph,z:_z,galIdx:i,rawName:nm};
+  // TODO#4: Marchează spec-z vs phot-z în tooltip pentru galaxiile EHZ
+  let pzExt = '';
+  if(isE && EHZ_UNCERTAINTIES[nm]){
+    const u = EHZ_UNCERTAINTIES[nm];
+    pzExt = u.type==='spec'
+      ? ' · <span style="color:#ff8866">spec-z</span> ±'+u.sigmaZ.toFixed(3).replace('.',',')
+      : ' · <span style="color:#cc66ff">phot-z</span> ±'+u.sigmaZ.toFixed(2).replace('.',',');
+  }
+  hit.userData={pn:nm,pt:isQ?'Quasar / AGN':isE?'Galaxie EHZ (JWST)':morph,pd:dstr,pz:(_zMatch?'z = '+_zMatch[1]:dist<100?'z≈0':'z>0')+pzExt,ptlb:dist<1?'<1 Mly':'—',pa:'13,8 mld ani',pc:desc,aC,dMly:dist,rh,dd,morph,z:_z,galIdx:i,rawName:nm,
+    // TODO#4: păstrăm tipul z pentru afișare ulterioară
+    zType: (isE && EHZ_UNCERTAINTIES[nm]) ? EHZ_UNCERTAINTIES[nm].type : null,
+    zSigma: (isE && EHZ_UNCERTAINTIES[nm]) ? EHZ_UNCERTAINTIES[nm].sigmaZ : null};
   cosmicGroup.add(hit);hitboxes.push(hit);
   // Label
   const div=document.createElement('div');div.className='gl';
@@ -1479,6 +1793,48 @@ G.forEach((g,i)=>{
   if(morph.startsWith('dS'))div.style.opacity='0.55';
   if(isQ){div.style.fontWeight='bold';div.style.fontSize='10.5px';}
   lw.appendChild(div);lblDivs.push({div,p3,R,d:dist});
+
+  // ── v1.1: Bare de incertitudine pentru galaxiile EHZ ──
+  // Pentru galaxiile cu redshift ridicat, σ_z se transformă în σ_D pe direcția radială.
+  // Reprezentăm ca un segment de linie în direcția observator→galaxie, lungime ∝ σ_D
+  // (în spațiul logaritmic al scenei, pentru a fi vizibil la toate scările).
+  if(isE && EHZ_UNCERTAINTIES[nm]){
+    const u = EHZ_UNCERTAINTIES[nm];
+    const z = _z;
+    if(z>0 && u.sigmaZ>0){
+      // Calculăm distanța la z+σ și z-σ (convertite la Mly)
+      const dPlus  = distFromZ(Math.min(z + u.sigmaZ, 20));
+      const dMinus = distFromZ(Math.max(z - u.sigmaZ, 0.01));
+      // Direcția radială (de la origine spre galaxie, normalizată)
+      const dir = p3.clone().normalize();
+      // În spațiul scenei (log), proiectăm pozițiile
+      const sceneR_plus  = dS(dPlus);
+      const sceneR_minus = dS(dMinus);
+      const pPlus  = dir.clone().multiplyScalar(sceneR_plus);
+      const pMinus = dir.clone().multiplyScalar(sceneR_minus);
+      // Culoare: roz/magenta pentru fotometric (incert), roșu deschis pentru spec (mai scurt)
+      const barColor = (u.type==='phot') ? 0xff5588 : 0xff8866;
+      const barOp = (u.type==='phot') ? 0.85 : 0.55;
+      const barGeo = new THREE.BufferGeometry().setFromPoints([pMinus, pPlus]);
+      const barMat = new THREE.LineBasicMaterial({color:barColor, transparent:true, opacity:barOp, linewidth:2});
+      const bar = new THREE.Line(barGeo, barMat);
+      bar.userData = {galName: nm, sigmaZ: u.sigmaZ, ztype: u.type};
+      bar.visible = false; // start hidden — toggle 'uncert'
+      cosmicGroup.add(bar);
+      grpUncert.push(bar);
+      // Capete — mici sfere pentru claritate vizuală
+      [pPlus, pMinus].forEach(pt=>{
+        const cap = new THREE.Mesh(
+          new THREE.SphereGeometry(0.08, 6, 4),
+          new THREE.MeshBasicMaterial({color:barColor, transparent:true, opacity:barOp})
+        );
+        cap.position.copy(pt);
+        cap.visible = false;
+        cosmicGroup.add(cap);
+        grpUncert.push(cap);
+      });
+    }
+  }
 });
 
 // ═══ BACKGROUND GALAXY POPULATIONS ═════════════════════════
@@ -1521,7 +1877,7 @@ G.forEach((g,i)=>{
 const STATE={grid:true,equator:true,axes:true,axlbl:true,rings:true,dlbl:true,
   shells:true,structs:true,galLocal:true,galFar:true,qso:true,ehz:true,
   pops:true,gallbl:false,stars:true,zoa:true,autorot:true,hubble:false,
-  constel:false,lightcone:false};
+  constel:false,lightcone:false,bao:false,uncert:false};
 function applyToggle(key,val){
   STATE[key]=val;
   switch(key){
@@ -1543,6 +1899,14 @@ function applyToggle(key,val){
     case 'hubble':  grpHubble.forEach(m=>{m.visible=val;});document.getElementById('hubbleLbl').style.display=val?'block':'none';break;
     case 'constel': grpConstel.forEach(m=>m.visible=val);break;
     case 'lightcone':grpLightcone.forEach(m=>m.visible=val);if(val)startLightconeAnim();else stopLightconeAnim();break;
+    case 'bao':     grpBAO.forEach(m=>m.visible=val);
+                    // Etichetă BAO din lblDivs
+                    lblDivs.forEach(L=>{if(L.isBAO)L.div.style.display=val?'block':'none';});
+                    break;
+    case 'uncert':  grpUncert.forEach(m=>m.visible=val);
+                    // TODO#4: arată legenda explicativă când toggle-ul e activ
+                    {const lg=document.getElementById('ehzLegend');if(lg)lg.style.display=val?'flex':'none';}
+                    break;
   }
   needsRender=true;cameraDirty=true;
 }
@@ -1554,6 +1918,9 @@ document.querySelectorAll('[data-key]').forEach(row=>{
   row.addEventListener('click',e=>{if(e.target===sw)return;doToggle();});
   sw.addEventListener('click',e=>{e.stopPropagation();doToggle();});
 });
+// v1.1: expunem STATE și applyToggle global pentru modul gentle-start și API
+window.STATE = STATE;
+window.applyToggle = applyToggle;
 
 // ═══ DRAWER / FAB ══════════════════════════════════════════
 const fab=document.getElementById('fab');
@@ -1768,8 +2135,10 @@ function showPanel(d){
   const bibtexWrap = document.getElementById('bibtexWrap');
   const bibtexBtn = document.getElementById('bibtexBtn');
   const bib = getBibTeX(d.rawName || d.pn || '');
-  if(bib && bibtexWrap && bibtexBtn){
-    bibtexWrap.style.display = 'block';
+  // TODO#5: bibtexWrap rămâne mereu vizibil pentru a expune butonul „Citează această aplicație"
+  if(bibtexWrap){ bibtexWrap.style.display = 'block'; }
+  if(bib && bibtexBtn){
+    bibtexBtn.style.display = 'block';
     bibtexBtn.textContent = t('bibtex_btn');
     bibtexBtn.onclick = () => {
       navigator.clipboard.writeText(bib).then(() => {
@@ -1784,7 +2153,29 @@ function showPanel(d){
         if(notif){ notif.textContent = t('bibtex_ok'); notif.style.display='block'; setTimeout(()=>notif.style.display='none',2000); }
       });
     };
-  } else if(bibtexWrap){ bibtexWrap.style.display = 'none'; }
+  } else if(bibtexBtn){ bibtexBtn.style.display = 'none'; }
+  // TODO#5: wiring buton citație app (rămâne vizibil indiferent de selecție)
+  const appCiteBtn = document.getElementById('appCiteBtn');
+  if(appCiteBtn && !appCiteBtn.dataset.bound){
+    appCiteBtn.dataset.bound = '1';
+    appCiteBtn.onclick = () => {
+      const cit = getAppCitation();
+      const copy = (txt) => {
+        navigator.clipboard.writeText(txt).then(() => {
+          const n = document.getElementById('appCiteNotif');
+          if(n){ n.style.display='block'; setTimeout(()=>n.style.display='none',2200); }
+        }).catch(()=>{
+          const ta = document.createElement('textarea');
+          ta.value = txt; document.body.appendChild(ta); ta.select();
+          try{ document.execCommand('copy'); }catch(e){}
+          document.body.removeChild(ta);
+          const n = document.getElementById('appCiteNotif');
+          if(n){ n.style.display='block'; setTimeout(()=>n.style.display='none',2200); }
+        });
+      };
+      copy(cit);
+    };
+  }
   // Morphology translation (only for galaxies with a known morph code)
   const pmt=document.getElementById('pmt');
   const morphTxt=morphToText(d.morph);
@@ -2112,7 +2503,7 @@ const TOURS=[
     {action:'reset',dur:3500,txt:'Familia noastră cosmică: MW + ~80 sateliți + Andromeda + sateliții ei + ~50 alte pitice = Grupul Local. Acasă cosmică.'},
   ]},
   {title:'Cronologia Cosmică · 7 Ere',icon:'🎂',steps:[
-    {action:'reset',time:0,toT:0.4,toP:1.15,toR:60,dur:4500,txt:'ERA 1 · BIG BANG (t = 0). Universul are dimensiunea unei mingi de tenis. Temperatură: ~10³² K. Slider de timp la z=1100 acum.'},
+    {action:'reset',time:0,toT:0.4,toP:1.15,toR:60,dur:4500,txt:'ERA 1 · BIG BANG (t = 0). Universul are dimensiunea unei mingi de tenis. Temperatură: ~10³² K. <em>Notă: slider-ul de timp ajunge la z=1100 (Recombinarea), nu la t=0 — Big Bang-ul însuși este inaccesibil observațional.</em>'},
     {time:0,dur:4500,txt:'ERA 2 · INFLAȚIE (10⁻³⁶ s). Universul se umflă de 10²⁶ ori în <b>10⁻³² secunde</b>. Cele mai uniforme fluctuații cuantice se întind la scară cosmică.'},
     {time:0,dur:5000,txt:'ERA 3 · NUCLEOSINTEZA (3-20 min). Se formează primii atomi — <b>75% hidrogen, 25% heliu</b>, urme de litiu. Asta e tot ce există în Univers timp de sute de milioane de ani.'},
     {time:0,dur:5000,txt:'ERA 4 · CMB (380.000 ani · z=1100). Plasma se răcește, electronii se leagă cu nucleele. <b>Universul devine transparent</b>. Lumina eliberată azi e CMB la 2,725 K.'},
@@ -2148,7 +2539,7 @@ const TOURS=[
     {gal:'M87 Virgo A',mg:2.5,dur:3500,txt:'M87 · Prima gaură neagră fotografiată vreodată (EHT 2019). 6,5 miliarde M☉.'},
     {gal:'MoM-z14 ★ RECORD',mg:5,dur:4000,wave:'infrared',txt:'MoM-z14 · z=14,44 · cea mai îndepărtată galaxie cunoscută. Lumina ei e veche de 13,53 miliarde de ani.'},
     {shell:11,dur:4000,wave:'optical',txt:'CMB · Cel mai vechi „Polaroid" al Universului. 380.000 de ani după Big Bang.'},
-    {time:0,dur:4500,txt:'Slider de timp la z=1100 · Universul contractat la o fracțiune. Cum era la „naștere".'},
+    {time:0,dur:4500,txt:'Slider de timp la z=1100 · <strong>Recombinare</strong> — cea mai veche imagine accesibilă. Înainte de acest moment, plasma opacă blochează lumina.'},
     {time:138,toT:1.8,toP:1.2,toR:380,dur:5000,txt:'Înapoi în prezent + zoom-out la sfera completă. <b>Asta e tot ce putem vedea</b> — de aici și pentru totdeauna.'},
   ]},
   {title:'Atlas Galactic · Top 10 Stele',icon:'🌟',steps:[
@@ -2239,7 +2630,8 @@ function morphFormAge(morph){
 }
 
 function updateTime(ageGy){
-  const isNow = ageGy >= 13.7;
+  const tNow = universeAgeNow();          // TODO#2: vârstă dinamică (Planck/SH0ES)
+  const isNow = ageGy >= tNow - 0.1;
   // 1+z relation: ageGy → z (rough inverse)
   let zEff;
   if(isNow) zEff = 0;
@@ -2258,7 +2650,7 @@ function updateTime(ageGy){
     ? 'PREZENT · z = 0'
     : ageGy.toFixed(ageGy<1?3:1)+' Gy după BB · z ≈ '+(zEff<10?zEff.toFixed(2):zEff.toFixed(0));
   document.getElementById('timeAge').textContent = isNow
-    ? 'Universul are 13,8 miliarde ani'
+    ? 'Universul are '+tNow.toFixed(2).replace('.',',')+' miliarde ani ('+(CONFIG.H0_MODE==='planck'?'Planck':'SH0ES')+')'
     : ageGy<0.5 ? 'Zorii Cosmici — primele galaxii (z>10)'
     : ageGy<3   ? 'Apogeul formării stelelor (z=2-6)'
     : ageGy<10  ? 'Universul matur (z=0,5-2)' : 'Aproape prezent';
@@ -2302,6 +2694,65 @@ document.getElementById('timePlayBtn').addEventListener('click',()=>{
     tTimer=setInterval(()=>{const v=parseInt(timeSlider.value)+1;if(v>CONFIG.TIME_MAX){clearInterval(tTimer);tPlaying=false;document.getElementById('timePlayBtn').textContent='▶';return;}timeSlider.value=v;updateTime(v/10);},REDUCED_MOTION?400:180);}
   else{clearInterval(tTimer);}
 });
+
+// ═══ TODO#2: H₀ Planck/SH0ES TOGGLE (Tensiunea Hubble) ═══════
+function setH0Mode(mode){
+  if(mode!=='planck' && mode!=='shoes') return;
+  CONFIG.H0_MODE = mode;
+  CONFIG.H0 = (mode==='planck') ? CONFIG.H0_PLANCK : CONFIG.H0_SHOES;
+  // Update UI
+  const t0 = universeAgeNow();
+  document.getElementById('cpH0Val').textContent =
+    CONFIG.H0.toFixed(1).replace('.',',') + ' km/s/Mpc · t₀=' + t0.toFixed(2).replace('.',',') + ' Gyr';
+  document.querySelectorAll('.cpSeg-btn[data-h0]').forEach(b=>{
+    const isAct = b.dataset.h0===mode;
+    b.classList.toggle('act', isAct);
+    b.setAttribute('aria-checked', isAct?'true':'false');
+  });
+  // Re-run updateTime cu valoarea curentă a slider-ului ca să recalculeze totul
+  try{
+    const ts = document.getElementById('timeSlider');
+    if(ts) updateTime(parseInt(ts.value)/10);
+  }catch(e){}
+  // Notifică user-ul (toast scurt)
+  try{ if(typeof showToast==='function') showToast(`H₀ → ${mode==='planck'?'Planck (67,4)':'SH0ES (73,0)'} · t₀ = ${t0.toFixed(2).replace('.',',')} Gyr`); }catch(e){}
+}
+document.querySelectorAll('.cpSeg-btn[data-h0]').forEach(btn=>{
+  btn.addEventListener('click', ()=>setH0Mode(btn.dataset.h0));
+});
+
+// ═══ TODO#9: LOOKBACK ↔ COMOVING TOGGLE ══════════════════════
+function setDistMode(mode){
+  if(mode!=='comoving' && mode!=='lookback') return;
+  CONFIG.DIST_MODE = mode;
+  document.getElementById('cpDistVal').textContent =
+    mode==='comoving' ? 'Comoving (prezent)' : 'Lookback (c·t_LB)';
+  document.querySelectorAll('.cpSeg-btn[data-dmode]').forEach(b=>{
+    const isAct = b.dataset.dmode===mode;
+    b.classList.toggle('act', isAct);
+    b.setAttribute('aria-checked', isAct?'true':'false');
+  });
+  // Forțează reafișarea tooltip-urilor pe galaxia actuală (dacă există)
+  try{ if(typeof refreshSelectedGalaxyInfo==='function') refreshSelectedGalaxyInfo(); }catch(e){}
+  try{ if(typeof showToast==='function') showToast(`Distanțe → ${mode==='comoving'?'Comoving (prezent-day)':'Lookback (c·t_LB)'}`); }catch(e){}
+}
+document.querySelectorAll('.cpSeg-btn[data-dmode]').forEach(btn=>{
+  btn.addEventListener('click', ()=>setDistMode(btn.dataset.dmode));
+});
+
+// Helper formatter — convertește o distanță comovingă (Mly) la modul curent
+// Pentru galaxiile cu z cunoscut. Pentru galaxiile locale (z≈0) cele două sunt identice.
+function fmtDistByMode(comovMly, z){
+  if(CONFIG.DIST_MODE==='comoving' || !z || z<0.01) return fmtDist(comovMly);
+  // Lookback: c × t_LB(z) — în Mly = 1000 × Gyr
+  const lbMly = lookbackDist(z);
+  return fmtDist(lbMly) + ' (lookback)';
+}
+window.fmtDistByMode = fmtDistByMode;
+
+// La pornire, sincronizează etichetele cu valorile inițiale (Planck + Comoving)
+setTimeout(()=>{ try{ setH0Mode(CONFIG.H0_MODE); setDistMode(CONFIG.DIST_MODE); }catch(e){} }, 100);
+
 
 // ═══ CONSTELLATION OVERLAY ═══════════════════════════════════
 // 18 prominent constellations as line segments [[ra1_h, dec1_deg], [ra2_h, dec2_deg]] pairs
@@ -3511,11 +3962,11 @@ const GUIDE_CONTENT = {
       ${_b('time:30','⏪ z=7 (~770 Myr)')}
       ${_b('time:15','⏪ z=11 (~400 Myr)')}
       ${_b('time:5','⏪ z=14 (~280 Myr · MoM-z14)')}
-      ${_b('time:0','💥 z=1100 · Big Bang!')}
+      ${_b('time:0','💥 z=1100 · Recombinare (CMB)')}
     </div>
 
-    <h3 class="gsec">🌌 Coordonate co-mișcătoare — vezi „Big Bang corect"</h3>
-    <p>Folosește slider-ul de mai jos (sau cel din meniul ☰) și observă cum se contractă <em>spațiul</em>, în vreme ce galaxiile rămân fixe în coordonate. Asta este imaginea fizic corectă a expansiunii — nu galaxiile s-au năpustit dintr-un punct, ci spațiul însuși era mai mic.</p>
+    <h3 class="gsec">🌌 Coordonate co-mișcătoare — vezi „expansiunea corectă"</h3>
+    <p>Folosește slider-ul de mai jos (sau cel din meniul ☰) și observă cum se contractă <em>spațiul</em>, în vreme ce galaxiile rămân fixe în coordonate. Asta este imaginea fizic corectă a expansiunii — nu galaxiile s-au năpustit dintr-un punct, ci spațiul însuși era mai mic. <em>Notă: slider-ul ajunge la <strong>z=1100</strong>, momentul Recombinării (CMB, ~380.000 de ani după Big Bang), nu la Big Bang-ul însuși (t=0, z→∞).</em></p>
     <div id="up3-cm-mount" aria-label="Widget interactiv: coordonate co-mișcătoare"></div>
 
     <h3 class="gsec">🤔 De ce se contractă?</h3>
@@ -3684,7 +4135,7 @@ const GUIDE_CONTENT = {
     ${_tour(8, 'Găuri negre supermasive', 'M87 (prima fotografie!), Cen A, NGC 4889, Mrk 231, 3C 273', 7)}
     ${_tour(9, 'Coliziuni galactice', 'Antena, M51, Trabucul, Arp 220, fuziunea viitoare cu M31', 6)}
     ${_tour(22, 'Supernove · cum mor stelele', 'M83, M101, NGC 6946 — galaxii cu rate ridicate de SN', 6)}
-    ${_tour(6, 'Călătorie în timp · până la Big Bang', 'Slider de timp până la z=1100 (CMB)', 9)}
+    ${_tour(6, 'Călătorie în timp · până la Recombinare', 'Slider de timp până la z=1100 (CMB · 380.000 ani)', 9)}
     ${_tour(25, 'Cronologia cosmică · 7 ere', 'De la Big Bang prin CMB până în prezent, în 7 stații', 8)}
     ${_tour(15, 'Universul tânăr · z>4', 'JWST + slider de timp, ca să vezi cum arăta cosmosul-bebeluș', 7)}
     ${_tour(13, 'Cum vede JWST · spectrul', 'Pas cu pas prin optic → IR → radio → X → materie întunecată', 6)}
@@ -3755,7 +4206,7 @@ const GUIDE_CONTENT = {
         ${_b('time:0','💥 Du timpul la z=1100')}
         ${_b('time:138','↻ Revine la prezent')}
       </div>
-      <div class="gquiz-hint">💡 Vezi Universul aproape de Big Bang — galaxiile se contractă într-un punct (logaritmic). Reprezintă momentul CMB-ului, când Universul a devenit transparent.</div>
+      <div class="gquiz-hint">💡 Ajungi la <strong>Recombinare</strong> (z=1100, ~380.000 de ani după Big Bang) — momentul în care Universul a devenit transparent și CMB-ul a fost eliberat. Nu este Big Bang-ul însuși (t=0, z→∞), ci limita de unde lumina poate ajunge la noi.</div>
     </div>
 
     <div class="gquiz">
@@ -3911,7 +4362,7 @@ const GUIDE_CONTENT = {
       <div class="gcheat-cell" data-act="time:30"><span class="gcheat-icon">⏪</span><span class="gcheat-name">z=7</span><br><span class="gcheat-key">770 Myr ago</span></div>
       <div class="gcheat-cell" data-act="time:15"><span class="gcheat-icon">⏪</span><span class="gcheat-name">z=11</span><br><span class="gcheat-key">400 Myr ago · JWST</span></div>
       <div class="gcheat-cell" data-act="time:5"><span class="gcheat-icon">⏪</span><span class="gcheat-name">z=14</span><br><span class="gcheat-key">280 Myr · MoM-z14 RECORD</span></div>
-      <div class="gcheat-cell" data-act="time:0"><span class="gcheat-icon">💥</span><span class="gcheat-name">z=1100</span><br><span class="gcheat-key">Big Bang + 380 Ky</span></div>
+      <div class="gcheat-cell" data-act="time:0"><span class="gcheat-icon">💥</span><span class="gcheat-name">z=1100</span><br><span class="gcheat-key">Recombinare · CMB · 380 Ky</span></div>
     </div>
 
     <h4>🎯 Galaxii top (click → fly-to)</h4>
@@ -4045,7 +4496,7 @@ const GUIDE_CONTENT = {
 
     <h4>De ce nu putem vedea dincolo de z = 1100?</h4>
     <p>Înainte de z = 1100, Universul era atât de fierbinte (în jur de 3000 K), încât electronii nu se puteau lega de nuclee — totul era plasmă. Iar plasma împrăștie lumina ca o ceață deasă: fotonii nu se pot propaga liber. Abia după ce Universul s-a răcit suficient cât să se formeze atomi neutri, lumina a fost „eliberată" — și asta este ceea ce vedem astăzi sub forma CMB. Tot ce se află dincolo (mai aproape de Big Bang) este, pentru lumină, opac.</p>
-    <div class="gact-row">${_b('shell:11','🎯 Vezi CMB acum')}${_b('time:0','💥 Mergi la z=1100')}</div>
+    <div class="gact-row">${_b('shell:11','🎯 Vezi CMB acum')}${_b('time:0','💥 Mergi la Recombinare (z=1100)')}</div>
 
     <h4>Cum apare CMB la 45,6 Gly dacă Universul are doar 13,8 Ga?</h4>
     <p>Lumina CMB a călătorit, ca durată, 13,8 miliarde de ani până la noi — însă între timp <strong>spațiul însuși s-a extins</strong>. Locul de unde a fost emis CMB s-a îndepărtat de noi <em>chiar în timp ce</em> lumina călătorea. Distanța de astăzi până la acel loc este de 45,6 Gly. Nu e magie, ci pur și simplu expansiune.</p>
@@ -5881,6 +6332,423 @@ body.up3-presenter #up3-presenter-cursor { display: block; }
   }
 
   // ============================================================
+  // v1.1 · MOD ÎNCEPUT BLÂND (gentle-start)
+  // ============================================================
+  // Ascunde inițial straturile avansate pentru utilizatori non-cosmologi.
+  // Persistă alegerea în localStorage.
+  const GENTLE_KEY = 'up3-gentle-start';
+  function applyGentleStart(on){
+    document.body.classList.toggle('gentle-start', !!on);
+    const row = document.getElementById('gentleStartRow');
+    if (row){
+      row.classList.toggle('on', !!on);
+      row.setAttribute('aria-pressed', on ? 'true' : 'false');
+    }
+    storage.set(GENTLE_KEY, on ? '1' : '0');
+    // Când activăm modul blând, dezactivăm efectiv toggle-urile avansate
+    // (chiar dacă rândurile sunt ascunse cu CSS, vrem ca scena să nu mai randeze acele straturi)
+    if (on) {
+      ['hubble','lightcone','constel','bao','uncert'].forEach(k => {
+        if (window.STATE && window.STATE[k]) {
+          const sw = document.getElementById('sw-'+k);
+          if (sw) sw.classList.remove('on');
+          if (typeof applyToggle === 'function') applyToggle(k, false);
+        }
+      });
+    }
+  }
+  function initGentleStart(){
+    const row = document.getElementById('gentleStartRow');
+    if (!row) return;
+    // Stare inițială: implicit OFF, dar respectă preferința utilizatorului dacă există
+    const saved = storage.get(GENTLE_KEY);
+    if (saved === '1') {
+      // Aplicăm cu mică întârziere pentru a permite scena să se inițializeze
+      setTimeout(() => applyGentleStart(true), 200);
+    }
+    function toggle(){
+      const cur = document.body.classList.contains('gentle-start');
+      applyGentleStart(!cur);
+      const msg = !cur ?
+        '🌱 Mod început blând activat — straturile avansate au fost ascunse' :
+        '✨ Mod expert restaurat — toate funcționalitățile sunt vizibile';
+      if (typeof showToast === 'function') showToast(msg, 2400);
+    }
+    row.addEventListener('click', toggle);
+    row.addEventListener('keydown', e => {
+      if (e.key === 'Enter' || e.key === ' '){ e.preventDefault(); toggle(); }
+    });
+    window.UP3 = window.UP3 || {};
+    window.UP3.toggleGentleStart = toggle;
+    window.UP3.setGentleStart = applyGentleStart;
+  }
+
+  // ============================================================
+  // v1.1 · EXPORT glTF (.glb)
+  // ============================================================
+  // Implementare minimalistă a unui exporter glTF 2.0 pentru scena Three.js.
+  // Produs: un fișier .glb (binar) care încapsulează toate Mesh-urile, Points-urile
+  // și Line-urile din scenă cu transformările lor (matrici 4x4) și culorile materialelor.
+  // Compatibil cu Blender (importatorul glTF nativ), three.js loader, Babylon.js etc.
+  //
+  // Notă: glTF nu suportă nativ "PointsMaterial" cu sizeAttenuation:false; punctele
+  // vor fi importate ca primitives type=POINTS în Blender, unde se pot converti la
+  // mesh-uri cu Geometry Nodes sau adde-on-uri specifice. Acest export este intenționat
+  // ca punct de plecare pentru explorare offline, nu o reproducere foto-realistă.
+
+  function exportSceneAsGLB() {
+    if (typeof THREE === 'undefined' || !window.scene) {
+      if (typeof showToast === 'function') showToast('⚠ Scena nu este disponibilă pentru export', 3000);
+      return;
+    }
+    try {
+      // ── Pasul 1: Colectăm toate Mesh-urile/Points-urile/Line-urile vizibile ──
+      const exportables = [];
+      scene.traverse(obj => {
+        if (!obj.visible) return;
+        if (obj.geometry && (obj.isMesh || obj.isPoints || obj.isLine)) {
+          // Excludem unele obiecte tehnice care nu adaugă valoare didactică
+          // (hitbox-urile invizibile, glow-uri foarte mici)
+          if (obj.material && obj.material.opacity === 0) return;
+          exportables.push(obj);
+        }
+      });
+      if (exportables.length === 0) {
+        showToast('⚠ Nu există obiecte vizibile de exportat', 3000);
+        return;
+      }
+
+      // ── Pasul 2: Construim structurile glTF ──
+      const buffers = [];   // Float32Array/Uint32Array pentru pozitii, culori, indici
+      const bufferViews = [];
+      const accessors = [];
+      const meshes = [];
+      const nodes = [];
+      const materials = [];
+      let bufferOffset = 0;
+
+      function pushBuffer(typedArray) {
+        const byteLength = typedArray.byteLength;
+        const aligned = (byteLength + 3) & ~3; // align to 4 bytes
+        const padded = new Uint8Array(aligned);
+        padded.set(new Uint8Array(typedArray.buffer, typedArray.byteOffset, byteLength));
+        const offset = bufferOffset;
+        buffers.push(padded);
+        bufferOffset += aligned;
+        return { offset, byteLength };
+      }
+
+      function addAccessor(typedArray, type, componentType, count, min, max, target) {
+        const { offset, byteLength } = pushBuffer(typedArray);
+        const bvIdx = bufferViews.length;
+        const bvObj = { buffer: 0, byteOffset: offset, byteLength };
+        if (target) bvObj.target = target;
+        bufferViews.push(bvObj);
+        const accIdx = accessors.length;
+        const accObj = { bufferView: bvIdx, componentType, count, type };
+        if (min) accObj.min = min;
+        if (max) accObj.max = max;
+        accessors.push(accObj);
+        return accIdx;
+      }
+
+      function addMaterial(color, opacity) {
+        const r = ((color >> 16) & 0xff) / 255;
+        const g = ((color >> 8) & 0xff) / 255;
+        const b = (color & 0xff) / 255;
+        const matIdx = materials.length;
+        materials.push({
+          pbrMetallicRoughness: {
+            baseColorFactor: [r, g, b, opacity || 1.0],
+            metallicFactor: 0.0,
+            roughnessFactor: 1.0
+          },
+          alphaMode: opacity < 0.99 ? 'BLEND' : 'OPAQUE',
+          doubleSided: true,
+          name: 'mat_' + matIdx
+        });
+        return matIdx;
+      }
+
+      exportables.forEach((obj, idx) => {
+        const geo = obj.geometry;
+        if (!geo.attributes.position) return;
+
+        const posAttr = geo.attributes.position;
+        const positions = new Float32Array(posAttr.array.length);
+        for (let i = 0; i < positions.length; i++) positions[i] = posAttr.array[i];
+
+        // Min/max pentru bounding box (glTF cere pentru POSITION)
+        let minX=Infinity, minY=Infinity, minZ=Infinity, maxX=-Infinity, maxY=-Infinity, maxZ=-Infinity;
+        for (let i = 0; i < positions.length; i += 3) {
+          if (positions[i] < minX) minX = positions[i];
+          if (positions[i] > maxX) maxX = positions[i];
+          if (positions[i+1] < minY) minY = positions[i+1];
+          if (positions[i+1] > maxY) maxY = positions[i+1];
+          if (positions[i+2] < minZ) minZ = positions[i+2];
+          if (positions[i+2] > maxZ) maxZ = positions[i+2];
+        }
+
+        const posAccIdx = addAccessor(positions, 'VEC3', 5126, positions.length / 3,
+          [minX, minY, minZ], [maxX, maxY, maxZ], 34962);
+
+        const attributes = { POSITION: posAccIdx };
+
+        // COLOR_0 dacă există
+        if (geo.attributes.color) {
+          const colAttr = geo.attributes.color;
+          const cArr = new Float32Array(colAttr.array.length);
+          for (let i = 0; i < cArr.length; i++) cArr[i] = colAttr.array[i];
+          const colAccIdx = addAccessor(cArr, 'VEC3', 5126, cArr.length / 3, null, null, 34962);
+          attributes.COLOR_0 = colAccIdx;
+        }
+
+        // Index buffer dacă există
+        let indicesAccIdx = null;
+        if (geo.index) {
+          const ix = geo.index.array;
+          // Folosim Uint32 pentru siguranță
+          const iArr = new Uint32Array(ix.length);
+          for (let i = 0; i < iArr.length; i++) iArr[i] = ix[i];
+          indicesAccIdx = addAccessor(iArr, 'SCALAR', 5125, iArr.length, null, null, 34963);
+        }
+
+        // Determinăm modul (mode glTF): 0=POINTS, 1=LINES, 2=LINE_LOOP, 4=TRIANGLES
+        let mode = 4; // default TRIANGLES
+        if (obj.isPoints) mode = 0;
+        else if (obj.isLine && !obj.isLineSegments && !obj.isLineLoop) mode = 3; // LINE_STRIP
+        else if (obj.isLineSegments) mode = 1;
+
+        // Material: extragem culoarea
+        let color = 0xffffff, opacity = 1.0;
+        if (obj.material) {
+          if (obj.material.color) color = obj.material.color.getHex();
+          if (typeof obj.material.opacity === 'number') opacity = obj.material.opacity;
+        }
+        const matIdx = addMaterial(color, opacity);
+
+        const primitive = { attributes, mode, material: matIdx };
+        if (indicesAccIdx !== null) primitive.indices = indicesAccIdx;
+
+        const meshIdx = meshes.length;
+        meshes.push({
+          name: (obj.name || obj.userData?.pn || obj.userData?.name || 'obj_' + idx),
+          primitives: [primitive]
+        });
+
+        // Nod cu matricea world transformată
+        obj.updateMatrixWorld(true);
+        const m = obj.matrixWorld.elements;
+        nodes.push({
+          name: obj.userData?.pn || obj.userData?.name || obj.name || 'node_' + idx,
+          mesh: meshIdx,
+          matrix: Array.from(m)
+        });
+      });
+
+      // ── Pasul 3: Concatenăm toate buffer-urile într-unul singur ──
+      let totalSize = 0;
+      buffers.forEach(b => totalSize += b.byteLength);
+      const combinedBuffer = new Uint8Array(totalSize);
+      let writePos = 0;
+      buffers.forEach(b => { combinedBuffer.set(b, writePos); writePos += b.byteLength; });
+
+      // ── Pasul 4: Construim JSON-ul glTF ──
+      const gltf = {
+        asset: {
+          version: '2.0',
+          generator: 'Universul Observabil 3D · v' + (typeof APP_VERSION!=='undefined'?APP_VERSION:'1.1') + ' · ASFAN-România',
+          copyright: 'Catalog astronomic public · scena exportată ' + new Date().toISOString().slice(0,10) + ' · catalog #' + (typeof computeCatalogHash==='function'?computeCatalogHash():'')
+        },
+        scene: 0,
+        scenes: [{ nodes: nodes.map((_, i) => i), name: 'Universul Observabil' }],
+        nodes,
+        meshes,
+        materials,
+        accessors,
+        bufferViews,
+        buffers: [{ byteLength: totalSize }]
+      };
+      const jsonStr = JSON.stringify(gltf);
+      // Padding la 4 bytes (cerință glTF binary)
+      let jsonPadded = jsonStr;
+      while ((jsonPadded.length) % 4 !== 0) jsonPadded += ' ';
+      const jsonBytes = new TextEncoder().encode(jsonPadded);
+
+      // ── Pasul 5: Asamblăm container-ul .glb (binary glTF) ──
+      // Header: magic 'glTF' (0x46546C67) + version 2 + total length
+      // Apoi două chunk-uri: JSON și BIN
+      const jsonChunkLen = jsonBytes.byteLength;
+      const binChunkLen = combinedBuffer.byteLength;
+      const totalLen = 12 + 8 + jsonChunkLen + 8 + binChunkLen;
+
+      const out = new Uint8Array(totalLen);
+      const dv = new DataView(out.buffer);
+      // Header
+      dv.setUint32(0, 0x46546C67, true); // 'glTF'
+      dv.setUint32(4, 2, true); // version
+      dv.setUint32(8, totalLen, true);
+      // JSON chunk
+      dv.setUint32(12, jsonChunkLen, true);
+      dv.setUint32(16, 0x4E4F534A, true); // 'JSON'
+      out.set(jsonBytes, 20);
+      // BIN chunk
+      const binOff = 20 + jsonChunkLen;
+      dv.setUint32(binOff, binChunkLen, true);
+      dv.setUint32(binOff + 4, 0x004E4942, true); // 'BIN\0'
+      out.set(combinedBuffer, binOff + 8);
+
+      // ── Pasul 6: Trigger download ──
+      const blob = new Blob([out], { type: 'model/gltf-binary' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      const dateStr = new Date().toISOString().slice(0,10);
+      a.download = `univers-observabil-3d_${dateStr}.glb`;
+      a.style.display = 'none';
+      document.body.appendChild(a);
+      a.click();
+      setTimeout(() => {
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+      }, 100);
+
+      // ── Pasul 7: Notificare ──
+      const sizeMB = (out.byteLength / (1024 * 1024)).toFixed(2);
+      const notif = document.getElementById('gltfNotif');
+      if (notif) {
+        notif.textContent = `🎨 glTF exportat: ${meshes.length} obiecte · ${sizeMB} MB · deschide în Blender`;
+        notif.classList.add('show');
+        setTimeout(() => notif.classList.remove('show'), 4500);
+      }
+      console.log('[UP3 v1.1] Export glTF: ' + meshes.length + ' obiecte, ' + sizeMB + ' MB');
+    } catch (err) {
+      console.error('[UP3 v1.1] Eroare export glTF:', err);
+      showToast('⚠ Eroare la export: ' + (err.message || 'necunoscută'), 4000);
+    }
+  }
+
+  function initGltfExport(){
+    const btn = document.getElementById('shareGltfBtn');
+    if (!btn) return;
+    btn.addEventListener('click', () => {
+      // Mic mesaj de "se procesează" pentru scene mari
+      const notif = document.getElementById('gltfNotif');
+      if (notif) {
+        notif.textContent = '🎨 Se construiește scena glTF...';
+        notif.classList.add('show');
+      }
+      // Lăsăm un tick să se actualizeze UI-ul
+      setTimeout(exportSceneAsGLB, 50);
+    });
+    btn.addEventListener('keydown', e => {
+      if (e.key === 'Enter' || e.key === ' '){ e.preventDefault(); btn.click(); }
+    });
+    window.UP3 = window.UP3 || {};
+    window.UP3.exportGLB = exportSceneAsGLB;
+  }
+
+  // ============================================================
+  // v1.2 · TODO#3 · BANNER SINCRONIZARE OGLINZI
+  // Compară hash-ul versiunii curente cu meta-tag-ul din oglinda alternativă
+  // și afișează un banner discret dacă există divergență.
+  //
+  // CONFIGURARE: editați MIRROR_URLS pentru a include URL-urile celor două oglinzi.
+  // Lăsați-le goale dacă lucrați doar pe un singur server (banner-ul nu apare).
+  // ============================================================
+  const MIRROR_URLS = [
+    // 'https://alexio.tf/univers/',
+    // 'https://oglinda-secundara.example.com/univers/'
+  ];
+
+  function getCurrentMirrorIndex() {
+    const here = location.origin + location.pathname.replace(/[^/]*$/,'');
+    for (let i=0; i<MIRROR_URLS.length; i++){
+      if (MIRROR_URLS[i].replace(/[^/]*$/,'').startsWith(here.split('?')[0]) ||
+          here.startsWith(MIRROR_URLS[i].replace(/[^/]*$/,''))) return i;
+    }
+    return -1;
+  }
+
+  function fetchMirrorVersion(url, timeoutMs) {
+    timeoutMs = timeoutMs || 6000;
+    return new Promise((resolve) => {
+      const controller = (typeof AbortController !== 'undefined') ? new AbortController() : null;
+      const timer = setTimeout(() => { try{ controller && controller.abort(); }catch(e){} resolve(null); }, timeoutMs);
+      fetch(url, { method:'GET', signal: controller && controller.signal, cache:'no-store' })
+        .then(r => r.ok ? r.text() : null)
+        .then(html => {
+          clearTimeout(timer);
+          if(!html) return resolve(null);
+          const v = (html.match(/<meta\s+name=["']up3-version["']\s+content=["']([^"']+)["']/i)||[])[1];
+          const d = (html.match(/<meta\s+name=["']up3-build-date["']\s+content=["']([^"']+)["']/i)||[])[1];
+          resolve({ version: v||'?', buildDate: d||'?', url });
+        })
+        .catch(()=>{ clearTimeout(timer); resolve(null); });
+    });
+  }
+
+  function showMirrorSyncBanner(localInfo, remoteInfo) {
+    let b = document.getElementById('up3-mirror-banner');
+    if(!b){
+      b = document.createElement('div');
+      b.id = 'up3-mirror-banner';
+      b.style.cssText = 'position:fixed;top:60px;left:50%;transform:translateX(-50%);'
+        + 'background:linear-gradient(135deg,#3a2410 0%,#5a3818 100%);'
+        + 'border:1px solid rgba(255,170,80,0.45);border-radius:9px;'
+        + 'padding:8px 14px 8px 14px;font-size:11px;color:#ffd6a8;'
+        + 'z-index:200;max-width:560px;box-shadow:0 4px 18px rgba(0,0,0,0.55);'
+        + 'display:flex;align-items:flex-start;gap:10px;line-height:1.45;';
+      document.body.appendChild(b);
+    }
+    const newer = (remoteInfo.buildDate||'') > (localInfo.buildDate||'');
+    b.innerHTML =
+      '<div style="font-size:18px;line-height:1;margin-top:1px">'+(newer?'⚠️':'🔄')+'</div>'
+      + '<div style="flex:1">'
+      +   '<strong style="color:#ffe0b8">Oglinzile nu sunt sincronizate</strong><br>'
+      +   '<span style="opacity:0.85">Versiune locală: v'+localInfo.version+' · '+localInfo.buildDate+' · #'+localInfo.hash+'</span><br>'
+      +   '<span style="opacity:0.85">Oglinda <a href="'+remoteInfo.url+'" target="_blank" style="color:#ffe0a0;text-decoration:underline">'+ new URL(remoteInfo.url).hostname +'</a>: v'+remoteInfo.version+' · '+remoteInfo.buildDate+'</span>'
+      +   (newer ? '<br><a href="'+remoteInfo.url+'" target="_blank" style="color:#ffd87a;font-weight:600;text-decoration:underline">→ Deschide versiunea mai nouă</a>' : '')
+      + '</div>'
+      + '<button aria-label="Închide" style="background:none;border:none;color:#ffd6a8;font-size:16px;cursor:pointer;padding:2px 6px;line-height:1">×</button>';
+    b.querySelector('button').onclick = () => { b.remove(); try{ sessionStorage.setItem('up3-mirror-dismissed','1'); }catch(e){} };
+  }
+
+  function initMirrorSync() {
+    if (!MIRROR_URLS.length) {
+      console.log('[UP3 v1.2 mirror-sync] MIRROR_URLS gol — banner dezactivat');
+      return;
+    }
+    try { if (sessionStorage.getItem('up3-mirror-dismissed')==='1') return; } catch(e){}
+    const here = getCurrentMirrorIndex();
+    const others = MIRROR_URLS.filter((_, i) => i !== here);
+    if (!others.length) return;
+
+    const localInfo = {
+      version: APP_VERSION,
+      buildDate: BUILD_DATE,
+      hash: computeCatalogHash()
+    };
+
+    // Verifică prima oglindă alternativă (pe rând, ne-blocant)
+    setTimeout(() => {
+      fetchMirrorVersion(others[0]).then(remote => {
+        if (!remote) {
+          console.log('[UP3 v1.2 mirror-sync] '+others[0]+' inaccesibilă — sărim verificarea');
+          return;
+        }
+        const mismatch = (remote.version !== localInfo.version) || (remote.buildDate !== localInfo.buildDate);
+        if (mismatch) {
+          console.warn('[UP3 v1.2 mirror-sync] DIVERGENȚĂ: local v'+localInfo.version+'/'+localInfo.buildDate+' vs '+others[0]+' v'+remote.version+'/'+remote.buildDate);
+          showMirrorSyncBanner(localInfo, remote);
+        } else {
+          console.log('[UP3 v1.2 mirror-sync] Oglinzi sincronizate ✓');
+        }
+      });
+    }, 4000);  // Așteaptă 4s ca să nu interfereze cu perf-init și onboarding
+  }
+
+  // ============================================================
   // BOOTSTRAP
   // ============================================================
   function initAll() {
@@ -5894,8 +6762,14 @@ body.up3-presenter #up3-presenter-cursor { display: block; }
     safeRun('P3.8 csv-validation',  initCSVValidation);
     safeRun('P3.9 presenter-mode',  initPresenterMode);
     safeRun('P3.12 onboarding',     initOnboarding);
+    safeRun('v1.1 gentle-start',    initGentleStart);
+    safeRun('v1.1 gltf-export',     initGltfExport);
+    safeRun('v1.2 mirror-sync',     initMirrorSync);   // TODO#3
     window.UP3 = window.UP3 || {};
-    window.UP3.version = '1.0';
+    window.UP3.version = (typeof APP_VERSION!=='undefined'?APP_VERSION:'1.2');
+    window.UP3.buildDate = (typeof BUILD_DATE!=='undefined'?BUILD_DATE:'2026-05-06');
+    window.UP3.catalogHash = (typeof computeCatalogHash==='function'?computeCatalogHash():'?');
+    console.log('[UP3 v'+window.UP3.version+'] build '+window.UP3.buildDate+' · catalog #'+window.UP3.catalogHash);
     // ── Language toggle ──────────────────────────────────────
     applyLang();
     document.getElementById('btnLang').addEventListener('click', () => {
