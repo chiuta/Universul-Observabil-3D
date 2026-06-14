@@ -25,6 +25,7 @@
 }
 </style>
 <meta charset="UTF-8">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data: blob:; style-src 'self' 'unsafe-inline'; font-src 'self' data:; media-src 'self' blob: data:; object-src 'none'; base-uri 'self'; form-action 'self'; worker-src 'self' blob:; script-src 'self' 'unsafe-inline' blob:; connect-src 'self' https:">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover,interactive-widget=resizes-content">
 <title>Universul Observabil · 3D · Galaxii & Distanțe</title>
 <meta name="description" content="Hartă 3D interactivă a Universului observabil — peste 115 galaxii, 12 orizonturi cosmice, scară logaritmică de la Calea Lactee până la CMB (45,6 Gly). Date JWST până la z=14,44 (MoM-z14, mai 2026).">
@@ -6730,8 +6731,8 @@ body.up3-presenter #up3-presenter-cursor { display: block; }
       + '<div style="flex:1">'
       +   '<strong style="color:#ffe0b8">Oglinzile nu sunt sincronizate</strong><br>'
       +   '<span style="opacity:0.85">Versiune locală: v'+localInfo.version+' · '+localInfo.buildDate+' · #'+localInfo.hash+'</span><br>'
-      +   '<span style="opacity:0.85">Oglinda <a href="'+remoteInfo.url+'" target="_blank" style="color:#ffe0a0;text-decoration:underline">'+ new URL(remoteInfo.url).hostname +'</a>: v'+remoteInfo.version+' · '+remoteInfo.buildDate+'</span>'
-      +   (newer ? '<br><a href="'+remoteInfo.url+'" target="_blank" style="color:#ffd87a;font-weight:600;text-decoration:underline">→ Deschide versiunea mai nouă</a>' : '')
+      +   '<span style="opacity:0.85">Oglinda <a href="'+remoteInfo.url+'" target="_blank" style="color:#ffe0a0;text-decoration:underline" rel="noopener noreferrer">'+ new URL(remoteInfo.url).hostname +'</a>: v'+remoteInfo.version+' · '+remoteInfo.buildDate+'</span>'
+      +   (newer ? '<br><a href="'+remoteInfo.url+'" target="_blank" style="color:#ffd87a;font-weight:600;text-decoration:underline" rel="noopener noreferrer">→ Deschide versiunea mai nouă</a>' : '')
       + '</div>'
       + '<button aria-label="Închide" style="background:none;border:none;color:#ffd6a8;font-size:16px;cursor:pointer;padding:2px 6px;line-height:1">×</button>';
     b.querySelector('button').onclick = () => { b.remove(); try{ sessionStorage.setItem('up3-mirror-dismissed','1'); }catch(e){} };
