@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<meta charset="UTF-8">
 <!--
   ============================================================================
   Universul-Observabil-3D
@@ -24,7 +25,6 @@
   *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important;scroll-behavior:auto!important}
 }
 </style>
-<meta charset="UTF-8">
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data: blob:; style-src 'self' 'unsafe-inline'; font-src 'self' data:; media-src 'self' blob: data:; object-src 'none'; base-uri 'self'; form-action 'self'; worker-src 'self' blob:; script-src 'self' 'unsafe-inline' blob:; connect-src 'self' https:">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover,interactive-widget=resizes-content">
 <title>Universul Observabil · 3D · Galaxii & Distanțe</title>
@@ -912,7 +912,7 @@ body.gentle-start #ttl::after{
 })();
 
 // ═══ LANGUAGE TOGGLE (RO/EN) ════════════════════════════════
-let LANG = localStorage.getItem('up3_lang') || 'ro';
+let LANG = (function(){try{return localStorage.getItem('up3_lang');}catch(e){return null;}})() || 'ro';
 const STRINGS = {
   ro: {
     title:'UNIVERSUL OBSERVABIL · 3D', sub:'RA/DEC · ΛCDM · JWST 2026 · MoM-z14',
@@ -1266,7 +1266,7 @@ function comovingDist(z){
     const z1=i*dz, z2=(i+1)*dz;
     sum += 0.5*(1/Ez(z1)+1/Ez(z2)) * dz;
   }
-  return c_kmps/H0 * sum / 1e6 * 3.2616; // → Mly
+  return c_kmps/H0 * sum * 3.2616; // → Mly (c/H0 în Mpc × 3.2616 Mly/Mpc)
 }
 // Lookback distance = c × lookback_time (în Mly) — utilă pentru toggle TODO#9
 function lookbackDist(z){return lookbackTime(z) * 1000;} // Gyr → Mly (1 ly/yr)
@@ -1359,10 +1359,10 @@ let statsTick=0;
   scene.add(gridGroups.axes);
   // Axis labels
   const axDefs=[
-    {txt:'RA 0h · Vărsătorul',p3:new THREE.Vector3(MAX_R*1.04,0,0)},
+    {txt:'RA 0h · Peștii',p3:new THREE.Vector3(MAX_R*1.04,0,0)},
     {txt:'RA 6h · Orion',p3:new THREE.Vector3(0,0,MAX_R*1.04)},
     {txt:'RA 12h · Fecioara',p3:new THREE.Vector3(-MAX_R*1.04,0,0)},
-    {txt:'RA 18h · Scorpion',p3:new THREE.Vector3(0,0,-MAX_R*1.04)},
+    {txt:'RA 18h · Săgetătorul',p3:new THREE.Vector3(0,0,-MAX_R*1.04)},
     {txt:'Dec +90°',p3:new THREE.Vector3(0,MAX_R*1.04,0)},
     {txt:'Dec −90°',p3:new THREE.Vector3(0,-MAX_R*1.04,0)},
   ];
@@ -1412,10 +1412,10 @@ let statsTick=0;
 
 // ═══ DISTANCE SHELLS ═══════════════════════════════════════
 const SHELLS=[
-  {n:'Laniakea (~520 Mly)',     dMly:520,    z:'~0.12',  tLB:'1,6 Gy', age:'12,2 Gy',  c:0x3366cc, op:0.055,wire:false,ringOp:0.28,
+  {n:'Laniakea (~520 Mly)',     dMly:520,    z:'~0.04',  tLB:'0,5 Gy', age:'13,3 Gy',  c:0x3366cc, op:0.055,wire:false,ringOp:0.28,
    desc:'Superclusterul nostru natal — limita aproximativă a „vecinătății" cosmice. Cuprinde ~100.000 galaxii.'},
-  {n:'1 Gly',                  dMly:1000,   z:'~0.24',  tLB:'2,9 Gy', age:'10,9 Gy',  c:0x2299aa, op:0.05, wire:false,ringOp:0.25,
-   desc:'La această distanță, structura cosmică este bine formată. Universul era cu ~3 mld ani mai tânăr.'},
+  {n:'1 Gly',                  dMly:1000,   z:'~0.07',  tLB:'1,0 Gy', age:'12,8 Gy',  c:0x2299aa, op:0.05, wire:false,ringOp:0.25,
+   desc:'La această distanță, structura cosmică este bine formată. Universul era cu ~1 mld ani mai tânăr.'},
   {n:'z = 0.5',                dMly:6165,   z:'0.50',   tLB:'5,1 Gy', age:'8,7 Gy',   c:0x22bb66, op:0.05, wire:false,ringOp:0.28,
    desc:'Jumătatea vârstei Universului. Galaxiile erau mai mici și mai active. Rata de formare stelară spre maxim.'},
   {n:'z = 1',                  dMly:10778,  z:'1.0',    tLB:'7,7 Gy', age:'6,1 Gy',   c:0x99cc22, op:0.05, wire:false,ringOp:0.28,
@@ -1735,7 +1735,7 @@ const EHZ_UNCERTAINTIES = {
 function distFromZApprox(z){
   // Foarte simplu: D_C ≈ c·∫(1/E(z'))dz' de la 0 la z; E(z)=√(Ωm(1+z)³+ΩΛ)
   // Pentru viteza, calculăm doar la cerere (cache map)
-  const Om=CONFIG.OMEGA_M, Ol=CONFIG.OMEGA_L, Hubble_dist_Mly=4408; // c/H0 în Mly cu H0=67.4
+  const Om=CONFIG.OMEGA_M, Ol=CONFIG.OMEGA_L, Hubble_dist_Mly=14508; // c/H0 în Mly cu H0=67.4 (4448 Mpc)
   const N=200; let dz=z/N, sum=0;
   for(let i=0;i<N;i++){
     const zi=(i+0.5)*dz;
@@ -1880,7 +1880,7 @@ G.forEach((g,i)=>{
     {n:'Calea Lactee',d:'0',c:'#aaddff'},{n:'Grupul Local',d:'~3 Mly',c:'#5566cc'},
     {n:'Roiul Virgo',d:'53 Mly',c:'#4477ff'},{n:'Laniakea',d:'~520 Mly',c:'#ff7722'},
     {n:'Vela-Banzi ★',d:'870 Mly',c:'#ff2255'},{n:'z = 1',d:'10,8 Gly',c:'#99cc22'},
-    {n:'Sfera Hubble ✦',d:'14,3 Gly',c:'#e0e0e0',wire:true},{n:'Orizont Eveniment ✦',d:'~16 Gly',c:'#9944ff',wire:true},
+    {n:'Sfera Hubble ✦',d:'14,5 Gly',c:'#e0e0e0',wire:true},{n:'Orizont Eveniment ✦',d:'~16 Gly',c:'#9944ff',wire:true},
     {n:'Primele galaxii z≈6',d:'27,3 Gly',c:'#ff8833'},{n:'CMB (z=1100) ✦',d:'45,6 Gly',c:'#ff1100'},
     {n:'Univers Observabil ✦',d:'~46,5 Gly',c:'#ff0000',wire:true},
     {n:'— JWST EHZ —',d:'',c:'#3a3a2a'},{n:'MoM-z14 ★',d:'33 Gly (z=14,44)',c:'#ff0500'},
@@ -2294,7 +2294,7 @@ function renderSearch(q){
     return{it,score};
   }).filter(o=>o.score>0).sort((a,b)=>b.score-a.score||a.it.name.length-b.it.name.length);
   srchFiltered=scored.slice(0,12).map(o=>o.it);
-  if(!srchFiltered.length){srchRes.innerHTML='<div id="srchEmpty">Nicio galaxie găsită pentru „'+q+'"</div>';return;}
+  if(!srchFiltered.length){srchRes.innerHTML='<div id="srchEmpty">Nicio galaxie găsită pentru „'+q.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')+'"</div>';return;}
   srchRes.innerHTML=srchFiltered.map((it,i)=>{
     const col='#'+new THREE.Color(it.aC||0xffffff).getHexString();
     const tp=it.morph==='EHZ'?'EHZ':it.morph==='QSO'?'QUASAR':it.isShell?'ORIZONT':it.morph?.startsWith('dS')?'PITIC':'GALAXIE';
@@ -2343,10 +2343,10 @@ const TOURS=[
   ]},
   {title:'Limitele Cosmice',icon:'🌐',steps:[
     {action:'reset',toggles:[['shells',true],['rings',true],['dlbl',true]],toT:0.4,toP:1.15,toR:55,dur:3000,txt:'Traversăm Universul observabil — de la vecinătatea noastră până la limita absolută. Cochiliile sunt acum aprinse.'},
-    {shell:4,dur:5000,txt:'Sfera Hubble — 14,3 Gly. Galaxii de la această distanță recesionează cu viteza luminii. Fotoni emiși AZI de la ele nu ne vor ajunge NICIODATĂ.'},
+    {shell:4,dur:5000,txt:'Sfera Hubble — 14,5 Gly. Galaxii de la această distanță recesionează cu viteza luminii. Fotoni emiși AZI de la ele nu ne vor ajunge NICIODATĂ.'},
     {shell:5,dur:5500,txt:'Orizontul Evenimentelor — ~16 Gly. Limita cauzală absolută. Expansiunea accelerată face imposibilă comunicarea cu ce e dincolo, pentru totdeauna.'},
-    {shell:11,dur:6000,txt:'CMB (z=1100) — 45,6 Gly. Cel mai depărtat lucru observabil: fotoni emişi la 380.000 ani după Big Bang. Temperatura: 2,725 K. Fluctuațiile sale au generat toată structura cosmică.'},
-    {shell:12,dur:5500,txt:'Orizontul Particulelor — ~46,5 Gly. Limita absolută. Dincolo există univers care funcționează normal, dar lumina sa n-a apucat să ajungă la noi de la Big Bang.'},
+    {shell:10,dur:6000,txt:'CMB (z=1100) — 45,6 Gly. Cel mai depărtat lucru observabil: fotoni emişi la 380.000 ani după Big Bang. Temperatura: 2,725 K. Fluctuațiile sale au generat toată structura cosmică.'},
+    {shell:11,dur:5500,txt:'Orizontul Particulelor — ~46,5 Gly. Limita absolută. Dincolo există univers care funcționează normal, dar lumina sa n-a apucat să ajungă la noi de la Big Bang.'},
   ]},
   {title:'Vela & Structuri Gigantice',icon:'🔴',steps:[
     {action:'reset',toggles:[['structs',true],['zoa',true]],toT:0.4,toP:1.15,toR:65,dur:2500,txt:'Aprindem ZoA și structurile mari. Multe descoperiri spectaculoase sunt ascunse în „zona evitată" a Căii Lactee.'},
@@ -2383,8 +2383,8 @@ const TOURS=[
     {gal:'M83 Southern Pinwheel',mg:2.2,dur:3500,txt:'14,7 Mly · M83 Southern Pinwheel. Galaxie spirală cu 6 supernove documentate într-un singur secol.'},
     {gal:'M87 Virgo A',mg:2,dur:3500,txt:'53,5 Mly · M87. Inima Roiului Virgo. „Vecinul" gigantic.'},
     {gal:'NGC 4889 Coma cD',mg:2,dur:4000,txt:'321 Mly · Coma. Mare roi de galaxii. Aici Zwicky a descoperit prima dovadă de materie întunecată în 1933.'},
-    {shell:4,dur:4500,txt:'14,3 Gly · Sfera Hubble. Galaxii dincolo de care recesiunea depășește viteza luminii.'},
-    {shell:11,dur:5000,txt:'45,6 Gly · CMB. Lumina cea mai veche. „Bebelușul" Universului fotografiat.'},
+    {shell:4,dur:4500,txt:'14,5 Gly · Sfera Hubble. Galaxii dincolo de care recesiunea depășește viteza luminii.'},
+    {shell:10,dur:5000,txt:'45,6 Gly · CMB. Lumina cea mai veche. „Bebelușul" Universului fotografiat.'},
     {toT:1.8,toP:1.2,toR:350,dur:5000,txt:'Vedere exterioară. Tot ce a fost călătorit până aici e o sferă albastră. Asta e Universul observabil — al tău.'},
   ]},
   // ════════════════════════ NEW: OBIECTE EXOTICE ════════════════════════
@@ -2463,10 +2463,10 @@ const TOURS=[
   ]},
   // ════════════════════════ NEW: COORDONATE & STRUCTURĂ ════════════════════════
   {title:'Coordonate Cerești · RA/Dec',icon:'🗺️',steps:[
-    {action:'reset',toggles:[['axes',true],['axlbl',true],['equator',true],['grid',true]],toT:0,toP:1.5708,toR:60,dur:3500,txt:'Sistemul de coordonate ceresc. Privești spre Vărsător (RA 0h). Aprinse: axele, etichetele, ecuatorul, grila.'},
+    {action:'reset',toggles:[['axes',true],['axlbl',true],['equator',true],['grid',true]],toT:0,toP:1.5708,toR:60,dur:3500,txt:'Sistemul de coordonate ceresc. Privești spre Pești (RA 0h). Aprinse: axele, etichetele, ecuatorul, grila.'},
     {toT:1.5708,toP:1.5708,toR:60,dur:3500,txt:'Rotire la RA 6h · ORION. Iarna, această direcție e sus pe cerul nopții. Conține Nebulosa Orion și steaua Betelgeuse.'},
     {toT:3.1416,toP:1.5708,toR:60,dur:3500,txt:'RA 12h · FECIOARA. Direcția roiului Virgo, polul nostru cosmic „local". Aici e M87 cu prima imagine a unei găuri negre.'},
-    {toT:4.7124,toP:1.5708,toR:60,dur:3500,txt:'RA 18h · SCORPIONUL. Direcția centrului galactic. Privești spre inima Căii Lactee — unde e Sagittarius A* (gaura noastră neagră).'},
+    {toT:4.7124,toP:1.5708,toR:60,dur:3500,txt:'RA 18h · SĂGETĂTORUL. Direcția centrului galactic. Privești spre inima Căii Lactee — unde e Sagittarius A* (gaura noastră neagră).'},
     {toT:1.5708,toP:0.3,toR:60,dur:3500,txt:'Dec +90° · POLUL NORD CERESC. Cum ești sub bolta cerului. Steaua polară (Polaris) e foarte aproape de aici.'},
     {toT:1.5708,toP:Math.PI-0.3,toR:60,dur:3500,txt:'Dec −90° · POLUL SUD CERESC. Hemisfera sudică. Aici sunt Norii Magellanici. Sigma Octantis e steaua polară sudică (slabă).'},
   ]},
@@ -2480,21 +2480,21 @@ const TOURS=[
   ]},
   {title:'Sfera Hubble · Limita',icon:'🍩',steps:[
     {action:'reset',toggles:[['shells',true],['rings',true],['dlbl',true],['galFar',true]],toT:0.4,toP:1.15,toR:55,dur:3000,txt:'Aprinse cochiliile orizonturilor. Privim acum Sfera Hubble — granița cea mai importantă conceptuală.'},
-    {shell:4,dur:6000,txt:'★ SFERA HUBBLE · 14,3 Gly · La această distanță, recesiunea galaxiilor = c (viteza luminii). E o consecință directă a legii Hubble: v = H₀ × d. Pentru d = c/H₀ ≈ 14,3 Gly, v = c.'},
+    {shell:4,dur:6000,txt:'★ SFERA HUBBLE · 14,5 Gly · La această distanță, recesiunea galaxiilor = c (viteza luminii). E o consecință directă a legii Hubble: v = H₀ × d. Pentru d = c/H₀ ≈ 14,5 Gly, v = c.'},
     {dur:5000,txt:'PARADOX · Putem vedea galaxii dincolo de sfera Hubble! Ele recesionează mai repede decât c, DAR lumina lor a fost emisă cu mult timp în urmă, când erau mai aproape. Lumina veche ne ajunge — lumina nouă nu va mai ajunge.'},
     {shell:5,dur:5000,txt:'ORIZONTUL EVENIMENT · ~16 Gly. Limita absolută. Niciun semnal emis de noi AZI nu poate ajunge dincolo. Universul accelerat (energie întunecată) îl face să se mărească.'},
     {dur:4500,txt:'CONCLUZIE: vedem dincolo de sfera Hubble (lumină veche), dar nu putem comunica dincolo de orizontul eveniment. Cu fiecare an, galaxii devin „pierdute" pentru noi pe vecie din cauza expansiunii accelerate.'},
   ]},
   {title:'Astronomie Românească 🇷🇴',icon:'🏛️',steps:[
-    {action:'reset',toT:0.4,toP:1.15,toR:50,dur:2500,txt:'Astronomia românească — de la Mihail Drăgănescu (informatică cosmică) la Renato Banzi (descoperire structuri ascunse). Cosmologia românească contemporană în câteva exemple.'},
-    {gal:'Vela-Banzi ★',mg:2,dur:6000,txt:'★ Vela-Banzi · 870 Mly · ASFAN-România a contribuit la analiza HI (hidrogen neutru) ce a permis confirmarea acestei structuri colosale. Renato Banzi a coordonat parte din cercetările radio (2016-2026).'},
+    {action:'reset',toT:0.4,toP:1.15,toR:50,dur:2500,txt:'Astronomia românească — de la Mihail Drăgănescu (informatică cosmică) la contribuții contemporane. Cosmologia românească contemporană în câteva exemple.'},
+    {gal:'Vela-Banzi ★',mg:2,dur:6000,txt:'★ Vela-Banzi · 870 Mly · structură colosală confirmată prin observații HI (hidrogen neutru) cu MeerKAT/SALT, echipă condusă de R. Kraan-Korteweg (UCT); „Banzi” este un cuvânt isiXhosa („dezvăluind pe larg”), nu un nume de persoană.'},
     {gal:'Conc. Shapley',mg:2.2,dur:4500,txt:'Concentrația Shapley · context cosmic studiat și de echipe româno-internaționale. Influența gravitațională asupra MW e cuantificată inclusiv prin date de la Observatorul București.'},
     {gal:'Andromeda M31',mg:2.5,dur:4500,txt:'Andromeda · Toma Banuca (Cluj, 1947) a observat-o printre primele cu telescopul de 50cm. Cosmologia românească are tradiție lungă în astrofizică observațională.'},
     {dur:4500,txt:'Astăzi · Asociația ASFAN, Observatorul București, Universitățile din Cluj/București/Iași contribuie la consorții internaționale (LSST, JWST data analysis, telescopuri radio). Următorul mare proiect: contribuția la decadalul 2030+.'},
   ]},
   {title:'Cele Mai Reci & Fierbinți Locuri',icon:'🌡️',steps:[
     {action:'reset',toggles:[['shells',true]],toT:0.4,toP:1.15,toR:60,dur:3000,txt:'Universul are extreme termice incredibile. De la 2,725 K (CMB) la 10⁹ K (centre de quasari). Călătorim între ele.'},
-    {shell:11,dur:6000,txt:'CMB · 2,725 K · Cel mai rece „obiect" macroscopic al Universului. Restul radiației de la Big Bang, răcită de expansiune timp de 13,8 mld ani. Aproape de zero absolut.'},
+    {shell:10,dur:6000,txt:'CMB · 2,725 K · Cel mai rece „obiect" macroscopic al Universului. Restul radiației de la Big Bang, răcită de expansiune timp de 13,8 mld ani. Aproape de zero absolut.'},
     {gal:'NGC 4889 Coma cD',mg:2.2,dur:4500,txt:'GAZ INTRACLUSTER · Coma · ~10⁸ K (100 milioane grade). Gaz fierbinte între galaxii, vizibil în raze X. Volum: trilioane de ori mai mare decât galaxiile.'},
     {gal:'3C 273',mg:3,dur:5000,txt:'QUASAR 3C 273 · Discul de acreție în jurul SMBH atinge ~10⁸ K. Plasma rotativă cu fricțiune extremă. Locul cel mai luminos: 10¹² L☉.'},
     {gal:'Centaurus A',mg:2.5,dur:4500,txt:'JET RELATIVISTIC · Cen A · particulele atinge γ ≈ 10 (90% c). Energii cinetice 10²⁰ eV. „Razele cosmice ultra-high-energy" provin probabil din astfel de jeturi.'},
@@ -2550,7 +2550,7 @@ const TOURS=[
     {gal:'Andromeda M31',mg:2.5,dur:4500,txt:'2️⃣ Andromeda <b>vine spre noi</b> cu 110 km/s. Una dintre puținele excepții de la legea Hubble — gravitația locală depășește expansiunea.'},
     {gal:'M83 Southern Pinwheel',mg:3,dur:4500,txt:'3️⃣ M83 a avut <b>6 supernove în 100 ani</b>. Probabilitatea statistică să fii în viață când explodează încă una: ~99%.'},
     {gal:'NGC 4889 Coma cD',mg:2.2,dur:4500,txt:'4️⃣ Gaura neagră din NGC 4889 are <b>21 mld M☉</b>. Orizontul ei eveniment: 130 mld km — de 30× orbita lui Pluto.'},
-    {shell:11,dur:5000,txt:'5️⃣ CMB-ul are temperatura <b>2,725 K</b> peste tot, cu o precizie de 1 parte din 100.000. E cea mai uniformă structură din Univers.'},
+    {shell:10,dur:5000,txt:'5️⃣ CMB-ul are temperatura <b>2,725 K</b> peste tot, cu o precizie de 1 parte din 100.000. E cea mai uniformă structură din Univers.'},
     {gal:'MoM-z14 ★ RECORD',mg:5,dur:5000,txt:'6️⃣ MoM-z14 (z=14,44) emitea lumina pe care o vedem astăzi când Universul avea doar <b>280 de milioane de ani</b>. Lumina aceea a călătorit 13,53 miliarde de ani ca să ne ajungă. Confirmare: JWST, ianuarie 2026.'},
     {gal:'Vela-Banzi ★',mg:2,dur:5000,txt:'7️⃣ Vela-Banzi (descoperită 2016-2026) are <b>33.800 trilioane M☉</b> — depășește Marele Atractor. Era ascunsă în spatele Căii Lactee.'},
     {gal:'3C 273',mg:3,dur:4500,txt:'8️⃣ Quasarul 3C 273 e de <b>4 trilioane de ori</b> mai luminos decât Soarele. Dacă ar fi pe locul Soarelui, am fi vaporizați instant.'},
@@ -2562,7 +2562,7 @@ const TOURS=[
     {gal:'Andromeda M31',mg:2.5,dur:3500,txt:'Andromeda · M31 · viitoarea noastră parteneră de fuziune. „Pas de doi" în 4,5 miliarde ani.'},
     {gal:'M87 Virgo A',mg:2.5,dur:3500,txt:'M87 · Prima gaură neagră fotografiată vreodată (EHT 2019). 6,5 miliarde M☉.'},
     {gal:'MoM-z14 ★ RECORD',mg:5,dur:4000,wave:'infrared',txt:'MoM-z14 · z=14,44 · cea mai îndepărtată galaxie cunoscută. Lumina ei e veche de 13,53 miliarde de ani.'},
-    {shell:11,dur:4000,wave:'optical',txt:'CMB · Cel mai vechi „Polaroid" al Universului. 380.000 de ani după Big Bang.'},
+    {shell:10,dur:4000,wave:'optical',txt:'CMB · Cel mai vechi „Polaroid" al Universului. 380.000 de ani după Big Bang.'},
     {time:0,dur:4500,txt:'Slider de timp la z=1100 · <strong>Recombinare</strong> — cea mai veche imagine accesibilă. Înainte de acest moment, plasma opacă blochează lumina.'},
     {time:138,toT:1.8,toP:1.2,toR:380,dur:5000,txt:'Înapoi în prezent + zoom-out la sfera completă. <b>Asta e tot ce putem vedea</b> — de aici și pentru totdeauna.'},
   ]},
@@ -3387,7 +3387,7 @@ const DYK_TIPS = [
   'Pitica Sagittarius este, chiar acum, „înghițită" de Calea Lactee — peste un miliard de ani va face parte din ea.',
   'Vela-Banzi, confirmat în 2017–2026, era ascuns în spatele planului galactic — un gigant aflat la 870 Mly.',
   'Constelațiile sunt simple alinieri întâmplătoare: stelele care le compun se află, în realitate, la distanțe foarte diferite.',
-  'Hubble flow: galaxiile aflate la 100 Mly se îndepărtează cu aproximativ 7.000 km/s. La distanțe mari, vedem doar lumina lor veche.',
+  'Hubble flow: galaxiile aflate la 100 Mly se îndepărtează cu aproximativ 2.000 km/s. La distanțe mari, vedem doar lumina lor veche.',
   'Grupul Local cuprinde aproximativ 80 de galaxii pitice — multe rămase sub limita de detecție optică.',
   'EGS-z11-R0 (martie 2026) este cea mai îndepărtată galaxie ROȘIE confirmată — semn că praful și stelele evoluate au apărut surprinzător de devreme.',
   'DESI a finalizat, pe 14 aprilie 2026, cea mai amplă hartă 3D a Universului: 47 de milioane de galaxii și quasari, cartografiate în cinci ani.',
@@ -3446,7 +3446,7 @@ function renderBK(){
   cont.innerHTML=bks.map((b,i)=>{
     const col='#'+new THREE.Color(b.aC||0xffffff).getHexString();
     const ds=b.dMly<1?(b.dMly*1000).toFixed(0)+'kly':b.dMly<1000?b.dMly.toFixed(1)+' Mly':(b.dMly/1000).toFixed(2)+' Gly';
-    return `<div class="bkItem" data-bi="${i}"><div class="bkDot" style="background:${col}44;outline:1px solid ${col}"></div><span class="bkName">${b.name}</span><span class="bkDist">${ds}</span><span class="bkDel" data-del="${i}">✕</span></div>`;
+    return `<div class="bkItem" data-bi="${i}"><div class="bkDot" style="background:${col}44;outline:1px solid ${col}"></div><span class="bkName">${String(b.name).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}</span><span class="bkDist">${ds}</span><span class="bkDel" data-del="${i}">✕</span></div>`;
   }).join('');
   cont.querySelectorAll('.bkItem').forEach(el=>{
     el.addEventListener('click',e=>{
@@ -3752,7 +3752,7 @@ const GUIDE_CONTENT = {
     <p>Fiecare sferă pe care o vezi în aplicație este un <em>orizont</em>: o distanță până la care lumina a apucat să străbată drumul până la noi, de la Big Bang încoace.</p>
     <div class="gact-row">
       ${_b('cam:1.8:1.2:380','🌐 Privește tot Universul ca o sferă din afară', true)}
-      ${_b('shell:11','🎯 Du-te la CMB (45,6 Gly)')}
+      ${_b('shell:10','🎯 Du-te la CMB (45,6 Gly)')}
     </div>
 
     <h3 class="gsec">📏 Scara — un mic truc esențial</h3>
@@ -4248,7 +4248,7 @@ const GUIDE_CONTENT = {
         ${_b('shell:4','🎯 Vezi Sfera Hubble')}
         ${_b('tour:19','🎬 Tur explicativ')}
       </div>
-      <div class="gquiz-hint">💡 La 14,3 miliarde ani-lumină, recesiunea galaxiilor depășește viteza luminii. Fotonii emiși AZI de la ele nu ne vor ajunge niciodată — dar lumina lor veche da.</div>
+      <div class="gquiz-hint">💡 La 14,5 miliarde ani-lumină, recesiunea galaxiilor depășește viteza luminii. Fotonii emiși AZI de la ele nu ne vor ajunge niciodată — dar lumina lor veche da.</div>
     </div>
 
     <div class="gquiz">
@@ -4290,7 +4290,7 @@ const GUIDE_CONTENT = {
     <div class="gquiz">
       <div class="gquiz-q"><span class="gquiz-num">9</span><strong>Cât de departe e CMB-ul?</strong></div>
       <div class="gquiz-act">
-        ${_b('shell:11','🎯 Vezi CMB')}
+        ${_b('shell:10','🎯 Vezi CMB')}
       </div>
       <div class="gquiz-hint">💡 45,6 miliarde ani-lumină — DEPARTE mai mult decât 13,8 mld ani! Cum? Spațiul s-a extins în timpul cât a călătorit lumina. Distanța comoving azi e mult mai mare decât distanța inițială.</div>
     </div>
@@ -4301,7 +4301,7 @@ const GUIDE_CONTENT = {
         ${_b('goto:Vela-Banzi ★','🇷🇴 Vela-Banzi')}
         ${_b('tour:20','🏛 Tur Astronomie Românească')}
       </div>
-      <div class="gquiz-hint">💡 Vela-Banzi (descoperită 2016-2026). 33.800 trilioane M☉. Cosmologul român Renato Banzi (ASFAN) a contribuit la confirmare prin observații HI.</div>
+      <div class="gquiz-hint">💡 Vela-Banzi (descoperită 2016-2026). 33.800 trilioane M☉. Confirmată prin observații HI (MeerKAT/SALT, echipa UCT/SAAO); „Banzi” este un cuvânt isiXhosa.</div>
     </div>
 
     <h3 class="gsec">🎯 Provocări multi-pas</h3>
@@ -4368,13 +4368,13 @@ const GUIDE_CONTENT = {
 
     <h4>🌐 Orizonturi cosmice (click → fly-to)</h4>
     <div class="gcheat">
-      <div class="gcheat-cell" data-act="shell:0"><span class="gcheat-icon">🏘</span><span class="gcheat-name">Laniakea</span><br><span class="gcheat-key">520 Mly · z=0,12</span></div>
+      <div class="gcheat-cell" data-act="shell:0"><span class="gcheat-icon">🏘</span><span class="gcheat-name">Laniakea</span><br><span class="gcheat-key">520 Mly · z=0,04</span></div>
       <div class="gcheat-cell" data-act="shell:2"><span class="gcheat-icon">🌍</span><span class="gcheat-name">z = 0,5</span><br><span class="gcheat-key">6,2 Gly · 8,7 Gy vechi</span></div>
       <div class="gcheat-cell" data-act="shell:3"><span class="gcheat-icon">⚡</span><span class="gcheat-name">z = 1</span><br><span class="gcheat-key">10,8 Gly · 6,1 Gy vechi</span></div>
       <div class="gcheat-cell" data-act="shell:4"><span class="gcheat-icon">🚀</span><span class="gcheat-name">★ Sfera Hubble</span><br><span class="gcheat-key">14,5 Gly · v=c</span></div>
       <div class="gcheat-cell" data-act="shell:5"><span class="gcheat-icon">🛑</span><span class="gcheat-name">★ Orizont eveniment</span><br><span class="gcheat-key">~16 Gly · cauzal limit</span></div>
-      <div class="gcheat-cell" data-act="shell:11"><span class="gcheat-icon">🌌</span><span class="gcheat-name">★ CMB</span><br><span class="gcheat-key">45,6 Gly · z=1100</span></div>
-      <div class="gcheat-cell" data-act="shell:12"><span class="gcheat-icon">🎯</span><span class="gcheat-name">Orizont particule</span><br><span class="gcheat-key">~46,5 Gly · limita</span></div>
+      <div class="gcheat-cell" data-act="shell:10"><span class="gcheat-icon">🌌</span><span class="gcheat-name">★ CMB</span><br><span class="gcheat-key">45,6 Gly · z=1100</span></div>
+      <div class="gcheat-cell" data-act="shell:11"><span class="gcheat-icon">🎯</span><span class="gcheat-name">Orizont particule</span><br><span class="gcheat-key">~46,5 Gly · limita</span></div>
     </div>
 
     <h4>⏳ Timp cosmic (click → setează)</h4>
@@ -4454,7 +4454,7 @@ const GUIDE_CONTENT = {
 
     <h4>Orizonturi cosmice</h4>
     <ul>
-      <li><strong>Sfera Hubble (14,3 Gly)</strong> — galaxii la această distanță recesionează cu viteza luminii. Fotoni emişi <em>azi</em> de la ele nu ne vor ajunge niciodată.</li>
+      <li><strong>Sfera Hubble (14,5 Gly)</strong> — galaxii la această distanță recesionează cu viteza luminii. Fotoni emişi <em>azi</em> de la ele nu ne vor ajunge niciodată.</li>
       <li><strong>Orizontul evenimentului (~16 Gly)</strong> — limita cauzală absolută. Dincolo nu ne mai poate ajunge niciun semnal nou.</li>
       <li><strong>CMB (45,6 Gly)</strong> — fundalul cosmic de microunde. Cea mai veche lumină — emisă la 380.000 ani după Big Bang.</li>
       <li><strong>Orizontul particulelor (~46,5 Gly)</strong> — cea mai mare distanță de la care orice particulă a putut ajunge la noi de la Big Bang.</li>
@@ -4462,8 +4462,8 @@ const GUIDE_CONTENT = {
     <div class="gact-row">
       ${_b('shell:4','🎯 Vezi Sfera Hubble')}
       ${_b('shell:5','🎯 Vezi Orizont eveniment')}
-      ${_b('shell:11','🎯 Vezi CMB')}
-      ${_b('shell:12','🎯 Vezi Orizont particule')}
+      ${_b('shell:10','🎯 Vezi CMB')}
+      ${_b('shell:11','🎯 Vezi Orizont particule')}
     </div>
 
     <h4>Coordonate cerești</h4>
@@ -4520,7 +4520,7 @@ const GUIDE_CONTENT = {
 
     <h4>De ce nu putem vedea dincolo de z = 1100?</h4>
     <p>Înainte de z = 1100, Universul era atât de fierbinte (în jur de 3000 K), încât electronii nu se puteau lega de nuclee — totul era plasmă. Iar plasma împrăștie lumina ca o ceață deasă: fotonii nu se pot propaga liber. Abia după ce Universul s-a răcit suficient cât să se formeze atomi neutri, lumina a fost „eliberată" — și asta este ceea ce vedem astăzi sub forma CMB. Tot ce se află dincolo (mai aproape de Big Bang) este, pentru lumină, opac.</p>
-    <div class="gact-row">${_b('shell:11','🎯 Vezi CMB acum')}${_b('time:0','💥 Mergi la Recombinare (z=1100)')}</div>
+    <div class="gact-row">${_b('shell:10','🎯 Vezi CMB acum')}${_b('time:0','💥 Mergi la Recombinare (z=1100)')}</div>
 
     <h4>Cum apare CMB la 45,6 Gly dacă Universul are doar 13,8 Ga?</h4>
     <p>Lumina CMB a călătorit, ca durată, 13,8 miliarde de ani până la noi — însă între timp <strong>spațiul însuși s-a extins</strong>. Locul de unde a fost emis CMB s-a îndepărtat de noi <em>chiar în timp ce</em> lumina călătorea. Distanța de astăzi până la acel loc este de 45,6 Gly. Nu e magie, ci pur și simplu expansiune.</p>
@@ -4531,7 +4531,7 @@ const GUIDE_CONTENT = {
     <div class="gact-row">${_b('goto:Andromeda M31','🚀 Du-te la Andromeda')}${_b('tour:9','💥 Tur coliziuni')}</div>
 
     <h4>Ce este Vela-Banzi?</h4>
-    <p>O concentrație colosală de galaxii, descoperită între 2016 și 2026 și ascunsă în Zona de Evitare, la 870 Mly. Are aproximativ 33.800 de trilioane M☉, un diametru de circa 300 Mly și depășește gravitațional chiar și Marele Atractor. Fizicianul român Renato Banzi (ASFAN) a contribuit la confirmarea ei prin analize de hidrogen neutru (HI).</p>
+    <p>O concentrație colosală de galaxii, descoperită între 2016 și 2026 și ascunsă în Zona de Evitare, la 870 Mly. Are aproximativ 33.800 de trilioane M☉, un diametru de circa 300 Mly și depășește gravitațional chiar și Marele Atractor. A fost confirmată prin analize de hidrogen neutru (HI) cu MeerKAT/SALT de o echipă condusă de R. Kraan-Korteweg (UCT); „Banzi” este un cuvânt isiXhosa („dezvăluind pe larg”), nu un nume de persoană.</p>
     <div class="gact-row">${_b('goto:Vela-Banzi ★','🇷🇴 Du-te la Vela-Banzi')}${_b('tour:20','🏛 Tur: Astronomie Românească')}</div>
 
     <h4>De ce se oprește auto-rotația când ating ecranul?</h4>
@@ -5303,7 +5303,7 @@ body.up3-presenter #up3-presenter-cursor { display: block; }
       '<tr><td>Comoving</td><td>D_C</td><td>Distanța „de acum", măsurată în coordonate care urmează expansiunea</td></tr>' +
       '<tr><td>Unghiulară</td><td>D_A</td><td>Cât de mare apare obiectul, ca unghi pe bolta cerească</td></tr></table>' +
       '<p>Pentru obiecte foarte îndepărtate, cele trei distanțe diferă cu ordine de mărime: <b>D_L ≫ D_C ≫ D_A</b>. Pentru MoM-z14, la z = 14,44, valorile aproximative sunt:</p>' +
-      '<div class="up3-formula">D_C ≈ 10,2 Gpc · D_L ≈ 157 Gpc · D_A ≈ 0,66 Gpc · t_LB ≈ 13,53 Gyr</div>' +
+      '<div class="up3-formula">D_C ≈ 10,4 Gpc · D_L ≈ 160 Gpc · D_A ≈ 0,67 Gpc · t_LB ≈ 13,51 Gyr</div>' +
       '<h3>De ce „Big Bang ≠ explozie"</h3>' +
       '<p>Big Bang nu a fost o explozie petrecută într-un punct anume, ci o stare în care întregul Univers era mult mai compact. Spațiul s-a întins, de atunci, peste tot și simultan. Imaginea în care „galaxiile s-ar aduna spre un centru" este, de aceea, <i>înșelătoare</i>: distanțele dintre galaxii erau mai mici, dar galaxiile <i>nu</i> au călătorit dintr-un punct. Pentru ilustrația corectă, deschide ghidul „?" și mergi la tab-ul <b>⏳ Timp</b> — vei găsi acolo un widget interactiv intitulat „Coordonate co-mișcătoare".</p>' +
       '<h3>Detalii ΛCDM</h3>' +
@@ -6798,7 +6798,7 @@ body.up3-presenter #up3-presenter-cursor { display: block; }
     applyLang();
     document.getElementById('btnLang').addEventListener('click', () => {
       LANG = LANG === 'ro' ? 'en' : 'ro';
-      localStorage.setItem('up3_lang', LANG);
+      try{ localStorage.setItem('up3_lang', LANG); }catch(e){}
       applyLang();
     });
     // ── Hipparcos stars toggle ────────────────────────────────
