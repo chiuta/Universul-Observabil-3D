@@ -1,5 +1,10 @@
 # Universul Observabil 3D
 
+**Live / demo:** https://chiuta.github.io/Universul-Observabil-3D/
+
+![Universul-Observabil-3D — captură de ecran / screenshot](screenshot.png)
+
+
 Hartă 3D interactivă a universului observabil, într-un singur fișier HTML (WebGL / three.js): peste 115 galaxii (118 în catalogul static), 12 orizonturi cosmice, slider de timp, tururi ghidate, căutare, măsurare de distanțe, quiz, export glTF/CSV și BibTeX. Interfață RO/EN.
 
 - `index.html` — aplicația interactivă 3D;
