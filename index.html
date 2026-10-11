@@ -37,8 +37,8 @@
 <meta property="og:description" content="Călătorie prin Universul observabil — de la Calea Lactee până la MoM-z14, cea mai îndepărtată galaxie confirmată spectroscopic la data catalogului (mai 2026; z=14,44). Aplicație într-un singur fișier, complet offline (Three.js înglobat).">
 <meta property="og:type" content="website">
 <!-- TODO#10 + TODO#3: meta versioning pentru comparare cross-mirror -->
-<meta name="up3-version" content="1.2">
-<meta name="up3-build-date" content="2026-05-06">
+<meta name="up3-version" content="1.2.1">
+<meta name="up3-build-date" content="2026-10-11">
 <!-- Hash-ul real al catalogului e calculat la runtime — vezi computeCatalogHash() în JS -->
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='14' fill='%23040814' stroke='%234a80cc' stroke-width='1.5'/><circle cx='16' cy='16' r='1.5' fill='%23ffe8a0'/><circle cx='10' cy='12' r='0.7' fill='%23aaccff'/><circle cx='22' cy='10' r='0.5' fill='%23ffaa66'/><circle cx='9' cy='21' r='0.6' fill='%23ff6644'/><circle cx='23' cy='22' r='0.5' fill='%23ffffff'/><circle cx='16' cy='6' r='0.4' fill='%23ffcc44'/><circle cx='6' cy='17' r='0.4' fill='%23ddeeff'/><circle cx='26' cy='17' r='0.4' fill='%23ff8844'/></svg>">
 <link rel="manifest" href='data:application/manifest+json;charset=utf-8,{"name":"Universul Observabil 3D","short_name":"Univers 3D","description":"Hartă 3D interactivă a Universului observabil","start_url":"./","display":"standalone","background_color":"%23040814","theme_color":"%23040814","orientation":"any","icons":[{"src":"data:image/svg+xml;utf8,<svg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 192 192%27><circle cx=%2796%27 cy=%2796%27 r=%2784%27 fill=%27%23040814%27 stroke=%27%234a80cc%27 stroke-width=%279%27/><circle cx=%2796%27 cy=%2796%27 r=%279%27 fill=%27%23ffe8a0%27/><circle cx=%2760%27 cy=%2772%27 r=%274%27 fill=%27%23aaccff%27/><circle cx=%27132%27 cy=%2760%27 r=%273%27 fill=%27%23ffaa66%27/><circle cx=%2754%27 cy=%27126%27 r=%273.5%27 fill=%27%23ff6644%27/><circle cx=%27138%27 cy=%27132%27 r=%273%27 fill=%27%23ffffff%27/></svg>","sizes":"192x192","type":"image/svg+xml"}]}'>
@@ -592,8 +592,10 @@ body.gentle-start #ttl::after{
 <div id="gltfNotif" role="status" aria-live="polite"></div>
 
 <!-- Canvas + label overlay – TREBUIE să fie primele după topbar -->
+<div role="main" id="mainView" aria-label="Universul Observabil 3D">
 <canvas id="c" aria-label="Vizualizare 3D Universul Observabil"></canvas>
 <div id="lw" aria-hidden="true"></div>
+</div>
 
 <!-- Did You Know widget -->
 <div id="dykWidget" role="complementary" aria-live="polite">
@@ -641,7 +643,7 @@ body.gentle-start #ttl::after{
 </div>
 
 <!-- Version footer -->
-<div id="versionFooter" aria-hidden="true">Catalog actualizat: mai 2026 · Record JWST: MoM-z14, z=14,44 · Univers Observabil 3D</div>
+<div id="versionFooter" aria-hidden="true">Catalog actualizat: mai 2026 · Record JWST: MoM-z14, z=14,44 (verificat 11.10.2026) · Univers Observabil 3D</div>
 
 <!-- ELI5 GUIDE MODAL -->
 <div id="guideOvl" role="dialog" aria-modal="true" aria-label="Ghid de utilizare">
@@ -723,7 +725,7 @@ body.gentle-start #ttl::after{
 <!-- Drawer overlay -->
 <div id="overlay"></div>
 <!-- Bottom drawer -->
-<div id="drawer">
+<div id="drawer" role="complementary" aria-label="Controale și straturi">
   <div id="drawer-handle"></div>
   <div id="drawer-inner">
     <div class="drsec" style="padding-bottom:6px;">
@@ -921,7 +923,7 @@ const STRINGS = {
     bk_btn:'⭐ Adaugă Bookmark', search_ph:'Caută galaxie, quasar, orizont...',
     screenshot_name:'Salvează screenshot', screenshot_sub:'PNG 2K cu titlu și legendă',
     lang_next:'EN',
-    footer:'Catalog: mai 2026 · Record JWST: MoM-z14, z=14,44 · Univers Observabil 3D · v{V} · build {D} · #{H}',
+    footer:'Catalog: mai 2026 · Record JWST: MoM-z14, z=14,44 (verificat 11.10.2026) · Univers Observabil 3D · v{V} · build {D} · #{H}',
     footer_tip:'Versiune & hash catalog — click pentru detalii build. Comparați hash-ul între cele două oglinzi pentru a verifica sincronizarea.',
     bibtex_btn:'📋 Copiază BibTeX', bibtex_ok:'✓ BIBTEX COPIAT!',
   },
@@ -932,15 +934,15 @@ const STRINGS = {
     bk_btn:'⭐ Add Bookmark', search_ph:'Search galaxy, quasar, horizon...',
     screenshot_name:'Save screenshot', screenshot_sub:'2K PNG with title & legend',
     lang_next:'RO',
-    footer:'Catalog: May 2026 · JWST record: MoM-z14, z=14.44 · Observable Universe 3D · v{V} · build {D} · #{H}',
+    footer:'Catalog: May 2026 · JWST record: MoM-z14, z=14.44 (checked 11 Oct 2026) · Observable Universe 3D · v{V} · build {D} · #{H}',
     footer_tip:'Version & catalog hash — click for build details. Compare the hash between mirrors to verify sync.',
     bibtex_btn:'📋 Copy BibTeX', bibtex_ok:'✓ BIBTEX COPIED!',
   }
 };
 
 // ═══ TODO#10: VERSIUNE VIZIBILĂ — data build + hash catalog ═══
-const BUILD_DATE = '2026-05-06';     // data build-ului curent (ISO)
-const APP_VERSION = '1.2';            // bump de la 1.1 (UI cosmologic + sci-correctness)
+const BUILD_DATE = '2026-10-11';     // data build-ului curent (ISO)
+const APP_VERSION = '1.2.1';          // 1.2 → 1.2.1: ghid, căutare cu tastatura, etichete fără suprapunere
 // FNV-1a hash 32-bit, codat base36 — produce ~6 caractere stabile pentru același input
 function fnv1aHash(str){
   let h = 0x811c9dc5;
@@ -1077,7 +1079,7 @@ const BIBTEX_DB = {
   author  = {Chiuță, Alexandru Ionuț},
   year    = {2026},
   month   = {may},
-  version = {1.2},
+  version = {1.2.1},
   publisher = {ASFAN-România},
   url     = {https://alexio.tf/},
   note    = {Aplicație web single-file, Three.js. Date JWST până la MoM-z14 (z=14,44).}
@@ -2068,7 +2070,16 @@ cv.addEventListener('touchend',e=>{
 document.addEventListener('keydown',e=>{
   // Don't steal keystrokes when user is typing in an input/textarea
   const tag=(e.target.tagName||'').toUpperCase();
-  if(tag==='INPUT'||tag==='TEXTAREA')return;
+  if(tag==='INPUT'||tag==='TEXTAREA'){
+    // Căutare: săgeți / Enter / Escape funcționează și cu focusul în câmpul de căutare
+    if(e.target===srchInp && srchOvl.classList.contains('open')){
+      if(e.key==='ArrowDown'){e.preventDefault();moveFocus(1);}
+      else if(e.key==='ArrowUp'){e.preventDefault();moveFocus(-1);}
+      else if(e.key==='Enter'){e.preventDefault();selectSR(srchFocusIdx>=0?srchFocusIdx:0);}
+      else if(e.key==='Escape'){srchOvl.classList.remove('open');srchInp.blur();}
+    }
+    return;
+  }
   // Reset
   if(e.key==='r'||e.key==='R'){theta=CONFIG.CAM.INIT_T;phi=CONFIG.CAM.INIT_P;camR=CONFIG.CAM.INIT_R;tgt.set(0,0,0);setAutorot(true);updateCam();}
   // Labels
@@ -3266,7 +3277,7 @@ function takeScreenshot(){
     ctx.font='11px Arial, sans-serif';
     ctx.fillStyle='rgba(255,255,255,0.38)';
     const now=new Date(); const dateStr=now.toLocaleDateString('ro-RO',{year:'numeric',month:'long',day:'numeric'});
-    ctx.fillText('alexio.tf · mai 2026 · '+dateStr, W-28, H-16);
+    ctx.fillText('alexio.tf · catalog mai 2026 · '+dateStr, W-28, H-16);
     // Export
     out.toBlob(blob=>{
       if(!blob){showNotif('✗ EROARE SCREENSHOT');return;}
@@ -3466,6 +3477,7 @@ function renderBK(){
 document.getElementById('bkBtn').addEventListener('click',addBookmark);
 renderBK();
 function pr(v){const u=v.clone().project(camera);return{x:(u.x+1)/2*innerWidth,y:-(u.y-1)/2*innerHeight,b:u.z>1};}
+let _lblOrder=null,_lblN=0;
 function setLbl(div,p3){const s=pr(p3);if(s.b||s.x<0||s.x>innerWidth||s.y<0||s.y>innerHeight){div.style.display='none';}else{div.style.display='block';div.style.left=s.x+'px';div.style.top=s.y+'px';}}
 const zNms=[[3,'Grup Local'],[22,'Volum Local'],[55,'Superclusteri'],[85,'Nearby Univers'],[112,'z < 1'],[125,'Univers Profund'],[145,'Aproape de CMB'],[180,'Universul Observabil'],[400,'Vedere exterioară · Sfera observabilului'],[999,'Vedere îndepărtată · Sfera completă']];
 function zoneName(r){for(const[l,n] of zNms)if(r<l)return n;return zNms[zNms.length-1][1];}
@@ -3531,6 +3543,24 @@ function animate(){
     const wp = p3.clone().multiplyScalar(gScale).add(new THREE.Vector3(0,R*1.5*gScale,0));
     setLbl(div,wp);
   });
+  // Anti-suprapunere etichete: prioritate orizonturi/axe, apoi galaxii în ordinea distanței; etichetele care s-ar suprapune se ascund (visibility), nu se șterg.
+  (function declutterLabels(){
+    const _n=lblDivs.length+shellLblDivs.length+axDivs.length;
+    if(!_lblOrder||_lblN!==_n){
+      _lblN=_n;
+      _lblOrder=[].concat(shellLblDivs.map(o=>o.div),axDivs.map(o=>o.div),lblDivs.slice().sort((a,b)=>(a.isZoA?1:0)-(b.isZoA?1:0)||a.d-b.d).map(o=>o.div));
+    }
+    const placed=[];
+    for(let i=0;i<_lblOrder.length;i++){
+      const dv=_lblOrder[i];
+      if(dv.style.display==='none'){continue;}
+      const r=dv.getBoundingClientRect();
+      let hit=false;
+      for(let j=0;j<placed.length;j++){const q=placed[j];if(r.left<q.right&&r.right>q.left&&r.top<q.bottom&&r.bottom>q.top){hit=true;break;}}
+      if(hit){dv.style.visibility='hidden';}
+      else{dv.style.visibility='';placed.push(r);}
+    }
+  })();
   document.getElementById('zhint').textContent=zoneName(camR);
   // Boundary sphere — opacitatea se interpolează în funcție de cât de departe e camera.
   // Devine vizibilă progresiv când camR > 200 (când universul observabil începe să apară ca o sferă).
@@ -3686,6 +3716,7 @@ window.UP3.actions = function(seq, opts){
 (function initToast(){
   const t = document.createElement('div');
   t.id = 'up3-toast';
+  t.setAttribute('role','status'); t.setAttribute('aria-live','polite');
   t.style.cssText = 'position:fixed;bottom:90px;left:50%;transform:translateX(-50%) translateY(100px);background:rgba(20,40,80,0.96);color:#cce4ff;padding:9px 18px;border-radius:8px;border:1px solid rgba(70,130,255,0.4);font-size:12px;font-family:system-ui,sans-serif;letter-spacing:0.3px;z-index:9999;pointer-events:none;opacity:0;transition:transform 0.3s ease, opacity 0.3s;box-shadow:0 4px 24px rgba(0,0,0,0.6);max-width:90vw;text-align:center;';
   document.body.appendChild(t);
   let toastTimer = null;
@@ -4551,7 +4582,7 @@ const GUIDE_CONTENT = {
 
     <h4>Cât de actualizate sunt datele?</h4>
     <p>Catalogul include cele mai recente descoperiri JWST până la <strong>6 mai 2026</strong>, inclusiv <strong>MoM-z14 (z = 14,44)</strong> — preprint arXiv din mai 2025, publicată în <em>Open Journal of Astrophysics</em> în ianuarie 2026 — și <strong>EGS-z11-R0</strong>, cea mai îndepărtată galaxie roșie raportată la data catalogului (martie 2026; neverificată independent). Catalogul reflectă, de asemenea, finalizarea celor cinci ani de observații DESI (47 de milioane de galaxii și quasari, 14 aprilie 2026).</p>
-    <p><em>Afirmațiile de tip „record” sunt valabile la data catalogului (mai 2026) și pot fi depășite. Surse principale: MoM-z14 — Naidu et al., arXiv:2505.11263; JADES-GS-z14-0 — Carniani et al. 2024, Nature; EGS-z11-R0 — arXiv:2603.15841 (neverificat independent de autorul aplicației). Sursele per galaxie nu sunt listate integral; vezi README.</em></p>
+    <p><em>Afirmațiile de tip „record” sunt valabile la data catalogului (mai 2026) și pot fi depășite; la 11 octombrie 2026 nu a fost găsit în surse publice un record spectroscopic mai îndepărtat decât MoM-z14. Surse principale: MoM-z14 — Naidu et al., arXiv:2505.11263; JADES-GS-z14-0 — Carniani et al. 2024, Nature; EGS-z11-R0 — arXiv:2603.15841 (neverificat independent de autorul aplicației). Sursele per galaxie nu sunt listate integral; vezi README.</em></p>
 
     <h4>Aplicația merge mai greu pe telefonul meu. Ce să fac?</h4>
     <p>Meniu → „Mod Performanță" reduce numărul de stele de fundal și calitatea redării. Sau stinge „Populații fundal" — sunt mii de obiecte care se desenează simultan.</p>
@@ -5634,11 +5665,13 @@ body.up3-presenter #up3-presenter-cursor { display: block; }
       }
       html += '</table>' +
         '<div style="display:flex;gap:8px;margin-top:14px;flex-wrap:wrap">' +
-        '<button onclick="UP3.exportCSVWithCitations()" style="background:var(--up3-accent);color:#001020;border:none;padding:8px 14px;border-radius:6px;font-weight:900;cursor:pointer;font-family:inherit">⬇ Exportă CSV</button>' +
+        '<button id="up3-csv-export-btn" type="button" style="background:var(--up3-accent);color:#001020;border:none;padding:8px 14px;border-radius:6px;font-weight:900;cursor:pointer;font-family:inherit">⬇ Exportă CSV</button>' +
         '<span style="font-size:10px;opacity:0.6;align-self:center">' +
         Object.keys(CITATIONS).length + ' obiecte · ' + Object.keys(ALIASES).length + ' aliasuri</span>' +
         '</div>';
       showModal(html);
+      const _eb = document.getElementById('up3-csv-export-btn');
+      if (_eb) _eb.addEventListener('click', exportCSVWithCitations);
     }
 
     window.UP3 = window.UP3 || {};
@@ -6342,6 +6375,8 @@ body.up3-presenter #up3-presenter-cursor { display: block; }
     setTimeout(function(){
       if (window.UP3 && window.UP3.openGuide) {
         window.UP3.openGuide('welcome');
+        // Marcăm turul ca „văzut” imediat: dacă este închis cu ✕ / Esc / click în afară, nu se mai redeschide la încărcarea următoare.
+        storage.set(ONBOARDING_KEY, '1');
       } else {
         // fallback: marchează butonul ? cu animație de puls
         const btn = document.getElementById('btnGuide');
@@ -6791,8 +6826,8 @@ body.up3-presenter #up3-presenter-cursor { display: block; }
     safeRun('v1.1 gltf-export',     initGltfExport);
     safeRun('v1.2 mirror-sync',     initMirrorSync);   // TODO#3
     window.UP3 = window.UP3 || {};
-    window.UP3.version = (typeof APP_VERSION!=='undefined'?APP_VERSION:'1.2');
-    window.UP3.buildDate = (typeof BUILD_DATE!=='undefined'?BUILD_DATE:'2026-05-06');
+    window.UP3.version = (typeof APP_VERSION!=='undefined'?APP_VERSION:'1.2.1');
+    window.UP3.buildDate = (typeof BUILD_DATE!=='undefined'?BUILD_DATE:'2026-10-11');
     window.UP3.catalogHash = (typeof computeCatalogHash==='function'?computeCatalogHash():'?');
     console.log('[UP3 v'+window.UP3.version+'] build '+window.UP3.buildDate+' · catalog #'+window.UP3.catalogHash);
     // ── Language toggle ──────────────────────────────────────
@@ -6826,7 +6861,7 @@ body.up3-presenter #up3-presenter-cursor { display: block; }
 </script>
 
 <!-- tf-donate: sprijin voluntar (Patreon + Buy Me a Coffee) — self-contained, fără resurse externe, fără JS -->
-<div id="tf-donate" aria-label="Sprijină autorul">
+<div id="tf-donate" role="complementary" aria-label="Sprijină autorul">
 <style>
 #tf-donate{position:fixed;right:14px;bottom:14px;z-index:2147483600;font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;line-height:1}
 #tf-donate *{box-sizing:border-box}

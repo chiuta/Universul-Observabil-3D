@@ -1,5 +1,7 @@
 # Universul Observabil 3D
 
+**Ultima actualizare:** 11 octombrie 2026 (versiune 1.2.1)
+
 **Live / demo:** https://chiuta.github.io/Universul-Observabil-3D/
 
 ![Universul-Observabil-3D — captură de ecran / screenshot](screenshot.png)
@@ -14,7 +16,7 @@ Hartă 3D interactivă a universului observabil, într-un singur fișier HTML (W
 Poziții, distanțe și mase sunt valori **aproximative și simplificate**, calculate în cadrul ΛCDM (Planck 2018) și grupate din cataloage publice (NED, SIMBAD, programele JWST CEERS/JADES/UNCOVER). Scara este logaritmică și are scop ilustrativ/educațional; nu înlocuiește cataloagele originale. Afirmații „perisabile” (de ex. „cea mai îndepărtată galaxie cunoscută”, MoM-z14, z=14,44; catalog „actualizat în mai 2026”) pot deveni depășite. Valorile cosmologice (inclusiv constanta Hubble) au incertitudini și tensiuni deschise. Lista exactă a surselor per galaxie nu este inclusă în aplicație.
 
 ### Afirmații „record” și date
-Afirmațiile de tip „cea mai îndepărtată galaxie” sunt formulate **la data catalogului (mai 2026)** și pot fi depășite de observații ulterioare. Surse: MoM-z14 (z_spec = 14,44) — Naidu et al., arXiv:2505.11263 (preprint mai 2025, publicat în Open Journal of Astrophysics, ianuarie 2026); JADES-GS-z14-0 — Carniani et al. 2024, Nature; EGS-z11-R0 — arXiv:2603.15841 (intrare din martie 2026, neverificată independent de autor; statutul spectroscopic nu a fost confirmat aici). Etichetele „NOU”/„RECORD” din nume au fost înlocuite cu date explicite („adăugat mar. 2026”, „record (mai 2026)”). Sursele per galaxie nu sunt listate integral; bibliografie în curs de completare.
+Afirmațiile de tip „cea mai îndepărtată galaxie” sunt formulate **la data catalogului (mai 2026)** și pot fi depășite de observații ulterioare. Reverificat la 11.10.2026: în sursele publice consultate (STScI/NASA, Wikipedia, presă) MoM-z14 rămâne cea mai îndepărtată galaxie confirmată spectroscopic; nu a fost găsit un record nou. Surse: MoM-z14 (z_spec = 14,44) — Naidu et al., arXiv:2505.11263 (preprint mai 2025, publicat în Open Journal of Astrophysics, ianuarie 2026); JADES-GS-z14-0 — Carniani et al. 2024, Nature; EGS-z11-R0 — arXiv:2603.15841 (intrare din martie 2026, neverificată independent de autor; statutul spectroscopic nu a fost confirmat aici). Etichetele „NOU”/„RECORD” din nume au fost înlocuite cu date explicite („adăugat mar. 2026”, „record (mai 2026)”). Sursele per galaxie nu sunt listate integral; bibliografie în curs de completare.
 
 ## Utilizare
 Deschide `index.html` într-un browser cu WebGL. Tasta `R` resetează camera, `/` caută, `?` deschide ghidul și turul.
@@ -34,3 +36,10 @@ Aplicația și codul aparțin autorului (CC0 1.0, vezi `LICENSE`). Datele astron
 
 Audit: 2026-10-10; rundă 2: 2026-10-11 (eliminat DOI-ul placeholder din citații, `connect-src 'self'`).
 Rundă 3: 2026-10-11 (formulări „la data catalogului”, surse pentru recorduri, gesturi iOS limitate la canvas).
+
+## Surse verificate la 11.10.2026
+- Recordul de distanță MoM-z14: https://www.stsci.edu/contents/news-releases/2026/news-2026-107 (comunicat din 28 ianuarie 2026), https://en.wikipedia.org/wiki/MoM-z14 și https://en.wikipedia.org/wiki/List_of_the_most_distant_astronomical_objects — niciun record spectroscopic mai îndepărtat găsit. Datele catalogului rămân cele din mai 2026 (EGS-z11-R0 rămâne neverificat independent).
+
+## Istoric / Changelog
+- **1.2.1 — 11 octombrie 2026:** în câmpul de căutare funcționează acum ↑/↓/Enter/Esc (înainte handlerul global ignora evenimentele din INPUT); etichetele 3D care se suprapun se ascund automat după prioritate (orizonturi, apoi galaxii în ordinea distanței) în loc să se amestece; turul de bun venit se marchează ca văzut la prima deschidere, deci nu se mai redeschide la fiecare încărcare dacă a fost închis cu ✕/Esc.
+- Accesibilitate/curățenie: repere `main` / `complementary` (axe-core: 0 violări la 1280×800 și 360×740), `catalog.html`: tabelele se derulează orizontal pe ecrane înguste (fără depășire a paginii la 360 px); handler inline `onclick` eliminat (butonul „Exportă CSV” din tabelul de citații), data build 2026-10-11 în aplicație, `catalog.html` și meta-uri, numărul de versiune actualizat peste tot.
