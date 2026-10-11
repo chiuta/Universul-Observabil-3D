@@ -1,6 +1,6 @@
 # Universul Observabil 3D
 
-**Ultima actualizare:** 11 octombrie 2026 (versiune 1.2.1)
+**Ultima actualizare:** 11 octombrie 2026 (versiune 1.2.2)
 
 **Live / demo:** https://chiuta.github.io/Universul-Observabil-3D/
 
@@ -22,7 +22,7 @@ Afirmațiile de tip „cea mai îndepărtată galaxie” sunt formulate **la dat
 Deschide `index.html` într-un browser cu WebGL. Tasta `R` resetează camera, `/` caută, `?` deschide ghidul și turul.
 
 ## Date și confidențialitate
-Verificat prin audit: fără cereri de rețea la încărcare. Fonturile sunt incluse; limba aleasă și semnele de carte se păstrează în `localStorage`. Linkurile către arXiv/site-uri externe se deschid doar la click. Există cod (dezactivat, lista `MIRROR_URLS` este goală) pentru comparație de versiuni între oglinzi, care ar face `fetch` doar dacă este configurat. CSP-ul din `index.html` limitează acum `connect-src` la `'self'` (fiind goală lista `MIRROR_URLS`, codul de oglinzi nu poate face cereri externe; dacă o configurezi, extinde `connect-src` cu gazdele oglinzilor).
+Verificat prin audit: fără cereri de rețea la încărcare. Fonturile sunt incluse; limba aleasă și semnele de carte se păstrează în `localStorage`. Linkurile către arXiv/site-uri externe se deschid doar la click. Există cod (dezactivat, lista `MIRROR_URLS` este goală) pentru comparație de versiuni între oglinzi, care ar face `fetch` doar dacă este configurat. CSP-ul din `index.html` limitează acum `connect-src` la `'self'` (fiind goală lista `MIRROR_URLS`, codul de oglinzi nu poate face cereri externe; dacă o configurezi, extinde `connect-src` cu gazdele oglinzilor). Scripturile inline sunt permise doar prin hash `sha256` în `script-src`: **după orice modificare a unui script, recalculează hash-urile** din meta CSP, altfel scriptul modificat nu rulează.
 
 ## Limitări
 - Pe iOS, gesturile de pinch începute **pe canvas** sunt rezervate camerei 3D; pe panouri și texte, zoom-ul nativ al sistemului rămâne disponibil (rundă 3).
@@ -41,5 +41,6 @@ Rundă 3: 2026-10-11 (formulări „la data catalogului”, surse pentru recordu
 - Recordul de distanță MoM-z14: https://www.stsci.edu/contents/news-releases/2026/news-2026-107 (comunicat din 28 ianuarie 2026), https://en.wikipedia.org/wiki/MoM-z14 și https://en.wikipedia.org/wiki/List_of_the_most_distant_astronomical_objects — niciun record spectroscopic mai îndepărtat găsit. Datele catalogului rămân cele din mai 2026 (EGS-z11-R0 rămâne neverificat independent).
 
 ## Istoric / Changelog
+- **1.2.2 — 11 octombrie 2026:** CSP cu hash `sha256` pentru cele patru scripturi inline (fără `'unsafe-inline'` și fără `blob:` la `script-src`); link „Catalog text accesibil (fără JavaScript)” către `catalog.html`, primul element focalizabil din pagină (vizibil la focus, RO/EN) și în mesajul `noscript`, ca alternativă textuală la scena WebGL pentru cititoare de ecran și tastatură; versiunea 1.2.2 (aplicație, `catalog.html`, citare BibTeX).
 - **1.2.1 — 11 octombrie 2026:** în câmpul de căutare funcționează acum ↑/↓/Enter/Esc (înainte handlerul global ignora evenimentele din INPUT); etichetele 3D care se suprapun se ascund automat după prioritate (orizonturi, apoi galaxii în ordinea distanței) în loc să se amestece; turul de bun venit se marchează ca văzut la prima deschidere, deci nu se mai redeschide la fiecare încărcare dacă a fost închis cu ✕/Esc.
 - Accesibilitate/curățenie: repere `main` / `complementary` (axe-core: 0 violări la 1280×800 și 360×740), `catalog.html`: tabelele se derulează orizontal pe ecrane înguste (fără depășire a paginii la 360 px); handler inline `onclick` eliminat (butonul „Exportă CSV” din tabelul de citații), data build 2026-10-11 în aplicație, `catalog.html` și meta-uri, numărul de versiune actualizat peste tot.

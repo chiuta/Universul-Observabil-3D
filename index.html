@@ -25,7 +25,7 @@
   *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important;scroll-behavior:auto!important}
 }
 </style>
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data: blob:; style-src 'self' 'unsafe-inline'; font-src 'self' data:; media-src 'self' blob: data:; object-src 'none'; base-uri 'self'; form-action 'self'; worker-src 'self' blob:; script-src 'self' 'unsafe-inline' blob:; connect-src 'self'">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data: blob:; style-src 'self' 'unsafe-inline'; font-src 'self' data:; media-src 'self' blob: data:; object-src 'none'; base-uri 'self'; form-action 'self'; worker-src 'self' blob:; script-src 'self' 'sha256-Omuz9M2+OWLiB5BWJvXyC1j3K8gvCFEKrTG7gU2HHMA=' 'sha256-1Qss23p7rOEBQhODYyU7pq7olyr7sKU5IHcOn21iZ8g=' 'sha256-krHk8V0QF1Xwr7Td4XBTMLvQTgqbbUF8tjF8n4i3vgo=' 'sha256-L1fIRPpOGA38UUY/Wa1yv0dKMaYcF+QDe9ltQav2Vqg='; connect-src 'self'">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,interactive-widget=resizes-content">
 <title>Universul Observabil · 3D · Galaxii & Distanțe</title>
 <meta name="description" content="Hartă 3D interactivă a Universului observabil — peste 115 galaxii, 12 orizonturi cosmice, scară logaritmică de la Calea Lactee până la CMB (45,6 Gly). Date JWST până la z=14,44 (MoM-z14, mai 2026).">
@@ -37,7 +37,7 @@
 <meta property="og:description" content="Călătorie prin Universul observabil — de la Calea Lactee până la MoM-z14, cea mai îndepărtată galaxie confirmată spectroscopic la data catalogului (mai 2026; z=14,44). Aplicație într-un singur fișier, complet offline (Three.js înglobat).">
 <meta property="og:type" content="website">
 <!-- TODO#10 + TODO#3: meta versioning pentru comparare cross-mirror -->
-<meta name="up3-version" content="1.2.1">
+<meta name="up3-version" content="1.2.2">
 <meta name="up3-build-date" content="2026-10-11">
 <!-- Hash-ul real al catalogului e calculat la runtime — vezi computeCatalogHash() în JS -->
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='14' fill='%23040814' stroke='%234a80cc' stroke-width='1.5'/><circle cx='16' cy='16' r='1.5' fill='%23ffe8a0'/><circle cx='10' cy='12' r='0.7' fill='%23aaccff'/><circle cx='22' cy='10' r='0.5' fill='%23ffaa66'/><circle cx='9' cy='21' r='0.6' fill='%23ff6644'/><circle cx='23' cy='22' r='0.5' fill='%23ffffff'/><circle cx='16' cy='6' r='0.4' fill='%23ffcc44'/><circle cx='6' cy='17' r='0.4' fill='%23ddeeff'/><circle cx='26' cy='17' r='0.4' fill='%23ff8844'/></svg>">
@@ -479,6 +479,9 @@ kbd{background:rgba(70,130,255,0.09);border:1px solid rgba(70,130,255,0.18);bord
 #webglErr p{font-size:11px;color:var(--dim);max-width:400px;line-height:1.6;}
 
 /* ── v1.1: GENTLE START MODE — ascunde funcționalități avansate ── */
+/* Link către versiunea text a catalogului (cititoare de ecran, tastatură): vizibil doar la focus */
+.skipCat{position:absolute;left:-9999px;top:8px;z-index:100000;background:#0b1626;color:#cfe6ff;border:2px solid #7fb6ff;border-radius:8px;padding:10px 14px;font:600 13px/1.2 system-ui,sans-serif;text-decoration:none}
+.skipCat:focus{left:8px}
 /* Când <body> are clasa .gentle-start, se ascund: detalii cosmologice (D_A, factor scară),
    toggle-uri tehnice (BAO, vectori Hubble, con de lumină, populații, constelații) */
 body.gentle-start #cosmoCalcWrap{display:none;}
@@ -522,13 +525,14 @@ body.gentle-start #ttl::after{
 </style>
 </head>
 <body>
+<nav aria-label="Catalog"><a class="skipCat" id="skipCat" href="catalog.html">Catalog text accesibil (fără JavaScript)</a></nav>
 <noscript>
   <div id="noscriptMsg">
     <div>
       <h2 style="font-size:16px;color:#ee7755;margin-bottom:14px;">⚠ JavaScript necesar</h2>
       <p style="font-size:12px;line-height:1.6;color:#7a98b4;max-width:380px;">
         Universul Observabil 3D necesită JavaScript activat pentru a randa scena WebGL și a procesa cele 115+ galaxii.<br><br>
-        Activează JavaScript și reîncarcă pagina.
+        Activează JavaScript și reîncarcă pagina.<br><br>Poți consulta <a href="catalog.html" style="color:#88bbee;">catalogul text (fără JavaScript)</a>.
       </p>
     </div>
   </div>
@@ -920,7 +924,7 @@ const STRINGS = {
     title:'UNIVERSUL OBSERVABIL · 3D', sub:'RA/DEC · ΛCDM · JWST 2026 · MoM-z14',
     tip:'Tip', dist:'Distanță comovingă', redshift:'Redshift z', lookback:'Privire în trecut',
     age_then:'Vârsta Universului atunci', cosmo:'📐 Detalii cosmologice avansate',
-    bk_btn:'⭐ Adaugă Bookmark', search_ph:'Caută galaxie, quasar, orizont...',
+    catalog_link:'Catalog text accesibil (fără JavaScript)', bk_btn:'⭐ Adaugă Bookmark', search_ph:'Caută galaxie, quasar, orizont...',
     screenshot_name:'Salvează screenshot', screenshot_sub:'PNG 2K cu titlu și legendă',
     lang_next:'EN',
     footer:'Catalog: mai 2026 · Record JWST: MoM-z14, z=14,44 (verificat 11.10.2026) · Univers Observabil 3D · v{V} · build {D} · #{H}',
@@ -931,7 +935,7 @@ const STRINGS = {
     title:'OBSERVABLE UNIVERSE · 3D', sub:'RA/DEC · ΛCDM · JWST 2026 · MoM-z14',
     tip:'Type', dist:'Comoving distance', redshift:'Redshift z', lookback:'Lookback time',
     age_then:'Universe age at emission', cosmo:'📐 Advanced cosmological details',
-    bk_btn:'⭐ Add Bookmark', search_ph:'Search galaxy, quasar, horizon...',
+    catalog_link:'Accessible text catalogue (no JavaScript)', bk_btn:'⭐ Add Bookmark', search_ph:'Search galaxy, quasar, horizon...',
     screenshot_name:'Save screenshot', screenshot_sub:'2K PNG with title & legend',
     lang_next:'RO',
     footer:'Catalog: May 2026 · JWST record: MoM-z14, z=14.44 (checked 11 Oct 2026) · Observable Universe 3D · v{V} · build {D} · #{H}',
@@ -942,7 +946,7 @@ const STRINGS = {
 
 // ═══ TODO#10: VERSIUNE VIZIBILĂ — data build + hash catalog ═══
 const BUILD_DATE = '2026-10-11';     // data build-ului curent (ISO)
-const APP_VERSION = '1.2.1';          // 1.2 → 1.2.1: ghid, căutare cu tastatura, etichete fără suprapunere
+const APP_VERSION = '1.2.2';          // 1.2.1 → 1.2.2: CSP cu hash, link către catalogul text
 // FNV-1a hash 32-bit, codat base36 — produce ~6 caractere stabile pentru același input
 function fnv1aHash(str){
   let h = 0x811c9dc5;
@@ -995,6 +999,7 @@ function applyLang(){
       });
     }
   }
+  const skipCat=document.getElementById('skipCat'); if(skipCat) skipCat.textContent=t('catalog_link');
   const bkBtn=document.getElementById('bkBtn'); if(bkBtn) bkBtn.textContent=t('bk_btn');
   const bibtexBtn=document.getElementById('bibtexBtn'); if(bibtexBtn) bibtexBtn.textContent=t('bibtex_btn');
   const bibtexNotif=document.getElementById('bibtexNotif'); if(bibtexNotif) bibtexNotif.textContent=t('bibtex_ok');
@@ -1079,7 +1084,7 @@ const BIBTEX_DB = {
   author  = {Chiuță, Alexandru Ionuț},
   year    = {2026},
   month   = {may},
-  version = {1.2.1},
+  version = {1.2.2},
   publisher = {ASFAN-România},
   url     = {https://alexio.tf/},
   note    = {Aplicație web single-file, Three.js. Date JWST până la MoM-z14 (z=14,44).}
@@ -6826,7 +6831,7 @@ body.up3-presenter #up3-presenter-cursor { display: block; }
     safeRun('v1.1 gltf-export',     initGltfExport);
     safeRun('v1.2 mirror-sync',     initMirrorSync);   // TODO#3
     window.UP3 = window.UP3 || {};
-    window.UP3.version = (typeof APP_VERSION!=='undefined'?APP_VERSION:'1.2.1');
+    window.UP3.version = (typeof APP_VERSION!=='undefined'?APP_VERSION:'1.2.2');
     window.UP3.buildDate = (typeof BUILD_DATE!=='undefined'?BUILD_DATE:'2026-10-11');
     window.UP3.catalogHash = (typeof computeCatalogHash==='function'?computeCatalogHash():'?');
     console.log('[UP3 v'+window.UP3.version+'] build '+window.UP3.buildDate+' · catalog #'+window.UP3.catalogHash);
