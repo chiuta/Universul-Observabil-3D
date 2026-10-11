@@ -25,7 +25,7 @@
   *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important;scroll-behavior:auto!important}
 }
 </style>
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data: blob:; style-src 'self' 'unsafe-inline'; font-src 'self' data:; media-src 'self' blob: data:; object-src 'none'; base-uri 'self'; form-action 'self'; worker-src 'self' blob:; script-src 'self' 'unsafe-inline' blob:; connect-src 'self' https:">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data: blob:; style-src 'self' 'unsafe-inline'; font-src 'self' data:; media-src 'self' blob: data:; object-src 'none'; base-uri 'self'; form-action 'self'; worker-src 'self' blob:; script-src 'self' 'unsafe-inline' blob:; connect-src 'self'">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,interactive-widget=resizes-content">
 <title>Universul Observabil · 3D · Galaxii & Distanțe</title>
 <meta name="description" content="Hartă 3D interactivă a Universului observabil — peste 115 galaxii, 12 orizonturi cosmice, scară logaritmică de la Calea Lactee până la CMB (45,6 Gly). Date JWST până la z=14,44 (MoM-z14, mai 2026).">
@@ -634,8 +634,8 @@ body.gentle-start #ttl::after{
   <div id="bibtexWrap">
     <button id="bibtexBtn">📋 Copiază BibTeX</button>
     <div id="bibtexNotif">✓ BIBTEX COPIAT!</div>
-    <!-- TODO#5: buton pentru citația aplicației (Zenodo DOI) -->
-    <button id="appCiteBtn" title="Copiază citația aplicației în BibTeX (cu DOI Zenodo)" style="width:100%;margin-top:5px;padding:6px 8px;border-radius:6px;border:1px solid rgba(180,140,255,0.25);background:rgba(140,90,200,0.07);color:var(--dimmer);font-size:9.5px;cursor:pointer;font-family:Arial,sans-serif;letter-spacing:0.5px;">📚 Citează această aplicație</button>
+    <!-- buton pentru citația aplicației -->
+    <button id="appCiteBtn" title="Copiază citația aplicației în BibTeX" style="width:100%;margin-top:5px;padding:6px 8px;border-radius:6px;border:1px solid rgba(180,140,255,0.25);background:rgba(140,90,200,0.07);color:var(--dimmer);font-size:9.5px;cursor:pointer;font-family:Arial,sans-serif;letter-spacing:0.5px;">📚 Citează această aplicație</button>
     <div id="appCiteNotif" style="font-size:9px;color:var(--hot);text-align:center;margin-top:3px;display:none;letter-spacing:1px;">✓ CITAȚIE APP COPIATĂ!</div>
   </div>
 </div>
@@ -1064,12 +1064,12 @@ const BIBTEX_DB = {
   year    = {2020},
   doi     = {10.1126/science.abb3524}
 }`,
-  // ── TODO#5: Citație pentru aplicația în sine — DOI Zenodo persistent ──
+  // ── Citație pentru aplicația în sine (fără DOI până la o publicare Zenodo reală) ──
   // Pentru a obține DOI-ul Zenodo:
   //  1. Înregistrați repo-ul GitHub la https://zenodo.org/account/settings/github/
   //  2. Activați swich-ul pentru repo
   //  3. Creați un release pe GitHub (tag vX.Y) → Zenodo va atribui un DOI automat
-  //  4. Înlocuiți DOI-ul de mai jos cu cel real (concept DOI sau version DOI)
+  //  4. Adăugați câmpul doi = {…} cu DOI-ul real (concept DOI sau version DOI) în intrarea de mai jos
   // Concept DOI = stabil pentru toate versiunile (recomandat pentru citații generice)
   // Version DOI = unic pentru fiecare release
   '__APP__': `@software{chiuta2026universul,
@@ -1080,7 +1080,6 @@ const BIBTEX_DB = {
   version = {1.2},
   publisher = {ASFAN-România},
   url     = {https://alexio.tf/},
-  doi     = {10.5281/zenodo.PLACEHOLDER},
   note    = {Aplicație web single-file, Three.js. Date JWST până la MoM-z14 (z=14,44).}
 }`,
 };
@@ -1091,7 +1090,7 @@ function getBibTeX(name){
   for(const k of Object.keys(BIBTEX_DB)){if(k==='__APP__') continue; if(name.includes(k)||k.includes(name.split(' ')[0])) return BIBTEX_DB[k];}
   return null;
 }
-// TODO#5: returnează citația aplicației în sine (pentru tab-ul "Cite this app")
+// returnează citația aplicației în sine (pentru tab-ul "Cite this app")
 function getAppCitation(){
   return BIBTEX_DB['__APP__'];
 }

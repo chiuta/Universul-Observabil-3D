@@ -12,13 +12,13 @@ Poziții, distanțe și mase sunt valori **aproximative și simplificate**, calc
 Deschide `index.html` într-un browser cu WebGL. Tasta `R` resetează camera, `/` caută, `?` deschide ghidul și turul.
 
 ## Date și confidențialitate
-Verificat prin audit: fără cereri de rețea la încărcare. Fonturile sunt incluse; limba aleasă și semnele de carte se păstrează în `localStorage`. Linkurile către arXiv/site-uri externe se deschid doar la click. Există cod (dezactivat, lista `MIRROR_URLS` este goală) pentru comparație de versiuni între oglinzi, care ar face `fetch` doar dacă este configurat. CSP-ul din `index.html` permite `connect-src https:` (mai larg decât necesar).
+Verificat prin audit: fără cereri de rețea la încărcare. Fonturile sunt incluse; limba aleasă și semnele de carte se păstrează în `localStorage`. Linkurile către arXiv/site-uri externe se deschid doar la click. Există cod (dezactivat, lista `MIRROR_URLS` este goală) pentru comparație de versiuni între oglinzi, care ar face `fetch` doar dacă este configurat. CSP-ul din `index.html` limitează acum `connect-src` la `'self'` (fiind goală lista `MIRROR_URLS`, codul de oglinzi nu poate face cereri externe; dacă o configurezi, extinde `connect-src` cu gazdele oglinzilor).
 
 ## Limitări
 - Pagina blochează zoom-ul nativ pe canvas (gesturi proprii de pinch) — vezi nota de accesibilitate din raportul de audit.
-- DOI-ul Zenodo din BibTeX-ul din `catalog.html` este un placeholder (`10.5281/zenodo.PLACEHOLDER`) până la prima publicare.
+- Citațiile BibTeX ale aplicației (butonul „Citează această aplicație” și `catalog.html`) nu au câmp DOI: aplicația nu are încă un DOI Zenodo; câmpul fals a fost eliminat (rundă 2).
 
 ## Licență
 CC0 1.0 (domeniu public), conform antetului din fișiere; vezi `LICENSE`. Pagina poartă și mențiuni ASFAN-România.
 
-Audit: 2026-10-10
+Audit: 2026-10-10; rundă 2: 2026-10-11 (eliminat DOI-ul placeholder din citații, `connect-src 'self'`).
