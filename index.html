@@ -34,7 +34,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="mobile-web-app-capable" content="yes">
 <meta property="og:title" content="Universul Observabil · 3D">
-<meta property="og:description" content="Călătorie prin Universul observabil — de la Calea Lactee până la MoM-z14, cea mai îndepărtată galaxie cunoscută (z=14,44, JWST 2026). Aplicație într-un singur fișier, complet offline (Three.js înglobat).">
+<meta property="og:description" content="Călătorie prin Universul observabil — de la Calea Lactee până la MoM-z14, cea mai îndepărtată galaxie confirmată spectroscopic la data catalogului (mai 2026; z=14,44). Aplicație într-un singur fișier, complet offline (Three.js înglobat).">
 <meta property="og:type" content="website">
 <!-- TODO#10 + TODO#3: meta versioning pentru comparare cross-mirror -->
 <meta name="up3-version" content="1.2">
@@ -759,7 +759,7 @@ body.gentle-start #ttl::after{
       <div class="tog" data-key="galLocal"><div class="tog-left"><div class="tog-dot" style="background:#aaddff"></div><div><span class="tog-name">Locale (&lt;100 Mly)</span><span class="tog-sub">MW, Andromeda, Grup Local...</span></div></div><div class="sw on" id="sw-galLocal"></div></div>
       <div class="tog" data-key="galFar"><div class="tog-left"><div class="tog-dot" style="background:#ffddaa"></div><div><span class="tog-name">Îndepărtate (100–2.000 Mly)</span><span class="tog-sub">Virgo, Coma, Fornax...</span></div></div><div class="sw on" id="sw-galFar"></div></div>
       <div class="tog" data-key="qso"><div class="tog-left"><div class="tog-dot" style="background:#ffff88"></div><div><span class="tog-name">Quasari & AGN</span><span class="tog-sub">3C 273, Mrk 231...</span></div></div><div class="sw on" id="sw-qso"></div></div>
-      <div class="tog" data-key="ehz"><div class="tog-left"><div class="tog-dot" style="background:#ff2200"></div><div><span class="tog-name">EHZ — z &gt; 4 (JWST)</span><span class="tog-sub">Până la z=14,44 (recordul MoM-z14, 2026)</span></div></div><div class="sw on" id="sw-ehz"></div></div>
+      <div class="tog" data-key="ehz"><div class="tog-left"><div class="tog-dot" style="background:#ff2200"></div><div><span class="tog-name">EHZ — z &gt; 4 (JWST)</span><span class="tog-sub">Până la z=14,44 (MoM-z14, record la data catalogului: mai 2026)</span></div></div><div class="sw on" id="sw-ehz"></div></div>
       <div class="tog" data-key="pops"><div class="tog-left"><div class="tog-dot" style="background:#3399cc"></div><div><span class="tog-name">Populații fundal</span><span class="tog-sub">Mii de galaxii statistice</span></div></div><div class="sw on" id="sw-pops"></div></div>
       <div class="tog" data-key="gallbl"><div class="tog-left"><div class="tog-dot" style="background:#4477aa"></div><div><span class="tog-name">Etichete galaxii</span><span class="tog-sub">Nume flotante (auto la zoom)</span></div></div><div class="sw" id="sw-gallbl"></div></div>
     </div>
@@ -1019,7 +1019,7 @@ function linkifyArXiv(text){
 
 // ═══ BIBTEX DATABASE (EHZ + major objects) ══════════════════
 const BIBTEX_DB = {
-  'MoM-z14 ★ RECORD': `@article{naidu2026momz14,
+  'MoM-z14 ★ record (mai 2026)': `@article{naidu2026momz14,
   title   = {{MoM-z14}: Spectroscopic Confirmation at z=14.44},
   author  = {Naidu, Rohan P. and others},
   journal = {Open Journal of Astrophysics},
@@ -1034,7 +1034,7 @@ const BIBTEX_DB = {
   year    = {2024},
   doi     = {10.1038/s41586-024-07860-9}
 }`,
-  'EGS-z11-R0 (z=11.45) ❖ NOU': `@article{rodighiero2026egsz11,
+  'EGS-z11-R0 (z=11.45) ❖ adăugat mar. 2026': `@article{rodighiero2026egsz11,
   title   = {A dust-reddened galaxy at z=11.45},
   author  = {Rodighiero, G. and others},
   year    = {2026},
@@ -1686,13 +1686,13 @@ const G=[
  ['GN-z11 (z=10.96)',12.558,62.240,31490,'EHZ',0.13,0,0xff2f10,0xff2f10,'31,5 Gly (z=10.96)','—','~10⁹ M☉','Record Hubble (2016), confirmat JWST 2023. Conține AGN activ + azot ridicat neașteptat. Universul avea ~400 mln ani.'],
  ['GLASS-z13 (z=12.20)',0.001,-30.41,32400,'EHZ',0.11,0,0xff2000,0xff2000,'32,4 Gly (z=12.20)','—','~5×10⁸ M☉','Prima galaxie candidat la z>12 anunțată de JWST (Castellano et al., 2022). Câmp Abell 2744. Confirmat spectroscopic ulterior.'],
  ['Maisie\'s Galaxy (z=11.44)',14.820,52.820,31810,'EHZ',0.12,0,0xff2800,0xff2800,'31,8 Gly (z=11.44)','—','~10⁸ M☉','Descoperită de JWST/CEERS în 2022 și confirmată spectroscopic în 2023. Numele îi vine de la fiica astronomului Steven Finkelstein. Universul avea 390 mln ani.'],
- ['EGS-z11-R0 (z=11.45) ❖ NOU',14.819,52.815,31820,'EHZ',0.12,0,0xff7733,0xff7733,'31,8 Gly (z=11.45)','—','1,6–4 ×10⁹ M☉','❖ NOU (martie 2026, arXiv: 2603.15841): Cea mai îndepărtată galaxie ROȘIE confirmată — pantă UV ~−1,0 și extincție de praf 1,2 mag. Surprinzător de „matură" pentru o vârstă de doar 400 mln ani după Big Bang. Confirmă că praful și stelele evoluate apar mai rapid decât prevedeau modelele. Identificată în catalogul CEERS public (sursa ID 19266); coordonatele sunt aproximate în câmpul Extended Groth Strip — autorii (Rodighiero et al.) nu au publicat poziția exactă în abstract.'],
+ ['EGS-z11-R0 (z=11.45) ❖ adăugat mar. 2026',14.819,52.815,31820,'EHZ',0.12,0,0xff7733,0xff7733,'31,8 Gly (z=11.45)','—','1,6–4 ×10⁹ M☉','❖ Adăugată în catalog în martie 2026 (arXiv: 2603.15841; neverificată independent): cea mai îndepărtată galaxie ROȘIE raportată la data catalogului — pantă UV ~−1,0 și extincție de praf 1,2 mag. Surprinzător de „matură" pentru o vârstă de doar 400 mln ani după Big Bang. Confirmă că praful și stelele evoluate apar mai rapid decât prevedeau modelele. Identificată în catalogul CEERS public (sursa ID 19266); coordonatele sunt aproximate în câmpul Extended Groth Strip — autorii (Rodighiero et al.) nu au publicat poziția exactă în abstract.'],
  // ── z = 12–15 ────────────────────────────────────────────────
  ['JADES-GS-z13-0 (z=13.20)',3.480,-27.810,32620,'EHZ',0.12,0,0xff1800,0xff1800,'32,6 Gly (z=13.20)','—','~10⁸ M☉','Confirmată spectroscopic de JWST/JADES în 2023. Universul avea ~320 mln ani. Una dintre primele galaxii formate vreodată în cosmos.'],
  ['HD1 (z≈13.5)',9.600,62.800,32720,'EHZ',0.11,0,0xff1400,0xff1400,'32,7 Gly (z≈13.5)','—','~10¹⁰ M☉','Descoperită cu Subaru/UKIRT în 2022 — candidat pentru cea mai luminoasă galaxie de la z>13. Posibil să conțină stele de Populație III sau un AGN masiv.'],
  ['JADES-GS-z14-1 (z=13.90)',3.540,-27.780,32820,'EHZ',0.12,0,0xff1000,0xff1000,'32,8 Gly (z=13.90)','—','~10⁸ M☉','Confirmată spectroscopic de JWST/JADES în 2024. Universul avea ~290 mln ani. Dimensiune surprinzător de mare pentru vârsta sa.'],
- ['JADES-GS-z14-0 (z=14.32)',3.560,-27.740,32960,'EHZ',0.14,0,0xff0d00,0xff0d00,'32,96 Gly (z=14.32)','~1.700 al','~10⁸ M☉','Recordul absolut din mai 2024 până în mai 2025. Confirmată spectroscopic de JWST/JADES. Universul avea 290 mln ani. Diametru ~1.700 al — neașteptat de mare. Conține deja oxigen, ceea ce a uimit comunitatea: cum a apărut atât de repede chimia complexă?'],
- ['MoM-z14 ★ RECORD',10.00624,2.27325,33020,'EHZ',0.18,0,0xff0500,0xff0500,'33,02 Gly (z=14.44)','~480 al','~3×10⁸ M☉','★ RECORD ABSOLUT (confirmat ianuarie 2026): Cea mai îndepărtată galaxie cunoscută. Coordonate oficiale (NASA/STScI): RA 10:00:22.45, Dec +02:16:23.70 — în constelația Sextans, câmpul COSMOS Legacy. Descoperită de Rohan Naidu (MIT) și 45 de coautori cu JWST/NIRSpec, prin programul „Mirage or Miracle". Universul avea doar 280 mln ani — 2% din vârsta lui actuală. Lyman-α + cinci linii UV (inclusiv azot). Foarte compactă (rază ~241 al), formare stelară explozivă — masă stelară comparabilă cu Norul Mic Magellanic. Publicată în Open Journal of Astrophysics, ianuarie 2026 (arXiv: 2505.11263).'],
+ ['JADES-GS-z14-0 (z=14.32)',3.560,-27.740,32960,'EHZ',0.14,0,0xff0d00,0xff0d00,'32,96 Gly (z=14.32)','~1.700 al','~10⁸ M☉','Record de distanță din mai 2024 până la preprintul MoM-z14 (mai 2025). Confirmată spectroscopic de JWST/JADES. Universul avea 290 mln ani. Diametru ~1.700 al — neașteptat de mare. Conține deja oxigen, ceea ce a uimit comunitatea: cum a apărut atât de repede chimia complexă?'],
+ ['MoM-z14 ★ record (mai 2026)',10.00624,2.27325,33020,'EHZ',0.18,0,0xff0500,0xff0500,'33,02 Gly (z=14.44)','~480 al','~3×10⁸ M☉','★ Cea mai îndepărtată galaxie confirmată spectroscopic la data catalogului (mai 2026; preprint arXiv mai 2025, publicată în OJA ianuarie 2026) — poate fi depășită. Coordonate oficiale (NASA/STScI): RA 10:00:22.45, Dec +02:16:23.70 — în constelația Sextans, câmpul COSMOS Legacy. Descoperită de Rohan Naidu (MIT) și 45 de coautori cu JWST/NIRSpec, prin programul „Mirage or Miracle". Universul avea doar 280 mln ani — 2% din vârsta lui actuală. Lyman-α + cinci linii UV (inclusiv azot). Foarte compactă (rază ~241 al), formare stelară explozivă — masă stelară comparabilă cu Norul Mic Magellanic. Publicată în Open Journal of Astrophysics, ianuarie 2026 (arXiv: 2505.11263).'],
 ];
 // ═══ GALAXY INSTANTIATION ══════════════════════════════════
 // ── v1.1: INCERTITUDINI z (σ_z) pentru galaxiile EHZ ──────────
@@ -1721,12 +1721,12 @@ const EHZ_UNCERTAINTIES = {
   'GN-z11 (z=10.96)':          {sigmaZ: 0.013, type: 'spec'}, // JWST 2023 spec
   'GLASS-z13 (z=12.20)':       {sigmaZ: 0.300, type: 'phot'}, // initial photometric, debated
   'Maisie\'s Galaxy (z=11.44)':{sigmaZ: 0.025, type: 'spec'}, // CEERS spec 2023
-  'EGS-z11-R0 (z=11.45) ❖ NOU':{sigmaZ: 0.180, type: 'phot'}, // SED fitting, no spec yet
+  'EGS-z11-R0 (z=11.45) ❖ adăugat mar. 2026':{sigmaZ: 0.180, type: 'phot'}, // SED fitting, no spec yet
   'JADES-GS-z13-0 (z=13.20)':  {sigmaZ: 0.040, type: 'spec'}, // JADES NIRSpec
   'HD1 (z≈13.5)':              {sigmaZ: 0.500, type: 'phot'}, // Subaru/UKIRT photometric, controversial
   'JADES-GS-z14-1 (z=13.90)':  {sigmaZ: 0.060, type: 'spec'},
   'JADES-GS-z14-0 (z=14.32)':  {sigmaZ: 0.020, type: 'spec'}, // JADES spec
-  'MoM-z14 ★ RECORD':          {sigmaZ: 0.025, type: 'spec'}, // confirmed Jan 2026
+  'MoM-z14 ★ record (mai 2026)':          {sigmaZ: 0.025, type: 'spec'}, // confirmed Jan 2026
 };
 
 // Helper: estimează δD_C în Mly dat un z central și σ_z, în aproximarea ΛCDM
@@ -2049,8 +2049,9 @@ cv.addEventListener('touchcancel',e=>{
 // Acestea sunt evenimente WebKit-only — nu afectează alte browsere.
 ['gesturestart','gesturechange','gestureend'].forEach(evt=>{
   cv.addEventListener(evt,e=>e.preventDefault(),{passive:false});
-  // Defensive: și pe document, ca să prindem cazul în care touch-ul iese din canvas.
-  document.addEventListener(evt,e=>e.preventDefault(),{passive:false});
+  // Runda 3 (accesibilitate): pe document suprimăm doar gesturile începute pe canvas;
+  // pe panouri/texte zoom-ul nativ al sistemului rămâne disponibil.
+  document.addEventListener(evt,e=>{ if(e.target===cv || (evt!=='gesturestart' && window.__uoGestCv)) { e.preventDefault(); if(evt==='gesturestart') window.__uoGestCv=true; } if(evt==='gestureend') window.__uoGestCv=false; },{passive:false});
 });
 
 // ═══ iOS DOUBLE-TAP ZOOM SUPPRESS ═══════════════════════════
@@ -2335,10 +2336,10 @@ const TOURS=[
     {action:'reset',toggles:[['ehz',true],['galLocal',false],['galFar',false],['pops',false]],wave:'infrared',toT:1.5,toP:1.3,toR:120,dur:3500,txt:'🔴 Am activat modul infraroșu. Privim spre marginile Universului observabil — acolo unde JWST a scos la lumină galaxiile care existau deja când Universul era încă bebeluș.'},
     {gal:'GN-z11 (z=10.96)',mg:5,dur:5000,txt:'GN-z11 — depistată de Hubble în 2016 și confirmată de JWST în 2023. La z=10,96, Universul avea în jur de 400 de milioane de ani. JWST i-a descoperit un AGN activ și niște emisii neașteptat de bogate în azot.'},
     {gal:"Maisie's Galaxy (z=11.44)",mg:5,dur:4500,txt:"Maisie's Galaxy (z=11,44) — descoperită de programul JWST/CEERS în 2022 și confirmată spectroscopic un an mai târziu. Numele i-a fost dat în onoarea fiicei astronomului Steven Finkelstein. Universul avea atunci 390 de milioane de ani."},
-    {gal:'EGS-z11-R0 (z=11.45) ❖ NOU',mg:5,dur:5000,txt:'❖ EGS-z11-R0 (martie 2026) — cea mai îndepărtată galaxie ROȘIE descoperită până acum. Spre deosebire de surorile ei tinere, are deja praf interstelar și stele evoluate, deși s-a născut la doar 400 de milioane de ani după Big Bang.'},
+    {gal:'EGS-z11-R0 (z=11.45) ❖ adăugat mar. 2026',mg:5,dur:5000,txt:'❖ EGS-z11-R0 (martie 2026) — cea mai îndepărtată galaxie ROȘIE raportată la data catalogului (mai 2026). Spre deosebire de surorile ei tinere, are deja praf interstelar și stele evoluate, deși s-a născut la doar 400 de milioane de ani după Big Bang.'},
     {gal:'JADES-GS-z13-0 (z=13.20)',mg:5,dur:5000,txt:'JADES-GS-z13-0 (z=13,20) — la 320 de milioane de ani după Big Bang. Confirmată cu spectrograful NIRSpec al JWST: spectru complet, cu [OIII] și Hβ. Surprinzător de masivă pentru vârsta sa.'},
-    {gal:'JADES-GS-z14-0 (z=14.32)',mg:5,dur:5000,txt:'JADES-GS-z14-0 (z=14,32) — fostul record absolut, deținut între mai 2024 și ianuarie 2026. Universul avea doar 290 de milioane de ani, iar galaxia conținea deja oxigen — un mister pe care astrofizicienii încă îl descâlcesc.'},
-    {gal:'MoM-z14 ★ RECORD',mg:5.5,dur:6500,txt:'★ MoM-z14 · noul RECORD ABSOLUT (confirmat ianuarie 2026, în Open Journal of Astrophysics) · z=14,44. Cea mai îndepărtată galaxie cunoscută. O vedem așa cum era când Universul avea doar 280 de milioane de ani — 2% din vârsta lui de azi. Compactă (~240 al rază), foarte luminoasă, deja îmbogățită cu azot. A fost descoperită de Rohan Naidu (MIT) și colegii săi, în câmpul COSMOS Legacy, prin programul „Mirage or Miracle".'},
+    {gal:'JADES-GS-z14-0 (z=14.32)',mg:5,dur:5000,txt:'JADES-GS-z14-0 (z=14,32) — fostul record, mai 2024 – mai 2025 (preprintul MoM-z14). Universul avea doar 290 de milioane de ani, iar galaxia conținea deja oxigen — un mister pe care astrofizicienii încă îl descâlcesc.'},
+    {gal:'MoM-z14 ★ record (mai 2026)',mg:5.5,dur:6500,txt:'★ MoM-z14 · recordul la data catalogului, mai 2026 (preprint mai 2025; publicat în Open Journal of Astrophysics, ianuarie 2026) · z=14,44. Poate fi depășită de observații ulterioare. O vedem așa cum era când Universul avea doar 280 de milioane de ani — 2% din vârsta lui de azi. Compactă (~240 al rază), foarte luminoasă, deja îmbogățită cu azot. A fost descoperită de Rohan Naidu (MIT) și colegii săi, în câmpul COSMOS Legacy, prin programul „Mirage or Miracle".'},
   ]},
   {title:'Limitele Cosmice',icon:'🌐',steps:[
     {action:'reset',toggles:[['shells',true],['rings',true],['dlbl',true]],toT:0.4,toP:1.15,toR:55,dur:3000,txt:'Traversăm Universul observabil — de la vecinătatea noastră până la limita absolută. Cochiliile sunt acum aprinse.'},
@@ -2372,7 +2373,7 @@ const TOURS=[
     {time:60,dur:3500,txt:'z ≈ 2 · Vârsta: 3,3 mld ani. Apogeul quasarilor — găurile negre supermasive consumă materie cu rate enorme.'},
     {time:35,dur:3500,txt:'z ≈ 6 · Vârsta: 950 milioane ani. Sfârșitul „erei întunecate" — Universul devine transparent. Primele galaxii mature.'},
     {time:15,dur:3500,txt:'z ≈ 11 · Vârsta: 400 milioane ani. JWST vede aici. Doar primele generații de stele și protogalaxii.'},
-    {time:5,dur:3500,txt:'z ≈ 14 · Vârsta: 280 milioane ani. MoM-z14 — recordul absolut JWST (2026). Stele de Populație III?'},
+    {time:5,dur:3500,txt:'z ≈ 14 · Vârsta: 280 milioane ani. MoM-z14 — recordul JWST la data catalogului (mai 2026). Stele de Populație III?'},
     {time:0,dur:5000,txt:'z = 1100 · Vârsta: 380.000 ani. CMB. Universul devine transparent pentru prima oară. Înainte: plasmă opacă. Asta e cea mai veche „fotografie" a cosmosului.'},
     {time:138,dur:3000,txt:'Înapoi în prezent. Universul s-a expandat de 1100 ori. Ai călătorit în timp și înapoi în 30 de secunde.'},
   ]},
@@ -2449,8 +2450,8 @@ const TOURS=[
     {time:30,dur:3500,txt:'Slider-ul de timp e la z ≈ 7. Vezi cum se „strânge" Universul: la acel moment, lucrurile pe care le vedem astăzi erau de aproximativ 8 ori mai aproape unele de altele.'},
     {gal:'GN-z11 (z=10.96)',mg:5,dur:4500,txt:'GN-z11 · z=10,96 — galaxie din primele 400 de milioane de ani. JWST i-a descoperit un AGN activ și emisii bogate în azot. Surpriză: chimia complexă nu ar fi trebuit să existe atât de devreme.'},
     {gal:'JADES-GS-z13-0 (z=13.20)',mg:5,dur:4500,txt:'JADES-GS-z13-0 · z=13,20 — la 320 de milioane de ani după Big Bang. Spectrele NIRSpec arată linii [OIII] și Hβ, ceea ce dovedește că existau deja stele masive.'},
-    {gal:'JADES-GS-z14-0 (z=14.32)',mg:5,dur:5000,txt:'JADES-GS-z14-0 · z=14,32 — fostul deținător al recordului (mai 2024 – ianuarie 2026). Universul era de aproape o mie de ori mai dens decât astăzi, iar galaxia conținea deja oxigen — semn că stele de Populație III ar fi putut deja să existe.'},
-    {gal:'MoM-z14 ★ RECORD',mg:5.5,dur:6000,txt:'★ RECORD · MoM-z14 · z=14,44 — 280 de milioane de ani după Big Bang. Confirmată spectroscopic de JWST și publicată în Open Journal of Astrophysics, ianuarie 2026. Foarte compactă, foarte luminoasă, deja îmbogățită cu azot — exact opusul a ce așteptam să găsim atât de aproape de „zorii cosmici".'},
+    {gal:'JADES-GS-z14-0 (z=14.32)',mg:5,dur:5000,txt:'JADES-GS-z14-0 · z=14,32 — fostul deținător al recordului (mai 2024 – mai 2025). Universul era de aproape o mie de ori mai dens decât astăzi, iar galaxia conținea deja oxigen — semn că stele de Populație III ar fi putut deja să existe.'},
+    {gal:'MoM-z14 ★ record (mai 2026)',mg:5.5,dur:6000,txt:'★ RECORD · MoM-z14 · z=14,44 — 280 de milioane de ani după Big Bang. Confirmată spectroscopic de JWST și publicată în Open Journal of Astrophysics, ianuarie 2026. Foarte compactă, foarte luminoasă, deja îmbogățită cu azot — exact opusul a ce așteptam să găsim atât de aproape de „zorii cosmici".'},
     {time:138,toggles:[['galLocal',true],['galFar',true]],wave:'optical',dur:3500,txt:'Ne întoarcem în prezent, în lumina vizibilă, cu toate straturile aprinse. Vezi diferența? Universul „bebeluș" părea gol; cel de astăzi e plin de structuri.'},
   ]},
   {title:'Filamente Cosmice & Voiduri',icon:'🌊',steps:[
@@ -2550,7 +2551,7 @@ const TOURS=[
     {gal:'M83 Southern Pinwheel',mg:3,dur:4500,txt:'3️⃣ M83 a avut <b>6 supernove în 100 ani</b>. Probabilitatea statistică să fii în viață când explodează încă una: ~99%.'},
     {gal:'NGC 4889 Coma cD',mg:2.2,dur:4500,txt:'4️⃣ Gaura neagră din NGC 4889 are <b>21 mld M☉</b>. Orizontul ei eveniment: 130 mld km — de 30× orbita lui Pluto.'},
     {shell:10,dur:5000,txt:'5️⃣ CMB-ul are temperatura <b>2,725 K</b> peste tot, cu o precizie de 1 parte din 100.000. E cea mai uniformă structură din Univers.'},
-    {gal:'MoM-z14 ★ RECORD',mg:5,dur:5000,txt:'6️⃣ MoM-z14 (z=14,44) emitea lumina pe care o vedem astăzi când Universul avea doar <b>280 de milioane de ani</b>. Lumina aceea a călătorit 13,53 miliarde de ani ca să ne ajungă. Confirmare: JWST, ianuarie 2026.'},
+    {gal:'MoM-z14 ★ record (mai 2026)',mg:5,dur:5000,txt:'6️⃣ MoM-z14 (z=14,44) emitea lumina pe care o vedem astăzi când Universul avea doar <b>280 de milioane de ani</b>. Lumina aceea a călătorit 13,53 miliarde de ani ca să ne ajungă. Confirmare: JWST, ianuarie 2026.'},
     {gal:'Vela-Banzi ★',mg:2,dur:5000,txt:'7️⃣ Vela-Banzi (descoperită 2016-2026) are <b>33.800 trilioane M☉</b> — depășește Marele Atractor. Era ascunsă în spatele Căii Lactee.'},
     {gal:'3C 273',mg:3,dur:4500,txt:'8️⃣ Quasarul 3C 273 e de <b>4 trilioane de ori</b> mai luminos decât Soarele. Dacă ar fi pe locul Soarelui, am fi vaporizați instant.'},
     {wave:'dark',toT:0.5,toP:1.2,toR:60,dur:5000,txt:'9️⃣ <b>85%</b> din masa Universului e materie întunecată invizibilă. Tot ce vedem (stele, planete, oameni) = doar 15%. Iar din ce vedem, 99% e plasmă.'},
@@ -2560,7 +2561,7 @@ const TOURS=[
     {action:'reset',toT:0.4,toP:1.15,toR:50,dur:2500,txt:'Cele mai impresionante 7 momente din simulare în 60 de secunde. Pornim!'},
     {gal:'Andromeda M31',mg:2.5,dur:3500,txt:'Andromeda · M31 · viitoarea noastră parteneră de fuziune. „Pas de doi" în 4,5 miliarde ani.'},
     {gal:'M87 Virgo A',mg:2.5,dur:3500,txt:'M87 · Prima gaură neagră fotografiată vreodată (EHT 2019). 6,5 miliarde M☉.'},
-    {gal:'MoM-z14 ★ RECORD',mg:5,dur:4000,wave:'infrared',txt:'MoM-z14 · z=14,44 · cea mai îndepărtată galaxie cunoscută. Lumina ei e veche de 13,53 miliarde de ani.'},
+    {gal:'MoM-z14 ★ record (mai 2026)',mg:5,dur:4000,wave:'infrared',txt:'MoM-z14 · z=14,44 · cea mai îndepărtată galaxie confirmată spectroscopic la data catalogului (mai 2026). Lumina ei e veche de 13,53 miliarde de ani.'},
     {shell:10,dur:4000,wave:'optical',txt:'CMB · Cel mai vechi „Polaroid" al Universului. 380.000 de ani după Big Bang.'},
     {time:0,dur:4500,txt:'Slider de timp la z=1100 · <strong>Recombinare</strong> — cea mai veche imagine accesibilă. Înainte de acest moment, plasma opacă blochează lumina.'},
     {time:138,toT:1.8,toP:1.2,toR:380,dur:5000,txt:'Înapoi în prezent + zoom-out la sfera completă. <b>Asta e tot ce putem vedea</b> — de aici și pentru totdeauna.'},
@@ -3374,7 +3375,7 @@ document.body.addEventListener('drop',e=>{
 
 // ═══ DID YOU KNOW WIDGET ════════════════════════════════════
 const DYK_TIPS = [
-  'Lumina galaxiei MoM-z14 a călătorit 13,53 miliarde de ani până la noi — o vedem foarte aproape de Big Bang (recordul JWST, ianuarie 2026).',
+  'Lumina galaxiei MoM-z14 a călătorit 13,53 miliarde de ani până la noi — o vedem foarte aproape de Big Bang (recordul JWST la data catalogului, mai 2026).',
   'Andromeda (M31) se apropie de noi cu aproximativ 110 km/s. Coliziunea va începe peste vreo 4,5 miliarde de ani.',
   'CMB este radiația emisă la 380.000 de ani după Big Bang — restul fotonilor eliberați în Universul timpuriu.',
   'Quasarul ULAS J1342+0928 este alimentat de o gaură neagră de 800 de milioane de mase solare, formată la doar 690 de milioane de ani după Big Bang.',
@@ -3388,7 +3389,7 @@ const DYK_TIPS = [
   'Constelațiile sunt simple alinieri întâmplătoare: stelele care le compun se află, în realitate, la distanțe foarte diferite.',
   'Hubble flow: galaxiile aflate la 100 Mly se îndepărtează cu aproximativ 2.000 km/s. La distanțe mari, vedem doar lumina lor veche.',
   'Grupul Local cuprinde aproximativ 80 de galaxii pitice — multe rămase sub limita de detecție optică.',
-  'EGS-z11-R0 (martie 2026) este cea mai îndepărtată galaxie ROȘIE confirmată — semn că praful și stelele evoluate au apărut surprinzător de devreme.',
+  'EGS-z11-R0 (martie 2026) este, la data catalogului, cea mai îndepărtată galaxie ROȘIE raportată (neverificată independent) — semn că praful și stelele evoluate au apărut surprinzător de devreme.',
   'DESI a finalizat, pe 14 aprilie 2026, cea mai amplă hartă 3D a Universului: 47 de milioane de galaxii și quasari, cartografiate în cinci ani.',
   'Catalogul JWST din 2026 conține deja sute de galaxii confirmate la z>10 — mai multe decât prevedea modelul ΛCDM standard.',
 ];
@@ -3743,7 +3744,7 @@ const GUIDE_CONTENT = {
     <div class="gact-row">
       ${_b('reset','↻ Resetează camera', true)}
       ${_b('goto:Andromeda M31','🚀 Zboară până la Andromeda')}
-      ${_b('goto:MoM-z14 ★ RECORD','🔭 Ajungi la galaxia-record JWST')}
+      ${_b('goto:MoM-z14 ★ record (mai 2026)','🔭 Ajungi la galaxia-record JWST')}
     </div>
 
     <h3 class="gsec">🎈 De ce arată ca o sferă?</h3>
@@ -3755,7 +3756,7 @@ const GUIDE_CONTENT = {
     </div>
 
     <h3 class="gsec">📏 Scara — un mic truc esențial</h3>
-    <p>Distanțele cosmice sunt amețitoare. Andromeda se află la 2,5 milioane de ani-lumină. În schimb, MoM-z14 — cea mai îndepărtată galaxie cunoscută — se află la peste <strong>33 de miliarde</strong> de ani-lumină. Adică de aproape 13.000 de ori mai departe decât Andromeda!</p>
+    <p>Distanțele cosmice sunt amețitoare. Andromeda se află la 2,5 milioane de ani-lumină. În schimb, MoM-z14 — cea mai îndepărtată galaxie confirmată spectroscopic la data catalogului (mai 2026) — se află la peste <strong>33 de miliarde</strong> de ani-lumină. Adică de aproape 13.000 de ori mai departe decât Andromeda!</p>
 
     <svg class="gdiag" viewBox="0 0 660 80" xmlns="http://www.w3.org/2000/svg">
       <!-- Linia logaritmică -->
@@ -3805,7 +3806,7 @@ const GUIDE_CONTENT = {
       <li><strong>12 orizonturi cosmice</strong> (sfere de distanță) — de la Laniakea până la CMB</li>
       <li><strong>10.000 de stele</strong> de fundal — cele apropiate, din Calea Lactee</li>
       <li><strong>Distanță maximă reprezentată: 46,5 miliarde de ani-lumină</strong> — limita absolută a observabilului</li>
-      <li><strong>Redshift maxim: z = 14,44</strong> — galaxia <em>MoM-z14</em>, recordul JWST confirmat în ianuarie 2026</li>
+      <li><strong>Redshift maxim: z = 14,44</strong> — galaxia <em>MoM-z14</em>, recordul JWST la data catalogului (mai 2026; preprint mai 2025, publicat în ianuarie 2026)</li>
     </ul>
 
     <h3 class="gsec">🚀 Cum încep?</h3>
@@ -3881,7 +3882,7 @@ const GUIDE_CONTENT = {
       ${_b('goto:NGC 4038 Antena','📍 Antena')}
       ${_b('goto:Centaurus A','📍 Centaurus A')}
       ${_b('goto:Vela-Banzi ★','🇷🇴 Vela-Banzi')}
-      ${_b('goto:MoM-z14 ★ RECORD','🔭 Recordul JWST (MoM-z14)')}
+      ${_b('goto:MoM-z14 ★ record (mai 2026)','🔭 Recordul JWST (MoM-z14)')}
     </div>
   `,
 
@@ -4233,12 +4234,12 @@ const GUIDE_CONTENT = {
     </div>
 
     <div class="gquiz">
-      <div class="gquiz-q"><span class="gquiz-num">3</span><strong>Care este cea mai îndepărtată galaxie cunoscută?</strong></div>
+      <div class="gquiz-q"><span class="gquiz-num">3</span><strong>Care este cea mai îndepărtată galaxie confirmată spectroscopic, la data catalogului (mai 2026)?</strong></div>
       <div class="gquiz-act">
-        ${_b('goto:MoM-z14 ★ RECORD','🔭 Du-te la MoM-z14')}
+        ${_b('goto:MoM-z14 ★ record (mai 2026)','🔭 Du-te la MoM-z14')}
         ${_b('wave:infrared','🔴 Mod infraroșu')}
       </div>
-      <div class="gquiz-hint">💡 MoM-z14, cu z = 14,44 — confirmată spectroscopic de JWST și publicată în ianuarie 2026. O vedem așa cum era când Universul avea doar 280 de milioane de ani.</div>
+      <div class="gquiz-hint">💡 MoM-z14, cu z = 14,44 — confirmată spectroscopic de JWST (preprint mai 2025, publicată în ianuarie 2026). O vedem așa cum era când Universul avea doar 280 de milioane de ani.</div>
     </div>
 
     <div class="gquiz">
@@ -4399,8 +4400,8 @@ const GUIDE_CONTENT = {
       <div class="gcheat-cell" data-act="goto:Centaurus A"><span class="gcheat-icon">📡</span><span class="gcheat-name">Centaurus A</span><br><span class="gcheat-key">12,7 Mly · AGN</span></div>
       <div class="gcheat-cell" data-act="goto:Vela-Banzi ★"><span class="gcheat-icon">🇷🇴</span><span class="gcheat-name">Vela-Banzi</span><br><span class="gcheat-key">870 Mly · 33800 trilioane M☉</span></div>
       <div class="gcheat-cell" data-act="goto:GN-z11 (z=10.96)"><span class="gcheat-icon">🔭</span><span class="gcheat-name">GN-z11</span><br><span class="gcheat-key">z=10,96 · 400 Myr</span></div>
-      <div class="gcheat-cell" data-act="goto:JADES-GS-z14-0 (z=14.32)"><span class="gcheat-icon">🥈</span><span class="gcheat-name">JADES z=14,32</span><br><span class="gcheat-key">recordul 2024–2025</span></div>
-      <div class="gcheat-cell" data-act="goto:MoM-z14 ★ RECORD"><span class="gcheat-icon">🏆</span><span class="gcheat-name">MoM-z14</span><br><span class="gcheat-key">RECORD JWST · ianuarie 2026</span></div>
+      <div class="gcheat-cell" data-act="goto:JADES-GS-z14-0 (z=14.32)"><span class="gcheat-icon">🥈</span><span class="gcheat-name">JADES z=14,32</span><br><span class="gcheat-key">record 2024–2025</span></div>
+      <div class="gcheat-cell" data-act="goto:MoM-z14 ★ record (mai 2026)"><span class="gcheat-icon">🏆</span><span class="gcheat-name">MoM-z14</span><br><span class="gcheat-key">record JWST · mai 2026</span></div>
     </div>
 
     <h4>🎬 Tururi rapide (click → pornește)</h4>
@@ -4549,7 +4550,8 @@ const GUIDE_CONTENT = {
     <p>Culorile codifică două lucruri: (1) tipul morfologic real — spiralele tind spre gălbui, elipticele spre galben-roșiatic, piticii spre albăstrui — și (2) modul de lungime de undă selectat. Pentru detalii, deschide tab-ul „Straturi".</p>
 
     <h4>Cât de actualizate sunt datele?</h4>
-    <p>Catalogul include cele mai recente descoperiri JWST până la <strong>6 mai 2026</strong>, inclusiv <strong>MoM-z14 (z = 14,44)</strong> — confirmată în ianuarie 2026, în <em>Open Journal of Astrophysics</em> — și <strong>EGS-z11-R0</strong>, cea mai îndepărtată galaxie roșie cunoscută (martie 2026). Catalogul reflectă, de asemenea, finalizarea celor cinci ani de observații DESI (47 de milioane de galaxii și quasari, 14 aprilie 2026).</p>
+    <p>Catalogul include cele mai recente descoperiri JWST până la <strong>6 mai 2026</strong>, inclusiv <strong>MoM-z14 (z = 14,44)</strong> — preprint arXiv din mai 2025, publicată în <em>Open Journal of Astrophysics</em> în ianuarie 2026 — și <strong>EGS-z11-R0</strong>, cea mai îndepărtată galaxie roșie raportată la data catalogului (martie 2026; neverificată independent). Catalogul reflectă, de asemenea, finalizarea celor cinci ani de observații DESI (47 de milioane de galaxii și quasari, 14 aprilie 2026).</p>
+    <p><em>Afirmațiile de tip „record” sunt valabile la data catalogului (mai 2026) și pot fi depășite. Surse principale: MoM-z14 — Naidu et al., arXiv:2505.11263; JADES-GS-z14-0 — Carniani et al. 2024, Nature; EGS-z11-R0 — arXiv:2603.15841 (neverificat independent de autorul aplicației). Sursele per galaxie nu sunt listate integral; vezi README.</em></p>
 
     <h4>Aplicația merge mai greu pe telefonul meu. Ce să fac?</h4>
     <p>Meniu → „Mod Performanță" reduce numărul de stele de fundal și calitatea redării. Sau stinge „Populații fundal" — sunt mii de obiecte care se desenează simultan.</p>
@@ -5295,7 +5297,7 @@ body.up3-presenter #up3-presenter-cursor { display: block; }
     return '<h2>De ce vedem 45,6 miliarde de ani-lumină, dacă Universul are doar 13,8 miliarde de ani?</h2>' +
       '<p><b>Răspuns scurt:</b> spațiul însuși s-a expandat în timp ce lumina călătorea spre noi. Nu este vorba despre o încălcare a vitezei luminii, ci despre o trăsătură a geometriei spațiu-timpului din relativitatea generală.</p>' +
       '<h3>Cum funcționează</h3>' +
-      '<p>Lumina galaxiei <b>MoM-z14</b> (recordul JWST din ianuarie 2026) a călătorit aproximativ 13,53 miliarde de ani până la noi. În tot acest timp, spațiul dintre noi și galaxie s-a întins enorm, astfel încât galaxia se află astăzi la o distanță „de acum" (comoving) de aproximativ 33 Gly. Marginea Universului observabil — ultimul orizont de unde poate ajunge la noi informație sub formă de lumină — se găsește la <i>circa 46,5 Gly</i>.</p>' +
+      '<p>Lumina galaxiei <b>MoM-z14</b> (recordul JWST la data catalogului, mai 2026) a călătorit aproximativ 13,53 miliarde de ani până la noi. În tot acest timp, spațiul dintre noi și galaxie s-a întins enorm, astfel încât galaxia se află astăzi la o distanță „de acum" (comoving) de aproximativ 33 Gly. Marginea Universului observabil — ultimul orizont de unde poate ajunge la noi informație sub formă de lumină — se găsește la <i>circa 46,5 Gly</i>.</p>' +
       '<h3>Trei distanțe pentru același obiect</h3>' +
       '<table><tr><th>Distanță</th><th>Notație</th><th>Semnificație</th></tr>' +
       '<tr><td>De luminozitate</td><td>D_L</td><td>Cum „apare" obiectul, ținând cont de cât s-a stins lumina lui</td></tr>' +
@@ -6255,7 +6257,7 @@ body.up3-presenter #up3-presenter-cursor { display: block; }
     { title:'Marea întrebare cosmică',
       body:'🔭 În aplicație vezi galaxii aflate la <b>peste 33 de miliarde de ani-lumină</b> distanță, deși Universul are doar <b>13,8 miliarde de ani</b>. <i>Cum este posibil?</i> Pentru că <b>spațiul însuși s-a expandat</b> în timp ce lumina călătorea spre noi. Vei găsi explicația completă în acest ghid: tab-ul <b>🌌 Intro</b> sau <b>⏳ Timp</b> are un buton dedicat pentru paradoxul „45,6 Gly / 13,8 Ga?", iar tab-ul Timp conține și un mic widget interactiv cu <b>coordonate co-mișcătoare</b>.' },
     { title:'Recordul anului 2026',
-      body:'🥇 Cea mai îndepărtată galaxie cunoscută în acest moment este <b>MoM-z14</b>, cu <b>z = 14,44</b> — confirmată spectroscopic de JWST în ianuarie 2026. O vedem așa cum era când Universul avea doar <b>280 de milioane de ani</b>. Ai loc rezervat pentru ea pe hartă; o găsești și prin căutare (🔍).' },
+      body:'🥇 La data catalogului (mai 2026), cea mai îndepărtată galaxie confirmată spectroscopic este <b>MoM-z14</b>, cu <b>z = 14,44</b> — confirmată spectroscopic de JWST (preprint mai 2025, publicată în ianuarie 2026). O vedem așa cum era când Universul avea doar <b>280 de milioane de ani</b>. Ai loc rezervat pentru ea pe hartă; o găsești și prin căutare (🔍).' },
     { title:'Comenzi rapide pe care merită să le ții minte',
       body:'<b>/</b> caută · <b>M</b> măsoară · <b>L</b> etichete galaxii · <b>R</b> resetează camera · <b>?</b> deschide ghidul · <b>P</b> mod prezentator.<br><br>📖 Apasă oricând <b>?</b> din bara de sus pentru a reveni la acest ghid (cu toate funcționalitățile explicate pas cu pas).<br>🌐 Depărtează-te bine cu pinch-out (sau scroll) ca să vezi tot Universul observabil ca pe o sferă, privit din afară.<br><br>Acum e rândul tău. Explorare plăcută! ✨' }
   ];
