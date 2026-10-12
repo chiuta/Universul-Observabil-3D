@@ -25,7 +25,7 @@
   *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important;scroll-behavior:auto!important}
 }
 </style>
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data: blob:; style-src 'self' 'unsafe-inline'; font-src 'self' data:; media-src 'self' blob: data:; object-src 'none'; base-uri 'self'; form-action 'self'; worker-src 'self' blob:; script-src 'self' 'sha256-Omuz9M2+OWLiB5BWJvXyC1j3K8gvCFEKrTG7gU2HHMA=' 'sha256-1Qss23p7rOEBQhODYyU7pq7olyr7sKU5IHcOn21iZ8g=' 'sha256-6FZqFzclVzuy7Hht2xFtpoeAG9iLYCY287AJXzipuZU=' 'sha256-8QTi7yKG0D6yID+1Ae8/cqm9lZz1zVS7FYN4Zs/rH7E='; connect-src 'self'">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data: blob:; style-src 'self' 'unsafe-inline'; font-src 'self' data:; media-src 'self' blob: data:; object-src 'none'; base-uri 'self'; form-action 'self'; worker-src 'self' blob:; script-src 'self' 'sha256-Omuz9M2+OWLiB5BWJvXyC1j3K8gvCFEKrTG7gU2HHMA=' 'sha256-1Qss23p7rOEBQhODYyU7pq7olyr7sKU5IHcOn21iZ8g=' 'sha256-ngzfg26d+kxZzi8Rm297OPXpid2Bpwcg+2MCMsybBs0=' 'sha256-1uE99+5deSc0Smbj1U2LsJzruoh3go3lM/Uwqb2OERU='; connect-src 'self'">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,interactive-widget=resizes-content">
 <title>Universul Observabil · 3D · Galaxii & Distanțe</title>
 <meta name="description" content="Hartă 3D interactivă a Universului observabil — peste 115 galaxii, 12 orizonturi cosmice, scară logaritmică de la Calea Lactee până la CMB (45,6 Gly). Date JWST până la z=14,44 (MoM-z14, mai 2026).">
@@ -37,8 +37,10 @@
 <meta property="og:description" content="Călătorie prin Universul observabil — de la Calea Lactee până la MoM-z14, cea mai îndepărtată galaxie confirmată spectroscopic la data catalogului (mai 2026; z=14,44). Aplicație într-un singur fișier, complet offline (Three.js înglobat).">
 <meta property="og:type" content="website">
 <!-- TODO#10 + TODO#3: meta versioning pentru comparare cross-mirror -->
-<meta name="up3-version" content="1.2.3">
-<meta name="up3-build-date" content="2026-10-11">
+<meta name="up3-version" content="1.2.4">
+<meta name="up3-build-date" content="2026-10-12">
+<meta name="application-version" content="1.2.4">
+<meta name="last-updated" content="2026-10-12">
 <!-- Hash-ul real al catalogului e calculat la runtime — vezi computeCatalogHash() în JS -->
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='14' fill='%23040814' stroke='%234a80cc' stroke-width='1.5'/><circle cx='16' cy='16' r='1.5' fill='%23ffe8a0'/><circle cx='10' cy='12' r='0.7' fill='%23aaccff'/><circle cx='22' cy='10' r='0.5' fill='%23ffaa66'/><circle cx='9' cy='21' r='0.6' fill='%23ff6644'/><circle cx='23' cy='22' r='0.5' fill='%23ffffff'/><circle cx='16' cy='6' r='0.4' fill='%23ffcc44'/><circle cx='6' cy='17' r='0.4' fill='%23ddeeff'/><circle cx='26' cy='17' r='0.4' fill='%23ff8844'/></svg>">
 <link rel="manifest" href='data:application/manifest+json;charset=utf-8,{"name":"Universul Observabil 3D","short_name":"Univers 3D","description":"Hartă 3D interactivă a Universului observabil","start_url":"./","display":"standalone","background_color":"%23040814","theme_color":"%23040814","orientation":"any","icons":[{"src":"data:image/svg+xml;utf8,<svg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 192 192%27><circle cx=%2796%27 cy=%2796%27 r=%2784%27 fill=%27%23040814%27 stroke=%27%234a80cc%27 stroke-width=%279%27/><circle cx=%2796%27 cy=%2796%27 r=%279%27 fill=%27%23ffe8a0%27/><circle cx=%2760%27 cy=%2772%27 r=%274%27 fill=%27%23aaccff%27/><circle cx=%27132%27 cy=%2760%27 r=%273%27 fill=%27%23ffaa66%27/><circle cx=%2754%27 cy=%27126%27 r=%273.5%27 fill=%27%23ff6644%27/><circle cx=%27138%27 cy=%27132%27 r=%273%27 fill=%27%23ffffff%27/></svg>","sizes":"192x192","type":"image/svg+xml"}]}'>
@@ -183,6 +185,7 @@ kbd{background:rgba(70,130,255,0.09);border:1px solid rgba(70,130,255,0.18);bord
 .gtb{padding:6px 12px;border-radius:6px;font-size:10.5px;color:var(--dim);background:transparent;border:1px solid transparent;cursor:pointer;white-space:nowrap;letter-spacing:0.5px;flex-shrink:0;}
 .gtb:hover{background:rgba(70,130,255,0.07);}
 .gtb.act{background:rgba(70,130,255,0.16);color:var(--accent);border-color:rgba(70,130,255,0.28);}
+#guideVer{flex-shrink:0;padding:6px 22px 8px;border-top:1px solid rgba(70,130,255,0.18);font-size:11px;color:#9fb4cc;text-align:right;}
 #guideBody{padding:18px 22px 22px;overflow-y:auto;font-size:13px;line-height:1.72;color:#f0f4fa;flex:1;scrollbar-width:thin;}
 #guideBody h3{font-size:14px;color:var(--accent);margin:18px 0 8px;letter-spacing:0.5px;font-weight:900;}
 #guideBody h3:first-child{margin-top:0;}
@@ -670,6 +673,7 @@ body.gentle-start #ttl::after{
       <button class="gtb" data-tab="faq" role="tab">❓ FAQ</button>
     </div>
     <div id="guideBody"></div>
+    <div id="guideVer"><span id="app-version-label">Versiune</span> <span id="app-version">v 1.2.4 · 2026-10-12</span></div>
   </div>
 </div>
 
@@ -928,6 +932,7 @@ const STRINGS = {
     screenshot_name:'Salvează screenshot', screenshot_sub:'PNG 2K cu titlu și legendă',
     lang_next:'EN',
     footer:'Catalog: mai 2026 · Record JWST: MoM-z14, z=14,44 (verificat 11.10.2026) · Univers Observabil 3D · v{V} · build {D} · #{H}',
+    ver_label:'Versiune',
     footer_tip:'Versiune & hash catalog — click pentru detalii build. Comparați hash-ul între cele două oglinzi pentru a verifica sincronizarea.',
     bibtex_btn:'📋 Copiază BibTeX', bibtex_ok:'✓ BIBTEX COPIAT!',
   },
@@ -939,14 +944,15 @@ const STRINGS = {
     screenshot_name:'Save screenshot', screenshot_sub:'2K PNG with title & legend',
     lang_next:'RO',
     footer:'Catalog: May 2026 · JWST record: MoM-z14, z=14.44 (checked 11 Oct 2026) · Observable Universe 3D · v{V} · build {D} · #{H}',
+    ver_label:'Version',
     footer_tip:'Version & catalog hash — click for build details. Compare the hash between mirrors to verify sync.',
     bibtex_btn:'📋 Copy BibTeX', bibtex_ok:'✓ BIBTEX COPIED!',
   }
 };
 
 // ═══ TODO#10: VERSIUNE VIZIBILĂ — data build + hash catalog ═══
-const BUILD_DATE = '2026-10-11';     // data build-ului curent (ISO)
-const APP_VERSION = '1.2.3';          // 1.2.2 → 1.2.3: focus imediat în căutare, ghid nededeschis automat pe mobil
+const BUILD_DATE = '2026-10-12';     // data build-ului curent (ISO)
+const APP_VERSION = '1.2.4';          // 1.2.3 → 1.2.4: versiunea și data actualizării afișate în dialogul Ghid
 // FNV-1a hash 32-bit, codat base36 — produce ~6 caractere stabile pentru același input
 function fnv1aHash(str){
   let h = 0x811c9dc5;
@@ -975,6 +981,7 @@ function applyLang(){
   document.getElementById('ttl').textContent = t('title');
   document.getElementById('sub').textContent = t('sub');
   const btnLang=document.getElementById('btnLang'); if(btnLang) btnLang.textContent=t('lang_next');
+  const verLbl=document.getElementById('app-version-label'); if(verLbl) verLbl.textContent=t('ver_label');
   const footer=document.getElementById('versionFooter');
   if(footer){
     // TODO#10: substituție placeholder-e {V} / {D} / {H}
@@ -1084,7 +1091,7 @@ const BIBTEX_DB = {
   author  = {Chiuță, Alexandru Ionuț},
   year    = {2026},
   month   = {may},
-  version = {1.2.3},
+  version = {1.2.4},
   publisher = {ASFAN-România},
   url     = {https://alexio.tf/},
   note    = {Aplicație web single-file, Three.js. Date JWST până la MoM-z14 (z=14,44).}
@@ -6840,8 +6847,8 @@ body.up3-presenter #up3-presenter-cursor { display: block; }
     safeRun('v1.1 gltf-export',     initGltfExport);
     safeRun('v1.2 mirror-sync',     initMirrorSync);   // TODO#3
     window.UP3 = window.UP3 || {};
-    window.UP3.version = (typeof APP_VERSION!=='undefined'?APP_VERSION:'1.2.3');
-    window.UP3.buildDate = (typeof BUILD_DATE!=='undefined'?BUILD_DATE:'2026-10-11');
+    window.UP3.version = (typeof APP_VERSION!=='undefined'?APP_VERSION:'1.2.4');
+    window.UP3.buildDate = (typeof BUILD_DATE!=='undefined'?BUILD_DATE:'2026-10-12');
     window.UP3.catalogHash = (typeof computeCatalogHash==='function'?computeCatalogHash():'?');
     console.log('[UP3 v'+window.UP3.version+'] build '+window.UP3.buildDate+' · catalog #'+window.UP3.catalogHash);
     // ── Language toggle ──────────────────────────────────────
