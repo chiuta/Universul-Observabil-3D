@@ -1,6 +1,6 @@
 # Universul Observabil 3D
 
-**Versiune:** 1.2.4 · **Ultima actualizare:** 12 octombrie 2026
+**Versiune:** 1.3.0 · **Ultima actualizare:** 14 octombrie 2026
 
 **Live / demo:** https://chiuta.github.io/Universul-Observabil-3D/
 
@@ -41,6 +41,8 @@ Rundă 3: 2026-10-11 (formulări „la data catalogului”, surse pentru recordu
 - Recordul de distanță MoM-z14: https://www.stsci.edu/contents/news-releases/2026/news-2026-107 (comunicat din 28 ianuarie 2026), https://en.wikipedia.org/wiki/MoM-z14 și https://en.wikipedia.org/wiki/List_of_the_most_distant_astronomical_objects — niciun record spectroscopic mai îndepărtat găsit. Datele catalogului rămân cele din mai 2026 (EGS-z11-R0 rămâne neverificat independent).
 
 ## Istoric / Changelog
+
+- 1.3.0 — 2026-10-14: Copie de rezervă și etichetare date (fff-kit).
 - **1.2.4 — 12 octombrie 2026:** versiunea și data ultimei actualizări sunt afișate în aplicație (dialogul Ghid).
 - **1.2.3 — 11 octombrie 2026:** tasta `/` (sau Ctrl/Cmd+K) mută focusul imediat în câmpul de căutare, deci tastarea nu se mai pierde nici când randarea 3D este lentă; pe ecrane înguste (≤700 px) ghidul de bun venit nu se mai deschide automat peste scenă, ci butonul „?” pulsează până îl atingi; 0 erori, axe 0 violări la 1280×800 și 360×740.
 - **1.2.2 — 11 octombrie 2026:** CSP cu hash `sha256` pentru cele patru scripturi inline (fără `'unsafe-inline'` și fără `blob:` la `script-src`); link „Catalog text accesibil (fără JavaScript)” către `catalog.html`, primul element focalizabil din pagină (vizibil la focus, RO/EN) și în mesajul `noscript`, ca alternativă textuală la scena WebGL pentru cititoare de ecran și tastatură; versiunea 1.2.2 (aplicație, `catalog.html`, citare BibTeX).
