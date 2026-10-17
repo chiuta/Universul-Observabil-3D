@@ -14,8 +14,8 @@
   "storageKeys": [
     "up3_lang"
   ],
-  "sizeBytes": 1147850,
-  "sha256": "2c2b8463014cee6978ec5fa20b3e75a15d6e2efba7bbe3ce07769376927a32e0",
+  "sizeBytes": 1147829,
+  "sha256": "fbdc3eaa8547e034adb63e20a5e10f20495a397fda700c7ee0da59b0f1ed0b20",
   "csp": {
     "present": true,
     "directives": {
