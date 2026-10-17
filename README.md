@@ -29,10 +29,10 @@ Verificat prin audit: fără cereri de rețea la încărcare. Fonturile sunt inc
 - Citațiile BibTeX ale aplicației (butonul „Citează această aplicație” și `catalog.html`) nu au câmp DOI: aplicația nu are încă un DOI Zenodo; câmpul fals a fost eliminat (rundă 2).
 
 ## Licență
-CC0 1.0 (domeniu public), conform antetului din fișiere; vezi `LICENSE`. Pagina poartă și mențiuni ASFAN-România.
+MIT, conform antetului din fișiere; vezi `LICENSE`. Pagina poartă și mențiuni ASFAN-România.
 
 ## Drepturi și atribuire
-Aplicația și codul aparțin autorului (CC0 1.0, vezi `LICENSE`). Datele astronomice provin din publicații și cataloage publice (NED, SIMBAD, arXiv, Planck 2018); drepturile asupra materialelor terțe aparțin titularilor, iar dedicarea CC0 nu le acoperă. Dacă ești titular de drepturi sau persoană menționată și dorești corectarea sau retragerea, scrie la alexio@trom.tf; răspundem în 7 zile.
+Aplicația și codul aparțin autorului (licență MIT, vezi `LICENSE`). Datele astronomice provin din publicații și cataloage publice (NED, SIMBAD, arXiv, Planck 2018); drepturile asupra materialelor terțe aparțin titularilor, iar licența MIT nu le acoperă. Dacă ești titular de drepturi sau persoană menționată și dorești corectarea sau retragerea, scrie la alexio@trom.tf; răspundem în 7 zile.
 
 Audit: 2026-10-10; rundă 2: 2026-10-11 (eliminat DOI-ul placeholder din citații, `connect-src 'self'`).
 Rundă 3: 2026-10-11 (formulări „la data catalogului”, surse pentru recorduri, gesturi iOS limitate la canvas).
