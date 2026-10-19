@@ -1,50 +1,51 @@
 # Universul Observabil 3D
 
-**Versiune:** 1.3.0 · **Ultima actualizare:** 14 octombrie 2026
+**English** · [Română](README.ro.md) · [Français](README.fr.md) · [Italiano](README.it.md) · [Español](README.es.md) · [Português](README.pt.md) · [Deutsch](README.de.md) · [Magyar](README.hu.md)
+
+**Version:** 1.3.0 · **Last updated:** 2026-10-14
 
 **Live / demo:** https://chiuta.github.io/Universul-Observabil-3D/
 
-![Universul-Observabil-3D — captură de ecran / screenshot](screenshot.png)
+![Universul-Observabil-3D — screenshot](screenshot.png)
 
+An interactive 3D map of the observable universe, in a single HTML file (WebGL / three.js): over 115 galaxies (118 in the static catalog), 12 cosmic horizons, a time slider, guided tours, search, distance measurement, a quiz, glTF/CSV export and BibTeX. RO/EN interface.
 
-Hartă 3D interactivă a universului observabil, într-un singur fișier HTML (WebGL / three.js): peste 115 galaxii (118 în catalogul static), 12 orizonturi cosmice, slider de timp, tururi ghidate, căutare, măsurare de distanțe, quiz, export glTF/CSV și BibTeX. Interfață RO/EN.
+- `index.html` — the interactive 3D application;
+- `catalog.html` — a static, JavaScript-free version of the catalog (accessibility and SEO).
 
-- `index.html` — aplicația interactivă 3D;
-- `catalog.html` — versiune statică, fără JavaScript, a catalogului (accesibilitate și SEO).
+## About the data
+Positions, distances and masses are **approximate and simplified** values, computed within ΛCDM (Planck 2018) and compiled from public catalogs (NED, SIMBAD, the JWST programs CEERS/JADES/UNCOVER). The scale is logarithmic and is meant for illustration/education; it does not replace the original catalogs. "Perishable" claims (e.g. "the most distant known galaxy", MoM-z14, z=14.44; catalog "updated in May 2026") may become outdated. The cosmological values (including the Hubble constant) have uncertainties and open tensions. The exact list of sources per galaxy is not included in the application.
 
-## Despre date
-Poziții, distanțe și mase sunt valori **aproximative și simplificate**, calculate în cadrul ΛCDM (Planck 2018) și grupate din cataloage publice (NED, SIMBAD, programele JWST CEERS/JADES/UNCOVER). Scara este logaritmică și are scop ilustrativ/educațional; nu înlocuiește cataloagele originale. Afirmații „perisabile” (de ex. „cea mai îndepărtată galaxie cunoscută”, MoM-z14, z=14,44; catalog „actualizat în mai 2026”) pot deveni depășite. Valorile cosmologice (inclusiv constanta Hubble) au incertitudini și tensiuni deschise. Lista exactă a surselor per galaxie nu este inclusă în aplicație.
+### "Record" claims and dates
+Claims of the "most distant galaxy" type are worded **as of the catalog date (May 2026)** and may be surpassed by later observations. Rechecked on 11.10.2026: in the public sources consulted (STScI/NASA, Wikipedia, press) MoM-z14 remains the most distant spectroscopically confirmed galaxy; no new record was found. Sources: MoM-z14 (z_spec = 14.44) — Naidu et al., arXiv:2505.11263 (preprint May 2025, published in the Open Journal of Astrophysics, January 2026); JADES-GS-z14-0 — Carniani et al. 2024, Nature; EGS-z11-R0 — arXiv:2603.15841 (entry from March 2026, not independently verified by the author; the spectroscopic status was not confirmed here). The "NEW"/"RECORD" labels in the names were replaced with explicit dates ("added Mar. 2026", "record (May 2026)"). The sources per galaxy are not listed in full; the bibliography is being completed.
 
-### Afirmații „record” și date
-Afirmațiile de tip „cea mai îndepărtată galaxie” sunt formulate **la data catalogului (mai 2026)** și pot fi depășite de observații ulterioare. Reverificat la 11.10.2026: în sursele publice consultate (STScI/NASA, Wikipedia, presă) MoM-z14 rămâne cea mai îndepărtată galaxie confirmată spectroscopic; nu a fost găsit un record nou. Surse: MoM-z14 (z_spec = 14,44) — Naidu et al., arXiv:2505.11263 (preprint mai 2025, publicat în Open Journal of Astrophysics, ianuarie 2026); JADES-GS-z14-0 — Carniani et al. 2024, Nature; EGS-z11-R0 — arXiv:2603.15841 (intrare din martie 2026, neverificată independent de autor; statutul spectroscopic nu a fost confirmat aici). Etichetele „NOU”/„RECORD” din nume au fost înlocuite cu date explicite („adăugat mar. 2026”, „record (mai 2026)”). Sursele per galaxie nu sunt listate integral; bibliografie în curs de completare.
+## Usage
+Open `index.html` in a browser with WebGL. The `R` key resets the camera, `/` searches, `?` opens the guide and the tour.
 
-## Utilizare
-Deschide `index.html` într-un browser cu WebGL. Tasta `R` resetează camera, `/` caută, `?` deschide ghidul și turul.
+## Data and privacy
+Verified by audit: no network requests on load. The fonts are included; the chosen language and bookmarks are kept in `localStorage`. Links to arXiv/external sites open only on click. There is code (disabled, the `MIRROR_URLS` list is empty) for comparing versions between mirrors, which would do a `fetch` only if configured. The CSP in `index.html` now limits `connect-src` to `'self'` (since the `MIRROR_URLS` list is empty, the mirror code cannot make external requests; if you configure it, extend `connect-src` with the mirrors' hosts). Inline scripts are allowed only through a `sha256` hash in `script-src`: **after any modification of a script, recompute the hashes** in the CSP meta, otherwise the modified script does not run.
 
-## Date și confidențialitate
-Verificat prin audit: fără cereri de rețea la încărcare. Fonturile sunt incluse; limba aleasă și semnele de carte se păstrează în `localStorage`. Linkurile către arXiv/site-uri externe se deschid doar la click. Există cod (dezactivat, lista `MIRROR_URLS` este goală) pentru comparație de versiuni între oglinzi, care ar face `fetch` doar dacă este configurat. CSP-ul din `index.html` limitează acum `connect-src` la `'self'` (fiind goală lista `MIRROR_URLS`, codul de oglinzi nu poate face cereri externe; dacă o configurezi, extinde `connect-src` cu gazdele oglinzilor). Scripturile inline sunt permise doar prin hash `sha256` în `script-src`: **după orice modificare a unui script, recalculează hash-urile** din meta CSP, altfel scriptul modificat nu rulează.
+## Limitations
+- On iOS, pinch gestures started **on the canvas** are reserved for the 3D camera; on panels and texts, the system's native zoom remains available (round 3).
+- The application's BibTeX citations ("Cite this application" button and `catalog.html`) have no DOI field: the application does not yet have a Zenodo DOI; the fake field was removed (round 2).
 
-## Limitări
-- Pe iOS, gesturile de pinch începute **pe canvas** sunt rezervate camerei 3D; pe panouri și texte, zoom-ul nativ al sistemului rămâne disponibil (rundă 3).
-- Citațiile BibTeX ale aplicației (butonul „Citează această aplicație” și `catalog.html`) nu au câmp DOI: aplicația nu are încă un DOI Zenodo; câmpul fals a fost eliminat (rundă 2).
+## License
+MIT, according to the header of the files; see `LICENSE`. The page also carries mentions of ASFAN-România.
 
-## Licență
-MIT, conform antetului din fișiere; vezi `LICENSE`. Pagina poartă și mențiuni ASFAN-România.
+## Rights and attribution
+The application and the code belong to the author (MIT license, see `LICENSE`). The astronomical data come from public publications and catalogs (NED, SIMBAD, arXiv, Planck 2018); the rights over third-party materials belong to their holders, and the MIT license does not cover them. If you are a rights holder or a person mentioned and wish to have something corrected or withdrawn, write to alexio@trom.tf; we reply within 7 days.
 
-## Drepturi și atribuire
-Aplicația și codul aparțin autorului (licență MIT, vezi `LICENSE`). Datele astronomice provin din publicații și cataloage publice (NED, SIMBAD, arXiv, Planck 2018); drepturile asupra materialelor terțe aparțin titularilor, iar licența MIT nu le acoperă. Dacă ești titular de drepturi sau persoană menționată și dorești corectarea sau retragerea, scrie la alexio@trom.tf; răspundem în 7 zile.
+Audit: 2026-10-10; round 2: 2026-10-11 (removed the placeholder DOI from the citations, `connect-src 'self'`).
+Round 3: 2026-10-11 ("as of the catalog date" wordings, sources for records, iOS gestures limited to the canvas).
 
-Audit: 2026-10-10; rundă 2: 2026-10-11 (eliminat DOI-ul placeholder din citații, `connect-src 'self'`).
-Rundă 3: 2026-10-11 (formulări „la data catalogului”, surse pentru recorduri, gesturi iOS limitate la canvas).
+## Sources verified on 11.10.2026
+- The distance record MoM-z14: https://www.stsci.edu/contents/news-releases/2026/news-2026-107 (press release of 28 January 2026), https://en.wikipedia.org/wiki/MoM-z14 and https://en.wikipedia.org/wiki/List_of_the_most_distant_astronomical_objects — no more distant spectroscopic record found. The catalog data remain those from May 2026 (EGS-z11-R0 remains independently unverified).
 
-## Surse verificate la 11.10.2026
-- Recordul de distanță MoM-z14: https://www.stsci.edu/contents/news-releases/2026/news-2026-107 (comunicat din 28 ianuarie 2026), https://en.wikipedia.org/wiki/MoM-z14 și https://en.wikipedia.org/wiki/List_of_the_most_distant_astronomical_objects — niciun record spectroscopic mai îndepărtat găsit. Datele catalogului rămân cele din mai 2026 (EGS-z11-R0 rămâne neverificat independent).
+## History / Changelog
 
-## Istoric / Changelog
-
-- 1.3.0 — 2026-10-14: Copie de rezervă și etichetare date (fff-kit).
-- **1.2.4 — 12 octombrie 2026:** versiunea și data ultimei actualizări sunt afișate în aplicație (dialogul Ghid).
-- **1.2.3 — 11 octombrie 2026:** tasta `/` (sau Ctrl/Cmd+K) mută focusul imediat în câmpul de căutare, deci tastarea nu se mai pierde nici când randarea 3D este lentă; pe ecrane înguste (≤700 px) ghidul de bun venit nu se mai deschide automat peste scenă, ci butonul „?” pulsează până îl atingi; 0 erori, axe 0 violări la 1280×800 și 360×740.
-- **1.2.2 — 11 octombrie 2026:** CSP cu hash `sha256` pentru cele patru scripturi inline (fără `'unsafe-inline'` și fără `blob:` la `script-src`); link „Catalog text accesibil (fără JavaScript)” către `catalog.html`, primul element focalizabil din pagină (vizibil la focus, RO/EN) și în mesajul `noscript`, ca alternativă textuală la scena WebGL pentru cititoare de ecran și tastatură; versiunea 1.2.2 (aplicație, `catalog.html`, citare BibTeX).
-- **1.2.1 — 11 octombrie 2026:** în câmpul de căutare funcționează acum ↑/↓/Enter/Esc (înainte handlerul global ignora evenimentele din INPUT); etichetele 3D care se suprapun se ascund automat după prioritate (orizonturi, apoi galaxii în ordinea distanței) în loc să se amestece; turul de bun venit se marchează ca văzut la prima deschidere, deci nu se mai redeschide la fiecare încărcare dacă a fost închis cu ✕/Esc.
-- Accesibilitate/curățenie: repere `main` / `complementary` (axe-core: 0 violări la 1280×800 și 360×740), `catalog.html`: tabelele se derulează orizontal pe ecrane înguste (fără depășire a paginii la 360 px); handler inline `onclick` eliminat (butonul „Exportă CSV” din tabelul de citații), data build 2026-10-11 în aplicație, `catalog.html` și meta-uri, numărul de versiune actualizat peste tot.
+- 1.3.0 — 2026-10-14: Backup and data labeling (fff-kit).
+- **1.2.4 — 12 October 2026:** the version and the date of the last update are shown in the application (Guide dialog).
+- **1.2.3 — 11 October 2026:** the `/` key (or Ctrl/Cmd+K) moves focus immediately into the search field, so typing is no longer lost even when 3D rendering is slow; on narrow screens (≤700 px) the welcome guide no longer opens automatically over the scene, but the "?" button pulses until you touch it; 0 errors, axe 0 violations at 1280×800 and 360×740.
+- **1.2.2 — 11 October 2026:** CSP with a `sha256` hash for the four inline scripts (no `'unsafe-inline'` and no `blob:` in `script-src`); a "Accessible text catalog (no JavaScript)" link to `catalog.html`, the first focusable element on the page (visible on focus, RO/EN) and in the `noscript` message, as a textual alternative to the WebGL scene for screen readers and keyboard; version 1.2.2 (application, `catalog.html`, BibTeX citation).
+- **1.2.1 — 11 October 2026:** ↑/↓/Enter/Esc now work in the search field (before, the global handler ignored events from INPUT); overlapping 3D labels are hidden automatically by priority (horizons, then galaxies in order of distance) instead of mixing together; the welcome tour is marked as seen on first opening, so it no longer reopens on every load if it was closed with ✕/Esc.
+- Accessibility/cleanup: `main` / `complementary` landmarks (axe-core: 0 violations at 1280×800 and 360×740), `catalog.html`: tables scroll horizontally on narrow screens (no page overflow at 360 px); inline `onclick` handler removed (the "Export CSV" button in the citations table), build date 2026-10-11 in the application, `catalog.html` and metas, version number updated everywhere.
