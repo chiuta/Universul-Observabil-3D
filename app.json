@@ -2,7 +2,7 @@
   "schema": 1,
   "slug": "universul-observabil-3d",
   "name": "Universul Observabil · 3D · Galaxii & Distanțe",
-  "version": "1.4.0",
+  "version": "1.4.1",
   "updated": "2026-10-19",
   "description": "Hartă 3D interactivă a Universului observabil — peste 115 galaxii, 12 orizonturi cosmice, scară logaritmică de la Calea Lactee până la CMB (45,6 Gly). Date JWST până la z=14,44 (MoM-z14, mai 2026).",
   "egress": [],
@@ -18,8 +18,8 @@
     "up3-perf-defaults-v1",
     "up3_lang"
   ],
-  "sizeBytes": 1263940,
-  "sha256": "f120ad955f39653446e389fc03fe05517b3c9a4a6b8762f599812db9a2ee2c58",
+  "sizeBytes": 2028360,
+  "sha256": "908f43635d14e0cfcc3dc22d630e68ab850526acdbb1d09b7588b73216ec415b",
   "csp": {
     "present": true,
     "directives": {
