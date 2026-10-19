@@ -13,7 +13,7 @@ Idiomas de la interfaz: **Română, English, Français, Italiano, Español, Port
 Mapa 3D interactivo del universo observable, en un solo archivo HTML (WebGL / three.js): más de 115 galaxias (118 en el catálogo estático), 12 horizontes cósmicos, control deslizante de tiempo, visitas guiadas, búsqueda, medición de distancias, cuestionario, exportación glTF/CSV y BibTeX. Interfaz en 8 idiomas.
 
 - `index.html` — la aplicación 3D interactiva;
-- `catalog.html` — versión estática, sin JavaScript, del catálogo (accesibilidad y SEO).
+- `catalog.html` — versión estática, sin JavaScript, del catálogo (accesibilidad y SEO). En este idioma: [`catalog.es.html`](catalog.es.html).
 
 ## Sobre los datos
 Las posiciones, distancias y masas son valores **aproximados y simplificados**, calculados en el marco ΛCDM (Planck 2018) y reunidos a partir de catálogos públicos (NED, SIMBAD, los programas JWST CEERS/JADES/UNCOVER). La escala es logarítmica y tiene fines ilustrativos/educativos; no sustituye a los catálogos originales. Las afirmaciones «perecederas» (p. ej. «la galaxia conocida más lejana», MoM-z14, z=14,44; catálogo «actualizado en mayo de 2026») pueden quedar obsoletas. Los valores cosmológicos (incluida la constante de Hubble) tienen incertidumbres y tensiones abiertas. La lista exacta de fuentes por galaxia no está incluida en la aplicación.

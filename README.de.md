@@ -13,7 +13,7 @@ Oberflächensprachen: **Română, English, Français, Italiano, Español, Portug
 Interaktive 3D-Karte des beobachtbaren Universums, in einer einzigen HTML-Datei (WebGL / three.js): über 115 Galaxien (118 im statischen Katalog), 12 kosmische Horizonte, Zeitregler, geführte Touren, Suche, Entfernungsmessung, Quiz, glTF/CSV-Export und BibTeX. Oberfläche in 8 Sprachen.
 
 - `index.html` — die interaktive 3D-Anwendung;
-- `catalog.html` — statische Version des Katalogs ohne JavaScript (Barrierefreiheit und SEO).
+- `catalog.html` — statische Version des Katalogs ohne JavaScript (Barrierefreiheit und SEO). In dieser Sprache: [`catalog.de.html`](catalog.de.html).
 
 ## Zu den Daten
 Positionen, Entfernungen und Massen sind **näherungsweise und vereinfachte** Werte, berechnet im ΛCDM-Rahmen (Planck 2018) und zusammengestellt aus öffentlichen Katalogen (NED, SIMBAD, die JWST-Programme CEERS/JADES/UNCOVER). Die Skala ist logarithmisch und dient der Veranschaulichung/Bildung; sie ersetzt nicht die Originalkataloge. „Verderbliche“ Aussagen (z. B. „die am weitesten entfernte bekannte Galaxie“, MoM-z14, z=14,44; Katalog „aktualisiert im Mai 2026“) können veralten. Die kosmologischen Werte (einschließlich der Hubble-Konstante) haben Unsicherheiten und offene Spannungen. Die genaue Liste der Quellen je Galaxie ist nicht in der Anwendung enthalten.

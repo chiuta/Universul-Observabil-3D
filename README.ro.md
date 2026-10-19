@@ -13,7 +13,7 @@ Limbile interfeței: **Română, English, Français, Italiano, Español, Portugu
 Hartă 3D interactivă a universului observabil, într-un singur fișier HTML (WebGL / three.js): peste 115 galaxii (118 în catalogul static), 12 orizonturi cosmice, slider de timp, tururi ghidate, căutare, măsurare de distanțe, quiz, export glTF/CSV și BibTeX. Interfață în 8 limbi.
 
 - `index.html` — aplicația interactivă 3D;
-- `catalog.html` — versiune statică, fără JavaScript, a catalogului (accesibilitate și SEO).
+- [`catalog.html`](catalog.html) — versiune statică, fără JavaScript, a catalogului (accesibilitate și SEO).
 
 ## Despre date
 Poziții, distanțe și mase sunt valori **aproximative și simplificate**, calculate în cadrul ΛCDM (Planck 2018) și grupate din cataloage publice (NED, SIMBAD, programele JWST CEERS/JADES/UNCOVER). Scara este logaritmică și are scop ilustrativ/educațional; nu înlocuiește cataloagele originale. Afirmații „perisabile” (de ex. „cea mai îndepărtată galaxie cunoscută”, MoM-z14, z=14,44; catalog „actualizat în mai 2026”) pot deveni depășite. Valorile cosmologice (inclusiv constanta Hubble) au incertitudini și tensiuni deschise. Lista exactă a surselor per galaxie nu este inclusă în aplicație.

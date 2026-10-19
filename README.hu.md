@@ -13,7 +13,7 @@ A felület nyelvei: **Română, English, Français, Italiano, Español, Portugu�
 A megfigyelhető világegyetem interaktív 3D-térképe egyetlen HTML-fájlban (WebGL / three.js): több mint 115 galaxis (118 a statikus katalógusban), 12 kozmikus horizont, időcsúszka, vezetett túrák, keresés, távolságmérés, kvíz, glTF/CSV-export és BibTeX. 8 nyelvű felület.
 
 - `index.html` — az interaktív 3D alkalmazás;
-- `catalog.html` — a katalógus statikus, JavaScript nélküli változata (akadálymentesség és SEO).
+- `catalog.html` — a katalógus statikus, JavaScript nélküli változata (akadálymentesség és SEO). Ezen a nyelven: [`catalog.hu.html`](catalog.hu.html).
 
 ## Az adatokról
 A pozíciók, távolságok és tömegek **közelítő és egyszerűsített** értékek, a ΛCDM keretében (Planck 2018) számolva, nyilvános katalógusokból (NED, SIMBAD, a JWST CEERS/JADES/UNCOVER programjai) összegyűjtve. A skála logaritmikus, szemléltető/oktatási célú; nem helyettesíti az eredeti katalógusokat. A „romlandó” állítások (pl. „a legtávolabbi ismert galaxis”, MoM-z14, z=14,44; katalógus „frissítve 2026 májusában”) elavulhatnak. A kozmológiai értékek (a Hubble-állandót is beleértve) bizonytalanságokkal és nyitott feszültségekkel bírnak. A galaxisonkénti források pontos listája nem része az alkalmazásnak.

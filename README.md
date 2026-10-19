@@ -13,7 +13,7 @@ Interface languages: **Română, English, Français, Italiano, Español, Portugu
 An interactive 3D map of the observable universe, in a single HTML file (WebGL / three.js): over 115 galaxies (118 in the static catalog), 12 cosmic horizons, a time slider, guided tours, search, distance measurement, a quiz, glTF/CSV export and BibTeX. Interface in 8 languages.
 
 - `index.html` — the interactive 3D application;
-- `catalog.html` — a static, JavaScript-free version of the catalog (accessibility and SEO).
+- `catalog.html` — a static, JavaScript-free version of the catalog (accessibility and SEO). English version: [`catalog.en.html`](catalog.en.html).
 
 ## About the data
 Positions, distances and masses are **approximate and simplified** values, computed within ΛCDM (Planck 2018) and compiled from public catalogs (NED, SIMBAD, the JWST programs CEERS/JADES/UNCOVER). The scale is logarithmic and is meant for illustration/education; it does not replace the original catalogs. "Perishable" claims (e.g. "the most distant known galaxy", MoM-z14, z=14.44; catalog "updated in May 2026") may become outdated. The cosmological values (including the Hubble constant) have uncertainties and open tensions. The exact list of sources per galaxy is not included in the application.
