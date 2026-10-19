@@ -12,10 +12,14 @@
     "WebGL"
   ],
   "storageKeys": [
+    "up3-gentle-start",
+    "up3-onboarded-v2",
+    "up3-perf-choice",
+    "up3-perf-defaults-v1",
     "up3_lang"
   ],
-  "sizeBytes": 1146416,
-  "sha256": "651ed01eed4a10955ecb4a732cf75b5a7af96d7a40253f50514975496e3f91f5",
+  "sizeBytes": 1147131,
+  "sha256": "ff7ea3dbdb4ef549952eef955216ef857ea025f270030d72af8d0888807e45e9",
   "csp": {
     "present": true,
     "directives": {
@@ -52,7 +56,7 @@
     ]
   },
   "kit": {
-    "version": "1.0.0",
+    "version": "1.1.1",
     "modules": [
       "core",
       "label",
