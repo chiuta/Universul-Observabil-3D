@@ -8,7 +8,7 @@ Limbile interfeței: **Română, English, Français, Italiano, Español, Portugu
 
 **Live / demo:** https://chiuta.github.io/Universul-Observabil-3D/
 
-![Universul-Observabil-3D — captură de ecran / screenshot](screenshot.png)
+![Universul-Observabil-3D — captură de ecran / screenshot](screenshot.ro.png)
 
 Hartă 3D interactivă a universului observabil, într-un singur fișier HTML (WebGL / three.js): peste 115 galaxii (118 în catalogul static), 12 orizonturi cosmice, slider de timp, tururi ghidate, căutare, măsurare de distanțe, quiz, export glTF/CSV și BibTeX. Interfață în 8 limbi.
 

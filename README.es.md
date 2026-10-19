@@ -8,7 +8,7 @@ Idiomas de la interfaz: **Română, English, Français, Italiano, Español, Port
 
 **En línea / demo:** https://chiuta.github.io/Universul-Observabil-3D/
 
-![Universul-Observabil-3D — captura de pantalla](screenshot.png)
+![Universul-Observabil-3D — captura de pantalla](screenshot.es.png)
 
 Mapa 3D interactivo del universo observable, en un solo archivo HTML (WebGL / three.js): más de 115 galaxias (118 en el catálogo estático), 12 horizontes cósmicos, control deslizante de tiempo, visitas guiadas, búsqueda, medición de distancias, cuestionario, exportación glTF/CSV y BibTeX. Interfaz en 8 idiomas.
 

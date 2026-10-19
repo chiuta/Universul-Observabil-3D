@@ -8,7 +8,7 @@ A felület nyelvei: **Română, English, Français, Italiano, Español, Portugu�
 
 **Élő változat / demó:** https://chiuta.github.io/Universul-Observabil-3D/
 
-![Universul-Observabil-3D — képernyőkép](screenshot.png)
+![Universul-Observabil-3D — képernyőkép](screenshot.hu.png)
 
 A megfigyelhető világegyetem interaktív 3D-térképe egyetlen HTML-fájlban (WebGL / three.js): több mint 115 galaxis (118 a statikus katalógusban), 12 kozmikus horizont, időcsúszka, vezetett túrák, keresés, távolságmérés, kvíz, glTF/CSV-export és BibTeX. 8 nyelvű felület.
 
