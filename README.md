@@ -12,6 +12,8 @@ Interface languages: **Română, English, Français, Italiano, Español, Portugu
 
 An interactive 3D map of the observable universe, in a single HTML file (WebGL / three.js): over 115 galaxies (118 in the static catalog), 12 cosmic horizons, a time slider, guided tours, search, distance measurement, a quiz, glTF/CSV export and BibTeX. Interface in 8 languages.
 
+**Languages:** the complete guide (11 tabs), the 30 guided tours (about 200 steps), the 17 "Did you know?" facts, the onboarding, the descriptions of the 118 galaxies and of the 13 horizons/BAO, the names of dozens of objects, the 45.6 Gly paradox dialog and the contextual glossary (10 terms) are available in the 8 languages. Left as they are: proper names (e.g. M81 Bode, Maffei), the bilingual "Limbă / Language" label, generated content and CSV imports. The translations are automatic; a native review is recommended (especially HU/PT/DE). The Romanian source contains a few debatable statements, translated faithfully without changes of substance.
+
 - `index.html` — the interactive 3D application;
 - `catalog.html` — a static, JavaScript-free version of the catalog (accessibility and SEO). English version: [`catalog.en.html`](catalog.en.html).
 
@@ -45,6 +47,8 @@ Round 3: 2026-10-11 ("as of the catalog date" wordings, sources for records, iOS
 
 ## History / Changelog
 
+- **1.4.2 — 2026-10-19:** 20 object names in the 3D labels, the panel and the search translated; the 45.6 Gly paradox dialog fully translated; the contextual glossary now works in all languages (10 terms × 7 languages, re-applied on language change); fixed "💡 DID YOU KNOW" left in Romanian in fr, plus the canvas aria-label and the "‹ Back" button.
+- **1.4.1 — 2026-10-19:** the complete guide (11 tabs), the 30 tours, the "Did you know?" facts, the onboarding and the galaxy/horizon descriptions translated into en, fr, it, es, pt, de, hu; the guide/tour is redisplayed when the language changes.
 - 1.3.0 — 2026-10-14: Backup and data labeling (fff-kit).
 - **1.2.4 — 12 October 2026:** the version and the date of the last update are shown in the application (Guide dialog).
 - **1.2.3 — 11 October 2026:** the `/` key (or Ctrl/Cmd+K) moves focus immediately into the search field, so typing is no longer lost even when 3D rendering is slow; on narrow screens (≤700 px) the welcome guide no longer opens automatically over the scene, but the "?" button pulses until you touch it; 0 errors, axe 0 violations at 1280×800 and 360×740.

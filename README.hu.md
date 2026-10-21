@@ -12,6 +12,8 @@ A felület nyelvei: **Română, English, Français, Italiano, Español, Portugu�
 
 A megfigyelhető világegyetem interaktív 3D-térképe egyetlen HTML-fájlban (WebGL / three.js): több mint 115 galaxis (118 a statikus katalógusban), 12 kozmikus horizont, időcsúszka, vezetett túrák, keresés, távolságmérés, kvíz, glTF/CSV-export és BibTeX. 8 nyelvű felület.
 
+**Nyelvek:** a teljes útmutató (11 fül), a 30 vezetett túra (kb. 200 lépés), a 17 „Tudtad?” tény, a bevezető, a 118 galaxis és a 13 horizont/BAO leírása, több tucat objektum neve, a 45,6 Gly-paradoxon ablaka és a kontextuális szójegyzék (10 kifejezés) mind a 8 nyelven elérhető. Változatlanul maradnak: a tulajdonnevek (pl. M81 Bode, Maffei), a kétnyelvű „Limbă / Language” címke, a generált tartalom és a CSV-importok. A fordítások automatikusak; anyanyelvi lektorálás ajánlott (főleg HU/PT/DE). A román forrás néhány vitatható állítást tartalmaz, ezeket hűen, érdemi változtatás nélkül fordítottuk.
+
 - `index.html` — az interaktív 3D alkalmazás;
 - `catalog.html` — a katalógus statikus, JavaScript nélküli változata (akadálymentesség és SEO). Ezen a nyelven: [`catalog.hu.html`](catalog.hu.html).
 
@@ -45,6 +47,8 @@ Audit: 2026-10-10; 2. kör: 2026-10-11 (a helyőrző DOI eltávolítva a hivatko
 
 ## Előzmények / Changelog
 
+- **1.4.2 — 2026-10-19:** 20 objektumnév lefordítva a 3D-címkékben, a panelen és a keresésben; a 45,6 Gly-paradoxon ablaka teljesen lefordítva; a kontextuális szójegyzék mostantól minden nyelven működik (10 kifejezés × 7 nyelv, nyelvváltáskor újra alkalmazva); javítva: a „💡 TUDTAD?” fr nyelven románul maradt, valamint a vászon aria-label-je és a „‹ Vissza” gomb.
+- **1.4.1 — 2026-10-19:** a teljes útmutató (11 fül), a 30 túra, a „Tudtad?” tények, a bevezető és a galaxisok/horizontok leírása le van fordítva en, fr, it, es, pt, de, hu nyelvre; az útmutató/túra nyelvváltáskor újra megjelenik.
 - 1.3.0 — 2026-10-14: Biztonsági mentés és adatcímkézés (fff-kit).
 - **1.2.4 — 2026. október 12.:** a verzió és az utolsó frissítés dátuma megjelenik az alkalmazásban (Útmutató párbeszédablak).
 - **1.2.3 — 2026. október 11.:** a `/` billentyű (vagy Ctrl/Cmd+K) azonnal a keresőmezőre helyezi a fókuszt, így a gépelés lassú 3D-renderelésnél sem vész el; keskeny képernyőkön (≤700 px) az üdvözlő útmutató már nem nyílik meg automatikusan a jelenet fölött, hanem a „?” gomb pulzál, amíg meg nem érinti; 0 hiba, axe 0 szabálysértés 1280×800 és 360×740 méretnél.

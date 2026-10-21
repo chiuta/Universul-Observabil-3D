@@ -12,6 +12,8 @@ Limbile interfeței: **Română, English, Français, Italiano, Español, Portugu
 
 Hartă 3D interactivă a universului observabil, într-un singur fișier HTML (WebGL / three.js): peste 115 galaxii (118 în catalogul static), 12 orizonturi cosmice, slider de timp, tururi ghidate, căutare, măsurare de distanțe, quiz, export glTF/CSV și BibTeX. Interfață în 8 limbi.
 
+**Limbi:** ghidul complet (11 file), cele 30 de tururi ghidate (circa 200 de pași), cele 17 „Știai că?”, onboarding-ul, descrierile celor 118 galaxii și ale celor 13 orizonturi/BAO, numele a zeci de obiecte, fereastra paradoxului 45,6 Gly și glosarul contextual (10 termeni) sunt disponibile în cele 8 limbi. Rămân neschimbate: numele proprii (de ex. M81 Bode, Maffei), eticheta bilingvă „Limbă / Language”, conținutul generat și importurile CSV. Traducerile sunt automate; se recomandă revizie nativă (mai ales HU/PT/DE). Sursa românească conține câteva afirmații discutabile, traduse fidel, fără modificări de fond.
+
 - `index.html` — aplicația interactivă 3D;
 - [`catalog.html`](catalog.html) — versiune statică, fără JavaScript, a catalogului (accesibilitate și SEO).
 
@@ -45,6 +47,8 @@ Rundă 3: 2026-10-11 (formulări „la data catalogului”, surse pentru recordu
 
 ## Istoric / Changelog
 
+- **1.4.2 — 2026-10-19:** traduse 20 de nume de obiecte din etichetele 3D, panou și căutare; fereastra paradoxului 45,6 Gly tradusă integral; glosarul contextual funcționează acum în toate limbile (10 termeni × 7 limbi, reaplicat la schimbarea limbii); corectat „💡 ȘTIAI CĂ” rămas în română în fr, plus aria-label-ul canvasului și butonul „‹ Înapoi”.
+- **1.4.1 — 2026-10-19:** ghidul complet (11 file), cele 30 de tururi, „Știai că?”, onboarding-ul și descrierile galaxiilor/orizonturilor sunt traduse în en, fr, it, es, pt, de, hu; ghidul/turul se reafișează la schimbarea limbii.
 - 1.3.0 — 2026-10-14: Copie de rezervă și etichetare date (fff-kit).
 - **1.2.4 — 12 octombrie 2026:** versiunea și data ultimei actualizări sunt afișate în aplicație (dialogul Ghid).
 - **1.2.3 — 11 octombrie 2026:** tasta `/` (sau Ctrl/Cmd+K) mută focusul imediat în câmpul de căutare, deci tastarea nu se mai pierde nici când randarea 3D este lentă; pe ecrane înguste (≤700 px) ghidul de bun venit nu se mai deschide automat peste scenă, ci butonul „?” pulsează până îl atingi; 0 erori, axe 0 violări la 1280×800 și 360×740.

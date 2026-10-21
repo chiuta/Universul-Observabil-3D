@@ -12,6 +12,8 @@ Idiomas da interface: **Română, English, Français, Italiano, Español, Portug
 
 Mapa 3D interativo do universo observável, num único ficheiro HTML (WebGL / three.js): mais de 115 galáxias (118 no catálogo estático), 12 horizontes cósmicos, cursor de tempo, visitas guiadas, pesquisa, medição de distâncias, questionário, exportação glTF/CSV e BibTeX. Interface em 8 idiomas.
 
+**Idiomas:** o guia completo (11 separadores), as 30 visitas guiadas (cerca de 200 passos), os 17 «Sabias que?», a introdução, as descrições das 118 galáxias e dos 13 horizontes/BAO, os nomes de dezenas de objetos, a janela do paradoxo de 45,6 Gal e o glossário contextual (10 termos) estão disponíveis nos 8 idiomas. Permanecem inalterados: os nomes próprios (p. ex. M81 Bode, Maffei), a etiqueta bilingue «Limbă / Language», o conteúdo gerado e as importações CSV. As traduções são automáticas; recomenda-se revisão nativa (sobretudo HU/PT/DE). A fonte romena contém algumas afirmações discutíveis, traduzidas fielmente sem alterações de fundo.
+
 - `index.html` — a aplicação 3D interativa;
 - `catalog.html` — versão estática, sem JavaScript, do catálogo (acessibilidade e SEO). Neste idioma: [`catalog.pt.html`](catalog.pt.html).
 
@@ -45,6 +47,8 @@ Ronda 3: 2026-10-11 (formulações «à data do catálogo», fontes para os reco
 
 ## Histórico / Changelog
 
+- **1.4.2 — 2026-10-19:** traduzidos 20 nomes de objetos nas etiquetas 3D, no painel e na pesquisa; janela do paradoxo de 45,6 Gal totalmente traduzida; o glossário contextual funciona agora em todos os idiomas (10 termos × 7 idiomas, reaplicado ao mudar de idioma); corrigido «💡 SABIAS QUE» que ficara em romeno em fr, além do aria-label do canvas e do botão «‹ Voltar».
+- **1.4.1 — 2026-10-19:** o guia completo (11 separadores), as 30 visitas, os «Sabias que?», a introdução e as descrições de galáxias/horizontes estão traduzidos para en, fr, it, es, pt, de, hu; o guia/visita é reapresentado ao mudar de idioma.
 - 1.3.0 — 2026-10-14: Cópia de reserva e rotulagem de dados (fff-kit).
 - **1.2.4 — 12 de outubro de 2026:** a versão e a data da última atualização são mostradas na aplicação (caixa de diálogo Guia).
 - **1.2.3 — 11 de outubro de 2026:** a tecla `/` (ou Ctrl/Cmd+K) move imediatamente o foco para o campo de pesquisa, pelo que o que se escreve já não se perde nem quando a renderização 3D é lenta; em ecrãs estreitos (≤700 px) o guia de boas-vindas já não se abre automaticamente sobre a cena, mas o botão «?» pulsa até lhe tocar; 0 erros, axe 0 violações a 1280×800 e 360×740.

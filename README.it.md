@@ -12,6 +12,8 @@ Lingue dell'interfaccia: **Română, English, Français, Italiano, Español, Por
 
 Mappa 3D interattiva dell'universo osservabile, in un unico file HTML (WebGL / three.js): oltre 115 galassie (118 nel catalogo statico), 12 orizzonti cosmici, cursore del tempo, tour guidati, ricerca, misurazione di distanze, quiz, esportazione glTF/CSV e BibTeX. Interfaccia in 8 lingue.
 
+**Lingue:** la guida completa (11 schede), i 30 tour guidati (circa 200 passi), i 17 «Lo sapevi?», l'onboarding, le descrizioni delle 118 galassie e dei 13 orizzonti/BAO, i nomi di decine di oggetti, la finestra del paradosso da 45,6 Gal e il glossario contestuale (10 termini) sono disponibili nelle 8 lingue. Restano invariati: i nomi propri (ad es. M81 Bode, Maffei), l'etichetta bilingue «Limbă / Language», il contenuto generato e le importazioni CSV. Le traduzioni sono automatiche; si consiglia una revisione da madrelingua (soprattutto HU/PT/DE). La fonte rumena contiene alcune affermazioni discutibili, tradotte fedelmente senza modifiche di sostanza.
+
 - `index.html` — l'applicazione 3D interattiva;
 - `catalog.html` — versione statica, senza JavaScript, del catalogo (accessibilità e SEO). In questa lingua: [`catalog.it.html`](catalog.it.html).
 
@@ -45,6 +47,8 @@ Round 3: 2026-10-11 (formulazioni «alla data del catalogo», fonti per i record
 
 ## Storico / Changelog
 
+- **1.4.2 — 2026-10-19:** tradotti 20 nomi di oggetti nelle etichette 3D, nel pannello e nella ricerca; finestra del paradosso da 45,6 Gal tradotta integralmente; il glossario contestuale ora funziona in tutte le lingue (10 termini × 7 lingue, riapplicato al cambio di lingua); corretto «💡 LO SAPEVI» rimasto in rumeno in fr, più l'aria-label del canvas e il pulsante «‹ Indietro».
+- **1.4.1 — 2026-10-19:** la guida completa (11 schede), i 30 tour, i «Lo sapevi?», l'onboarding e le descrizioni di galassie/orizzonti sono tradotti in en, fr, it, es, pt, de, hu; guida/tour vengono riproposti al cambio di lingua.
 - 1.3.0 — 2026-10-14: Copia di riserva ed etichettatura dei dati (fff-kit).
 - **1.2.4 — 12 ottobre 2026:** la versione e la data dell'ultimo aggiornamento sono mostrate nell'applicazione (finestra Guida).
 - **1.2.3 — 11 ottobre 2026:** il tasto `/` (o Ctrl/Cmd+K) sposta subito il focus nel campo di ricerca, quindi la digitazione non si perde più nemmeno quando il rendering 3D è lento; sugli schermi stretti (≤700 px) la guida di benvenuto non si apre più automaticamente sopra la scena, ma il pulsante «?» pulsa finché non lo tocchi; 0 errori, axe 0 violazioni a 1280×800 e 360×740.

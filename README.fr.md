@@ -12,6 +12,8 @@ Langues de l'interface : **Română, English, Français, Italiano, Español, Por
 
 Carte 3D interactive de l'univers observable, dans un seul fichier HTML (WebGL / three.js) : plus de 115 galaxies (118 dans le catalogue statique), 12 horizons cosmiques, curseur de temps, visites guidées, recherche, mesure de distances, quiz, export glTF/CSV et BibTeX. Interface en 8 langues.
 
+**Langues :** le guide complet (11 onglets), les 30 visites guidées (environ 200 étapes), les 17 « Le saviez-vous ? », l'accueil, les descriptions des 118 galaxies et des 13 horizons/BAO, les noms de dizaines d'objets, la fenêtre du paradoxe de 45,6 Gal et le glossaire contextuel (10 termes) sont disponibles dans les 8 langues. Restent tels quels : les noms propres (p. ex. M81 Bode, Maffei), l'étiquette bilingue « Limbă / Language », le contenu généré et les imports CSV. Les traductions sont automatiques ; une relecture native est recommandée (surtout HU/PT/DE). La source roumaine contient quelques affirmations discutables, traduites fidèlement sans changement de fond.
+
 - `index.html` — l'application 3D interactive ;
 - `catalog.html` — version statique, sans JavaScript, du catalogue (accessibilité et SEO). Dans cette langue : [`catalog.fr.html`](catalog.fr.html).
 
@@ -45,6 +47,8 @@ Tour 3 : 2026-10-11 (formulations « à la date du catalogue », sources pour le
 
 ## Historique / Changelog
 
+- **1.4.2 — 2026-10-19 :** 20 noms d'objets dans les étiquettes 3D, le panneau et la recherche traduits ; fenêtre du paradoxe de 45,6 Gal entièrement traduite ; le glossaire contextuel fonctionne désormais dans toutes les langues (10 termes × 7 langues, réappliqué au changement de langue) ; correction de « 💡 LE SAVIEZ-VOUS » resté en roumain en fr, ainsi que de l'aria-label du canvas et du bouton « ‹ Retour ».
+- **1.4.1 — 2026-10-19 :** le guide complet (11 onglets), les 30 visites, les « Le saviez-vous ? », l'accueil et les descriptions des galaxies/horizons sont traduits en en, fr, it, es, pt, de, hu ; le guide/la visite est réaffiché au changement de langue.
 - 1.3.0 — 2026-10-14 : Sauvegarde et étiquetage des données (fff-kit).
 - **1.2.4 — 12 octobre 2026 :** la version et la date de la dernière mise à jour s'affichent dans l'application (boîte de dialogue Guide).
 - **1.2.3 — 11 octobre 2026 :** la touche `/` (ou Ctrl/Cmd+K) place immédiatement le focus dans le champ de recherche, donc la saisie ne se perd plus même quand le rendu 3D est lent ; sur écrans étroits (≤700 px), le guide de bienvenue ne s'ouvre plus automatiquement par-dessus la scène, mais le bouton « ? » pulse jusqu'à ce que vous le touchiez ; 0 erreur, axe 0 violation à 1280×800 et 360×740.

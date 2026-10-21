@@ -12,6 +12,8 @@ Oberflächensprachen: **Română, English, Français, Italiano, Español, Portug
 
 Interaktive 3D-Karte des beobachtbaren Universums, in einer einzigen HTML-Datei (WebGL / three.js): über 115 Galaxien (118 im statischen Katalog), 12 kosmische Horizonte, Zeitregler, geführte Touren, Suche, Entfernungsmessung, Quiz, glTF/CSV-Export und BibTeX. Oberfläche in 8 Sprachen.
 
+**Sprachen:** die vollständige Anleitung (11 Reiter), die 30 geführten Touren (rund 200 Schritte), die 17 „Wusstest du schon?“, das Onboarding, die Beschreibungen der 118 Galaxien und der 13 Horizonte/BAO, die Namen Dutzender Objekte, das Fenster zum 45,6-Gly-Paradoxon und das Kontextglossar (10 Begriffe) liegen in den 8 Sprachen vor. Unverändert bleiben: Eigennamen (z. B. M81 Bode, Maffei), das zweisprachige Etikett „Limbă / Language“, generierte Inhalte und CSV-Importe. Die Übersetzungen sind automatisch; eine muttersprachliche Prüfung wird empfohlen (besonders HU/PT/DE). Die rumänische Quelle enthält einige fragwürdige Aussagen, die getreu und ohne inhaltliche Änderung übersetzt wurden.
+
 - `index.html` — die interaktive 3D-Anwendung;
 - `catalog.html` — statische Version des Katalogs ohne JavaScript (Barrierefreiheit und SEO). In dieser Sprache: [`catalog.de.html`](catalog.de.html).
 
@@ -45,6 +47,8 @@ Runde 3: 2026-10-11 (Formulierungen „zum Stand des Katalogs“, Quellen für R
 
 ## Verlauf / Changelog
 
+- **1.4.2 — 2026-10-19:** 20 Objektnamen in den 3D-Beschriftungen, im Panel und in der Suche übersetzt; Fenster zum 45,6-Gly-Paradoxon vollständig übersetzt; das Kontextglossar funktioniert jetzt in allen Sprachen (10 Begriffe × 7 Sprachen, bei Sprachwechsel neu angewendet); korrigiert: „💡 WUSSTEST DU SCHON“ war in fr noch rumänisch, ebenso das aria-label des Canvas und die Schaltfläche „‹ Zurück“.
+- **1.4.1 — 2026-10-19:** die vollständige Anleitung (11 Reiter), die 30 Touren, die „Wusstest du schon?“, das Onboarding und die Galaxien-/Horizontbeschreibungen sind nach en, fr, it, es, pt, de, hu übersetzt; Anleitung/Tour werden beim Sprachwechsel neu angezeigt.
 - 1.3.0 — 2026-10-14: Sicherungskopie und Datenkennzeichnung (fff-kit).
 - **1.2.4 — 12. Oktober 2026:** Die Version und das Datum der letzten Aktualisierung werden in der Anwendung angezeigt (Dialog Anleitung).
 - **1.2.3 — 11. Oktober 2026:** Die Taste `/` (oder Strg/Cmd+K) setzt den Fokus sofort in das Suchfeld, sodass Eingaben auch bei langsamem 3D-Rendering nicht mehr verloren gehen; auf schmalen Bildschirmen (≤700 px) öffnet sich die Willkommensanleitung nicht mehr automatisch über der Szene, stattdessen pulsiert die Schaltfläche „?“, bis Sie sie berühren; 0 Fehler, axe 0 Verstöße bei 1280×800 und 360×740.
