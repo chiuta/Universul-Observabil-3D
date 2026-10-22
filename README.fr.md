@@ -2,7 +2,7 @@
 
 [English](README.md) · [Română](README.ro.md) · **Français** · [Italiano](README.it.md) · [Español](README.es.md) · [Português](README.pt.md) · [Deutsch](README.de.md) · [Magyar](README.hu.md)
 
-**Version :** 1.4.6 · **Dernière mise à jour :** 2026-10-22
+**Version :** 1.4.7 · **Dernière mise à jour :** 2026-10-22
 
 Langues de l'interface : **Română, English, Français, Italiano, Español, Português (PT), Deutsch, Magyar**
 
@@ -46,6 +46,9 @@ Tour 3 : 2026-10-11 (formulations « à la date du catalogue », sources pour le
 - Le record de distance MoM-z14 : https://www.stsci.edu/contents/news-releases/2026/news-2026-107 (communiqué du 28 janvier 2026), https://en.wikipedia.org/wiki/MoM-z14 et https://en.wikipedia.org/wiki/List_of_the_most_distant_astronomical_objects — aucun record spectroscopique plus lointain trouvé. Les données du catalogue restent celles de mai 2026 (EGS-z11-R0 reste non vérifié indépendamment).
 
 ## Historique / Changelog
+
+### 1.4.7 — 2026-10-22
+- fff-kit 1.1.2 : PBKDF2 à 600 000 itérations, protection anti-clickjacking.
 
 ### 1.4.6 — 2026-10-22
 - Hors ligne pour de bon : le manifeste intégré (URL data:) a été remplacé par un vrai sw.js (cache d'abord avec revalidation en arrière-plan), un fichier de manifeste web et des icônes ; l'application s'ouvre désormais sans réseau après la première visite et peut être installée.
