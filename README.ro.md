@@ -2,7 +2,7 @@
 
 [English](README.md) · **Română** · [Français](README.fr.md) · [Italiano](README.it.md) · [Español](README.es.md) · [Português](README.pt.md) · [Deutsch](README.de.md) · [Magyar](README.hu.md)
 
-**Versiune:** 1.4.7 · **Ultima actualizare:** 2026-10-22
+**Versiune:** 1.4.8 · **Ultima actualizare:** 2026-10-22
 
 Limbile interfeței: **Română, English, Français, Italiano, Español, Português (PT), Deutsch, Magyar**
 
@@ -46,6 +46,9 @@ Rundă 3: 2026-10-11 (formulări „la data catalogului”, surse pentru recordu
 - Recordul de distanță MoM-z14: https://www.stsci.edu/contents/news-releases/2026/news-2026-107 (comunicat din 28 ianuarie 2026), https://en.wikipedia.org/wiki/MoM-z14 și https://en.wikipedia.org/wiki/List_of_the_most_distant_astronomical_objects — niciun record spectroscopic mai îndepărtat găsit. Datele catalogului rămân cele din mai 2026 (EGS-z11-R0 rămâne neverificat independent).
 
 ## Istoric / Changelog
+
+### 1.4.8 — 2026-10-22
+- fff-kit 1.1.4: ținte tactile și text minim; ținte tactile/text corectate
 
 ### 1.4.7 — 2026-10-22
 - fff-kit 1.1.2: PBKDF2 600 000 de iterații, protecție anti-clickjacking.

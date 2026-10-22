@@ -2,7 +2,7 @@
 
 [English](README.md) · [Română](README.ro.md) · [Français](README.fr.md) · [Italiano](README.it.md) · [Español](README.es.md) · **Português** · [Deutsch](README.de.md) · [Magyar](README.hu.md)
 
-**Versão:** 1.4.7 · **Última atualização:** 2026-10-22
+**Versão:** 1.4.8 · **Última atualização:** 2026-10-22
 
 Idiomas da interface: **Română, English, Français, Italiano, Español, Português (PT), Deutsch, Magyar**
 
@@ -46,6 +46,9 @@ Ronda 3: 2026-10-11 (formulações «à data do catálogo», fontes para os reco
 - O recorde de distância MoM-z14: https://www.stsci.edu/contents/news-releases/2026/news-2026-107 (comunicado de 28 de janeiro de 2026), https://en.wikipedia.org/wiki/MoM-z14 e https://en.wikipedia.org/wiki/List_of_the_most_distant_astronomical_objects — não foi encontrado nenhum recorde espectroscópico mais distante. Os dados do catálogo continuam a ser os de maio de 2026 (EGS-z11-R0 continua por verificar de forma independente).
 
 ## Histórico / Changelog
+
+### 1.4.8 — 2026-10-22
+- fff-kit 1.1.4: alvos táteis e texto mínimo; alvos táteis/texto corrigidos
 
 ### 1.4.7 — 2026-10-22
 - fff-kit 1.1.2: PBKDF2 com 600.000 iterações, proteção anti-clickjacking.
