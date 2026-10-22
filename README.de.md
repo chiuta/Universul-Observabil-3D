@@ -2,7 +2,7 @@
 
 [English](README.md) · [Română](README.ro.md) · [Français](README.fr.md) · [Italiano](README.it.md) · [Español](README.es.md) · [Português](README.pt.md) · **Deutsch** · [Magyar](README.hu.md)
 
-**Version:** 1.4.3 · **Zuletzt aktualisiert:** 2026-10-22
+**Version:** 1.4.4 · **Zuletzt aktualisiert:** 2026-10-22
 
 Oberflächensprachen: **Română, English, Français, Italiano, Español, Português (PT), Deutsch, Magyar**
 
@@ -47,6 +47,7 @@ Runde 3: 2026-10-11 (Formulierungen „zum Stand des Katalogs“, Quellen für R
 
 ## Verlauf / Changelog
 
+- **1.4.4 — 2026-10-22:** alle Schaltflächenbeschriftungen der Einführung und die Markierungen des Entfernungsreglers („Kamera zurücksetzen“, „Flug zur Andromeda-Galaxie“, „Zum CMB“ …) sind in allen 8 Sprachen übersetzt.
 - **1.4.3 — 2026-10-22:** Seitentitel und Meta-Beschreibungen folgen der Oberflächensprache; der Hinweis „R reset“ ist auf Rumänisch lokalisiert („resetare“).
 - **1.4.2 — 2026-10-19:** 20 Objektnamen in den 3D-Beschriftungen, im Panel und in der Suche übersetzt; Fenster zum 45,6-Gly-Paradoxon vollständig übersetzt; das Kontextglossar funktioniert jetzt in allen Sprachen (10 Begriffe × 7 Sprachen, bei Sprachwechsel neu angewendet); korrigiert: „💡 WUSSTEST DU SCHON“ war in fr noch rumänisch, ebenso das aria-label des Canvas und die Schaltfläche „‹ Zurück“.
 - **1.4.1 — 2026-10-19:** die vollständige Anleitung (11 Reiter), die 30 Touren, die „Wusstest du schon?“, das Onboarding und die Galaxien-/Horizontbeschreibungen sind nach en, fr, it, es, pt, de, hu übersetzt; Anleitung/Tour werden beim Sprachwechsel neu angezeigt.

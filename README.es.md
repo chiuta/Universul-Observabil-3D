@@ -2,7 +2,7 @@
 
 [English](README.md) · [Română](README.ro.md) · [Français](README.fr.md) · [Italiano](README.it.md) · **Español** · [Português](README.pt.md) · [Deutsch](README.de.md) · [Magyar](README.hu.md)
 
-**Versión:** 1.4.3 · **Última actualización:** 2026-10-22
+**Versión:** 1.4.4 · **Última actualización:** 2026-10-22
 
 Idiomas de la interfaz: **Română, English, Français, Italiano, Español, Português (PT), Deutsch, Magyar**
 
@@ -47,6 +47,7 @@ Ronda 3: 2026-10-11 (formulaciones «a la fecha del catálogo», fuentes para lo
 
 ## Historial / Changelog
 
+- **1.4.4 — 2026-10-22:** todas las etiquetas de los botones de la guía de introducción y las referencias del control de distancia («Restablecer la cámara», «Volar hasta Andrómeda», «Hacia el CMB»…) están traducidas a los 8 idiomas.
 - **1.4.3 — 2026-10-22:** el título de la página y las metadescripciones siguen el idioma de la interfaz; la indicación «R reset» está localizada en rumano («resetare»).
 - **1.4.2 — 2026-10-19:** traducidos 20 nombres de objetos en las etiquetas 3D, el panel y la búsqueda; ventana de la paradoja de 45,6 Gal traducida por completo; el glosario contextual funciona ahora en todos los idiomas (10 términos × 7 idiomas, reaplicado al cambiar de idioma); corregido «💡 ¿SABÍAS QUE?» que seguía en rumano en fr, además del aria-label del canvas y el botón «‹ Atrás».
 - **1.4.1 — 2026-10-19:** la guía completa (11 pestañas), las 30 visitas, los «¿Sabías que?», la incorporación y las descripciones de galaxias/horizontes están traducidos a en, fr, it, es, pt, de, hu; la guía/visita se vuelve a mostrar al cambiar de idioma.

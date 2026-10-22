@@ -2,7 +2,7 @@
 
 [English](README.md) · [Română](README.ro.md) · [Français](README.fr.md) · [Italiano](README.it.md) · [Español](README.es.md) · [Português](README.pt.md) · [Deutsch](README.de.md) · **Magyar**
 
-**Verzió:** 1.4.3 · **Utolsó frissítés:** 2026-10-22
+**Verzió:** 1.4.4 · **Utolsó frissítés:** 2026-10-22
 
 A felület nyelvei: **Română, English, Français, Italiano, Español, Português (PT), Deutsch, Magyar**
 
@@ -47,6 +47,7 @@ Audit: 2026-10-10; 2. kör: 2026-10-11 (a helyőrző DOI eltávolítva a hivatko
 
 ## Előzmények / Changelog
 
+- **1.4.4 — 2026-10-22:** a bevezető útmutató összes gombfelirata és a távolságcsúszka jelzőpontjai („Kamera visszaállítása”, „Repülés az Androméda-galaxisig”, „A CMB felé” …) mind a 8 nyelven le vannak fordítva.
 - **1.4.3 — 2026-10-22:** az oldal címe és a meta-leírások követik a felület nyelvét; az „R reset” súgó románul is lokalizált („resetare”).
 - **1.4.2 — 2026-10-19:** 20 objektumnév lefordítva a 3D-címkékben, a panelen és a keresésben; a 45,6 Gly-paradoxon ablaka teljesen lefordítva; a kontextuális szójegyzék mostantól minden nyelven működik (10 kifejezés × 7 nyelv, nyelvváltáskor újra alkalmazva); javítva: a „💡 TUDTAD?” fr nyelven románul maradt, valamint a vászon aria-label-je és a „‹ Vissza” gomb.
 - **1.4.1 — 2026-10-19:** a teljes útmutató (11 fül), a 30 túra, a „Tudtad?” tények, a bevezető és a galaxisok/horizontok leírása le van fordítva en, fr, it, es, pt, de, hu nyelvre; az útmutató/túra nyelvváltáskor újra megjelenik.

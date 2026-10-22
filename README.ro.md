@@ -2,7 +2,7 @@
 
 [English](README.md) · **Română** · [Français](README.fr.md) · [Italiano](README.it.md) · [Español](README.es.md) · [Português](README.pt.md) · [Deutsch](README.de.md) · [Magyar](README.hu.md)
 
-**Versiune:** 1.4.3 · **Ultima actualizare:** 2026-10-22
+**Versiune:** 1.4.4 · **Ultima actualizare:** 2026-10-22
 
 Limbile interfeței: **Română, English, Français, Italiano, Español, Português (PT), Deutsch, Magyar**
 
@@ -47,6 +47,7 @@ Rundă 3: 2026-10-11 (formulări „la data catalogului”, surse pentru recordu
 
 ## Istoric / Changelog
 
+- **1.4.4 — 2026-10-22:** toate etichetele butoanelor din ghidul de intro și reperele din glisorul de distanță („Resetează camera”, „Zboară până la Andromeda”, „Spre CMB”…) sunt traduse în toate cele 8 limbi.
 - **1.4.3 — 2026-10-22:** titlul paginii și meta-descrierile urmează limba interfeței; indiciul „R reset” este localizat în română („resetare”).
 - **1.4.2 — 2026-10-19:** traduse 20 de nume de obiecte din etichetele 3D, panou și căutare; fereastra paradoxului 45,6 Gly tradusă integral; glosarul contextual funcționează acum în toate limbile (10 termeni × 7 limbi, reaplicat la schimbarea limbii); corectat „💡 ȘTIAI CĂ” rămas în română în fr, plus aria-label-ul canvasului și butonul „‹ Înapoi”.
 - **1.4.1 — 2026-10-19:** ghidul complet (11 file), cele 30 de tururi, „Știai că?”, onboarding-ul și descrierile galaxiilor/orizonturilor sunt traduse în en, fr, it, es, pt, de, hu; ghidul/turul se reafișează la schimbarea limbii.

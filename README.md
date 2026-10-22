@@ -2,7 +2,7 @@
 
 **English** · [Română](README.ro.md) · [Français](README.fr.md) · [Italiano](README.it.md) · [Español](README.es.md) · [Português](README.pt.md) · [Deutsch](README.de.md) · [Magyar](README.hu.md)
 
-**Version:** 1.4.3 · **Last updated:** 2026-10-22
+**Version:** 1.4.4 · **Last updated:** 2026-10-22
 
 Interface languages: **Română, English, Français, Italiano, Español, Português (PT), Deutsch, Magyar**
 
@@ -47,6 +47,7 @@ Round 3: 2026-10-11 ("as of the catalog date" wordings, sources for records, iOS
 
 ## History / Changelog
 
+- **1.4.4 — 2026-10-22:** all button labels in the intro guide and the distance-slider landmarks (“Reset camera”, “Fly to Andromeda”, “Towards the CMB”…) are now translated in all 8 languages.
 - **1.4.3 — 2026-10-22:** the page title and meta descriptions follow the interface language; the "R reset" hint is localized in Romanian ("resetare").
 - **1.4.2 — 2026-10-19:** 20 object names in the 3D labels, the panel and the search translated; the 45.6 Gly paradox dialog fully translated; the contextual glossary now works in all languages (10 terms × 7 languages, re-applied on language change); fixed "💡 DID YOU KNOW" left in Romanian in fr, plus the canvas aria-label and the "‹ Back" button.
 - **1.4.1 — 2026-10-19:** the complete guide (11 tabs), the 30 tours, the "Did you know?" facts, the onboarding and the galaxy/horizon descriptions translated into en, fr, it, es, pt, de, hu; the guide/tour is redisplayed when the language changes.
