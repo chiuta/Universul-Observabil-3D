@@ -2,7 +2,7 @@
 
 [English](README.md) · [Română](README.ro.md) · **Français** · [Italiano](README.it.md) · [Español](README.es.md) · [Português](README.pt.md) · [Deutsch](README.de.md) · [Magyar](README.hu.md)
 
-**Version :** 1.4.4 · **Dernière mise à jour :** 2026-10-22
+**Version :** 1.4.5 · **Dernière mise à jour :** 2026-10-22
 
 Langues de l'interface : **Română, English, Français, Italiano, Español, Português (PT), Deutsch, Magyar**
 
@@ -47,6 +47,7 @@ Tour 3 : 2026-10-11 (formulations « à la date du catalogue », sources pour le
 
 ## Historique / Changelog
 
+- **1.4.5 — 2026-10-22:** l’abréviation « unités » dans l’affichage de la distance propre du widget de grille comobile suit désormais la langue de l’interface.
 - **1.4.4 — 2026-10-22:** toutes les étiquettes de boutons du guide d'introduction et les repères du curseur de distance (« Réinitialiser la caméra », « Voler jusqu'à Andromède », « Vers le CMB »…) sont traduites dans les 8 langues.
 - **1.4.3 — 2026-10-22:** le titre de la page et les méta-descriptions suivent la langue de l'interface ; l'indication « R reset » est localisée en roumain (« resetare »).
 - **1.4.2 — 2026-10-19 :** 20 noms d'objets dans les étiquettes 3D, le panneau et la recherche traduits ; fenêtre du paradoxe de 45,6 Gal entièrement traduite ; le glossaire contextuel fonctionne désormais dans toutes les langues (10 termes × 7 langues, réappliqué au changement de langue) ; correction de « 💡 LE SAVIEZ-VOUS » resté en roumain en fr, ainsi que de l'aria-label du canvas et du bouton « ‹ Retour ».
