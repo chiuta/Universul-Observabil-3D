@@ -2,7 +2,7 @@
 
 [English](README.md) · [Română](README.ro.md) · [Français](README.fr.md) · [Italiano](README.it.md) · [Español](README.es.md) · [Português](README.pt.md) · **Deutsch** · [Magyar](README.hu.md)
 
-**Version:** 1.4.5 · **Zuletzt aktualisiert:** 2026-10-22
+**Version:** 1.4.6 · **Zuletzt aktualisiert:** 2026-10-22
 
 Oberflächensprachen: **Română, English, Français, Italiano, Español, Português (PT), Deutsch, Magyar**
 
@@ -46,6 +46,11 @@ Runde 3: 2026-10-11 (Formulierungen „zum Stand des Katalogs“, Quellen für R
 - Der Entfernungsrekord MoM-z14: https://www.stsci.edu/contents/news-releases/2026/news-2026-107 (Mitteilung vom 28. Januar 2026), https://en.wikipedia.org/wiki/MoM-z14 und https://en.wikipedia.org/wiki/List_of_the_most_distant_astronomical_objects — kein weiter entfernter spektroskopischer Rekord gefunden. Die Katalogdaten bleiben die vom Mai 2026 (EGS-z11-R0 bleibt unabhängig ungeprüft).
 
 ## Verlauf / Changelog
+
+### 1.4.6 — 2026-10-22
+- Wirklich offline: Das eingebettete Manifest (data:-URL) wurde durch einen echten sw.js (Cache zuerst mit Hintergrund-Revalidierung), eine Web-Manifest-Datei und Symbole ersetzt; die App öffnet sich nun nach dem ersten Besuch ohne Netz und kann installiert werden.
+- Barrierefreiheit: Die Seite hat jetzt genau eine H1 (die Titelleiste); das CSV-Importfeld und der Skalenfaktor-Regler haben Namen, die Screenreader ansagen (8 Sprachen); die Regler für Zeit und Entfernungsfilter haben 24-px-Touch-Flächen.
+- Mobil: Der Oberflächentext ist mindestens 12 px groß, und die Schaltflächen für Orientierungspunkte haben größere Touch-Flächen.
 
 - **1.4.5 — 2026-10-22:** die Abkürzung „Einh.“ in der Anzeige der Eigenentfernung des Widgets für das mitbewegte Gitter folgt jetzt der Oberflächensprache.
 - **1.4.4 — 2026-10-22:** alle Schaltflächenbeschriftungen der Einführung und die Markierungen des Entfernungsreglers („Kamera zurücksetzen“, „Flug zur Andromeda-Galaxie“, „Zum CMB“ …) sind in allen 8 Sprachen übersetzt.

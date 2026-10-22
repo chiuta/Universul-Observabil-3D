@@ -2,7 +2,7 @@
 
 [English](README.md) · [Română](README.ro.md) · **Français** · [Italiano](README.it.md) · [Español](README.es.md) · [Português](README.pt.md) · [Deutsch](README.de.md) · [Magyar](README.hu.md)
 
-**Version :** 1.4.5 · **Dernière mise à jour :** 2026-10-22
+**Version :** 1.4.6 · **Dernière mise à jour :** 2026-10-22
 
 Langues de l'interface : **Română, English, Français, Italiano, Español, Português (PT), Deutsch, Magyar**
 
@@ -46,6 +46,11 @@ Tour 3 : 2026-10-11 (formulations « à la date du catalogue », sources pour le
 - Le record de distance MoM-z14 : https://www.stsci.edu/contents/news-releases/2026/news-2026-107 (communiqué du 28 janvier 2026), https://en.wikipedia.org/wiki/MoM-z14 et https://en.wikipedia.org/wiki/List_of_the_most_distant_astronomical_objects — aucun record spectroscopique plus lointain trouvé. Les données du catalogue restent celles de mai 2026 (EGS-z11-R0 reste non vérifié indépendamment).
 
 ## Historique / Changelog
+
+### 1.4.6 — 2026-10-22
+- Hors ligne pour de bon : le manifeste intégré (URL data:) a été remplacé par un vrai sw.js (cache d'abord avec revalidation en arrière-plan), un fichier de manifeste web et des icônes ; l'application s'ouvre désormais sans réseau après la première visite et peut être installée.
+- Accessibilité : la page comporte désormais exactement un H1 (la barre de titre) ; le champ d'import CSV et le curseur du facteur d'échelle ont un nom annoncé par les lecteurs d'écran (8 langues) ; les curseurs de temps et de filtre de distance ont des cibles tactiles de 24 px.
+- Mobile : le texte de l'interface fait au moins 12 px et les boutons de repères ont des cibles tactiles plus grandes.
 
 - **1.4.5 — 2026-10-22:** l’abréviation « unités » dans l’affichage de la distance propre du widget de grille comobile suit désormais la langue de l’interface.
 - **1.4.4 — 2026-10-22:** toutes les étiquettes de boutons du guide d'introduction et les repères du curseur de distance (« Réinitialiser la caméra », « Voler jusqu'à Andromède », « Vers le CMB »…) sont traduites dans les 8 langues.

@@ -2,7 +2,7 @@
 
 [English](README.md) · **Română** · [Français](README.fr.md) · [Italiano](README.it.md) · [Español](README.es.md) · [Português](README.pt.md) · [Deutsch](README.de.md) · [Magyar](README.hu.md)
 
-**Versiune:** 1.4.5 · **Ultima actualizare:** 2026-10-22
+**Versiune:** 1.4.6 · **Ultima actualizare:** 2026-10-22
 
 Limbile interfeței: **Română, English, Français, Italiano, Español, Português (PT), Deutsch, Magyar**
 
@@ -46,6 +46,11 @@ Rundă 3: 2026-10-11 (formulări „la data catalogului”, surse pentru recordu
 - Recordul de distanță MoM-z14: https://www.stsci.edu/contents/news-releases/2026/news-2026-107 (comunicat din 28 ianuarie 2026), https://en.wikipedia.org/wiki/MoM-z14 și https://en.wikipedia.org/wiki/List_of_the_most_distant_astronomical_objects — niciun record spectroscopic mai îndepărtat găsit. Datele catalogului rămân cele din mai 2026 (EGS-z11-R0 rămâne neverificat independent).
 
 ## Istoric / Changelog
+
+### 1.4.6 — 2026-10-22
+- Offline pe bune: manifestul inline (URL data:) a fost înlocuit cu un sw.js real (cache-first cu revalidare în fundal), un fișier manifest web și pictograme; aplicația se deschide acum fără rețea după prima vizită și poate fi instalată.
+- Accesibilitate: pagina are acum exact un H1 (bara de titlu); câmpul de import CSV și glisorul factorului de scară au nume anunțate de cititoarele de ecran (8 limbi); glisoarele de timp și de filtrare a distanței au ținte tactile de 24 px.
+- Mobil: textul interfeței are cel puțin 12 px, iar butoanele de repere au ținte tactile mai mari.
 
 - **1.4.5 — 2026-10-22:** abrevierea „unit.” din afișajul distanței proprii al widgetului grilei comobile urmează acum limba interfeței.
 - **1.4.4 — 2026-10-22:** toate etichetele butoanelor din ghidul de intro și reperele din glisorul de distanță („Resetează camera”, „Zboară până la Andromeda”, „Spre CMB”…) sunt traduse în toate cele 8 limbi.

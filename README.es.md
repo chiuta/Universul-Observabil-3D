@@ -2,7 +2,7 @@
 
 [English](README.md) · [Română](README.ro.md) · [Français](README.fr.md) · [Italiano](README.it.md) · **Español** · [Português](README.pt.md) · [Deutsch](README.de.md) · [Magyar](README.hu.md)
 
-**Versión:** 1.4.5 · **Última actualización:** 2026-10-22
+**Versión:** 1.4.6 · **Última actualización:** 2026-10-22
 
 Idiomas de la interfaz: **Română, English, Français, Italiano, Español, Português (PT), Deutsch, Magyar**
 
@@ -46,6 +46,11 @@ Ronda 3: 2026-10-11 (formulaciones «a la fecha del catálogo», fuentes para lo
 - El récord de distancia MoM-z14: https://www.stsci.edu/contents/news-releases/2026/news-2026-107 (comunicado del 28 de enero de 2026), https://en.wikipedia.org/wiki/MoM-z14 y https://en.wikipedia.org/wiki/List_of_the_most_distant_astronomical_objects — no se encontró ningún récord espectroscópico más lejano. Los datos del catálogo siguen siendo los de mayo de 2026 (EGS-z11-R0 sigue sin verificarse de forma independiente).
 
 ## Historial / Changelog
+
+### 1.4.6 — 2026-10-22
+- Sin conexión de verdad: el manifiesto incrustado (URL data:) se sustituyó por un sw.js real (caché primero con revalidación en segundo plano), un archivo de manifiesto web e iconos; la aplicación se abre ahora sin red tras la primera visita y se puede instalar.
+- Accesibilidad: la página tiene ahora exactamente un H1 (la barra de título); el campo de importación CSV y el control del factor de escala tienen un nombre que anuncian los lectores de pantalla (8 idiomas); los controles de tiempo y de filtro de distancia tienen áreas táctiles de 24 px.
+- Móvil: el texto de la interfaz mide al menos 12 px y los botones de puntos de referencia tienen áreas táctiles mayores.
 
 - **1.4.5 — 2026-10-22:** la abreviatura «unidades» en la lectura de la distancia propia del widget de la cuadrícula comóvil sigue ahora el idioma de la interfaz.
 - **1.4.4 — 2026-10-22:** todas las etiquetas de los botones de la guía de introducción y las referencias del control de distancia («Restablecer la cámara», «Volar hasta Andrómeda», «Hacia el CMB»…) están traducidas a los 8 idiomas.

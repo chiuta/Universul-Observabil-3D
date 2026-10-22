@@ -2,7 +2,7 @@
 
 **English** · [Română](README.ro.md) · [Français](README.fr.md) · [Italiano](README.it.md) · [Español](README.es.md) · [Português](README.pt.md) · [Deutsch](README.de.md) · [Magyar](README.hu.md)
 
-**Version:** 1.4.5 · **Last updated:** 2026-10-22
+**Version:** 1.4.6 · **Last updated:** 2026-10-22
 
 Interface languages: **Română, English, Français, Italiano, Español, Português (PT), Deutsch, Magyar**
 
@@ -46,6 +46,11 @@ Round 3: 2026-10-11 ("as of the catalog date" wordings, sources for records, iOS
 - The distance record MoM-z14: https://www.stsci.edu/contents/news-releases/2026/news-2026-107 (press release of 28 January 2026), https://en.wikipedia.org/wiki/MoM-z14 and https://en.wikipedia.org/wiki/List_of_the_most_distant_astronomical_objects — no more distant spectroscopic record found. The catalog data remain those from May 2026 (EGS-z11-R0 remains independently unverified).
 
 ## History / Changelog
+
+### 1.4.6 — 2026-10-22
+- Offline for real: the inline (data: URL) manifest was replaced by a real sw.js (cache-first with background revalidation), a web manifest file and icons; the app now opens without network after the first visit and can be installed.
+- Accessibility: the page now has exactly one H1 (the title bar); the CSV import field and the scale-factor slider have names announced by screen readers (8 languages); the time and distance-filter sliders have 24 px touch targets.
+- Mobile: interface text is at least 12 px and the landmark buttons are larger touch targets.
 
 - **1.4.5 — 2026-10-22:** the “units” abbreviation in the proper-distance readout of the comoving-grid widget now follows the interface language.
 - **1.4.4 — 2026-10-22:** all button labels in the intro guide and the distance-slider landmarks (“Reset camera”, “Fly to Andromeda”, “Towards the CMB”…) are now translated in all 8 languages.

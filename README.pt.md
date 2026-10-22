@@ -2,7 +2,7 @@
 
 [English](README.md) · [Română](README.ro.md) · [Français](README.fr.md) · [Italiano](README.it.md) · [Español](README.es.md) · **Português** · [Deutsch](README.de.md) · [Magyar](README.hu.md)
 
-**Versão:** 1.4.5 · **Última atualização:** 2026-10-22
+**Versão:** 1.4.6 · **Última atualização:** 2026-10-22
 
 Idiomas da interface: **Română, English, Français, Italiano, Español, Português (PT), Deutsch, Magyar**
 
@@ -46,6 +46,11 @@ Ronda 3: 2026-10-11 (formulações «à data do catálogo», fontes para os reco
 - O recorde de distância MoM-z14: https://www.stsci.edu/contents/news-releases/2026/news-2026-107 (comunicado de 28 de janeiro de 2026), https://en.wikipedia.org/wiki/MoM-z14 e https://en.wikipedia.org/wiki/List_of_the_most_distant_astronomical_objects — não foi encontrado nenhum recorde espectroscópico mais distante. Os dados do catálogo continuam a ser os de maio de 2026 (EGS-z11-R0 continua por verificar de forma independente).
 
 ## Histórico / Changelog
+
+### 1.4.6 — 2026-10-22
+- Offline a sério: o manifesto embutido (URL data:) foi substituído por um sw.js real (cache primeiro com revalidação em segundo plano), um ficheiro de manifesto web e ícones; a aplicação abre agora sem rede após a primeira visita e pode ser instalada.
+- Acessibilidade: a página tem agora exatamente um H1 (a barra de título); o campo de importação CSV e o controlo do fator de escala têm um nome anunciado pelos leitores de ecrã (8 idiomas); os controlos de tempo e de filtro de distância têm áreas táteis de 24 px.
+- Móvel: o texto da interface tem pelo menos 12 px e os botões de pontos de referência têm áreas táteis maiores.
 
 - **1.4.5 — 2026-10-22:** a abreviatura «unidades» na leitura da distância própria do widget da grelha comóvel segue agora o idioma da interface.
 - **1.4.4 — 2026-10-22:** todas as etiquetas dos botões do guia de introdução e as referências do controlo de distância («Repor a câmara», «Voar até Andrómeda», «Rumo ao CMB»…) estão traduzidas nos 8 idiomas.

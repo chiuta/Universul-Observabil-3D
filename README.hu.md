@@ -2,7 +2,7 @@
 
 [English](README.md) · [Română](README.ro.md) · [Français](README.fr.md) · [Italiano](README.it.md) · [Español](README.es.md) · [Português](README.pt.md) · [Deutsch](README.de.md) · **Magyar**
 
-**Verzió:** 1.4.5 · **Utolsó frissítés:** 2026-10-22
+**Verzió:** 1.4.6 · **Utolsó frissítés:** 2026-10-22
 
 A felület nyelvei: **Română, English, Français, Italiano, Español, Português (PT), Deutsch, Magyar**
 
@@ -46,6 +46,11 @@ Audit: 2026-10-10; 2. kör: 2026-10-11 (a helyőrző DOI eltávolítva a hivatko
 - A MoM-z14 távolsági rekordja: https://www.stsci.edu/contents/news-releases/2026/news-2026-107 (2026. január 28-i közlemény), https://en.wikipedia.org/wiki/MoM-z14 és https://en.wikipedia.org/wiki/List_of_the_most_distant_astronomical_objects — nem találtak távolabbi spektroszkópiai rekordot. A katalógus adatai a 2026. májusiak maradnak (az EGS-z11-R0 függetlenül nem ellenőrzött marad).
 
 ## Előzmények / Changelog
+
+### 1.4.6 — 2026-10-22
+- Valóban offline: a beágyazott manifestet (data: URL) valódi sw.js (előbb gyorsítótár, háttér-újraellenőrzéssel), webes manifestfájl és ikonok váltották fel; az alkalmazás az első látogatás után hálózat nélkül is megnyílik, és telepíthető.
+- Akadálymentesség: az oldalon mostantól pontosan egy H1 van (a címsor); a CSV-importmező és a skálafaktor-csúszka a képernyőolvasók által felolvasott névvel rendelkezik (8 nyelv); az idő- és a távolságszűrő csúszkáinak érintési felülete 24 px.
+- Mobil: a felület szövege legalább 12 px, a tereppontok gombjainak érintési felülete pedig nagyobb.
 
 - **1.4.5 — 2026-10-22:** a „egys.” rövidítés a együttmozgó rács widget sajáttávolság-kijelzőjében mostantól a felület nyelvét követi.
 - **1.4.4 — 2026-10-22:** a bevezető útmutató összes gombfelirata és a távolságcsúszka jelzőpontjai („Kamera visszaállítása”, „Repülés az Androméda-galaxisig”, „A CMB felé” …) mind a 8 nyelven le vannak fordítva.
