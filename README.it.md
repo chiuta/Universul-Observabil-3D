@@ -2,7 +2,7 @@
 
 [English](README.md) · [Română](README.ro.md) · [Français](README.fr.md) · **Italiano** · [Español](README.es.md) · [Português](README.pt.md) · [Deutsch](README.de.md) · [Magyar](README.hu.md)
 
-**Versione:** 1.4.2 · **Ultimo aggiornamento:** 2026-10-19
+**Versione:** 1.4.3 · **Ultimo aggiornamento:** 2026-10-22
 
 Lingue dell'interfaccia: **Română, English, Français, Italiano, Español, Português (PT), Deutsch, Magyar**
 
@@ -47,6 +47,7 @@ Round 3: 2026-10-11 (formulazioni «alla data del catalogo», fonti per i record
 
 ## Storico / Changelog
 
+- **1.4.3 — 2026-10-22:** il titolo della pagina e le meta-descrizioni seguono la lingua dell'interfaccia; il suggerimento «R reset» è localizzato in rumeno («resetare»).
 - **1.4.2 — 2026-10-19:** tradotti 20 nomi di oggetti nelle etichette 3D, nel pannello e nella ricerca; finestra del paradosso da 45,6 Gal tradotta integralmente; il glossario contestuale ora funziona in tutte le lingue (10 termini × 7 lingue, riapplicato al cambio di lingua); corretto «💡 LO SAPEVI» rimasto in rumeno in fr, più l'aria-label del canvas e il pulsante «‹ Indietro».
 - **1.4.1 — 2026-10-19:** la guida completa (11 schede), i 30 tour, i «Lo sapevi?», l'onboarding e le descrizioni di galassie/orizzonti sono tradotti in en, fr, it, es, pt, de, hu; guida/tour vengono riproposti al cambio di lingua.
 - 1.3.0 — 2026-10-14: Copia di riserva ed etichettatura dei dati (fff-kit).
