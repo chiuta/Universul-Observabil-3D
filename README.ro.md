@@ -2,7 +2,7 @@
 
 [English](README.md) · **Română** · [Français](README.fr.md) · [Italiano](README.it.md) · [Español](README.es.md) · [Português](README.pt.md) · [Deutsch](README.de.md) · [Magyar](README.hu.md)
 
-**Versiune:** 1.4.9 · **Ultima actualizare:** 2026-10-23
+**Versiune:** 1.4.10 · **Ultima actualizare:** 2026-10-23
 
 Limbile interfeței: **Română, English, Français, Italiano, Español, Português (PT), Deutsch, Magyar**
 
@@ -46,6 +46,9 @@ Rundă 3: 2026-10-11 (formulări „la data catalogului”, surse pentru recordu
 - Recordul de distanță MoM-z14: https://www.stsci.edu/contents/news-releases/2026/news-2026-107 (comunicat din 28 ianuarie 2026), https://en.wikipedia.org/wiki/MoM-z14 și https://en.wikipedia.org/wiki/List_of_the_most_distant_astronomical_objects — niciun record spectroscopic mai îndepărtat găsit. Datele catalogului rămân cele din mai 2026 (EGS-z11-R0 rămâne neverificat independent).
 
 ## Istoric / Changelog
+
+### 1.4.10 — 2026-10-23
+- fff-kit 1.2.0: toate cheile din browser (limba, semnele de carte, alegerea de performanță, introducerea, pornirea blândă) poartă acum prefixul `universul-observabil-3d.`; cele vechi (`up3_lang`, `univers_obs_bk`, `up3-perf-*`, `up3-onboarded-v2`, `up3-gentle-start`) sunt migrate automat la pornire, deci semnele de carte și setările existente se păstrează, inclusiv după importul unei copii .fff.json vechi. Alternativa „copiază linkul” nu mai folosește fereastra nativă a browserului, ci un dialog accesibil.
 
 ### 1.4.8 — 2026-10-22
 - fff-kit 1.1.4: ținte tactile și text minim; ținte tactile/text corectate

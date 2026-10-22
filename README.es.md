@@ -2,7 +2,7 @@
 
 [English](README.md) · [Română](README.ro.md) · [Français](README.fr.md) · [Italiano](README.it.md) · **Español** · [Português](README.pt.md) · [Deutsch](README.de.md) · [Magyar](README.hu.md)
 
-**Versión:** 1.4.9 · **Última actualización:** 2026-10-23
+**Versión:** 1.4.10 · **Última actualización:** 2026-10-23
 
 Idiomas de la interfaz: **Română, English, Français, Italiano, Español, Português (PT), Deutsch, Magyar**
 
@@ -46,6 +46,9 @@ Ronda 3: 2026-10-11 (formulaciones «a la fecha del catálogo», fuentes para lo
 - El récord de distancia MoM-z14: https://www.stsci.edu/contents/news-releases/2026/news-2026-107 (comunicado del 28 de enero de 2026), https://en.wikipedia.org/wiki/MoM-z14 y https://en.wikipedia.org/wiki/List_of_the_most_distant_astronomical_objects — no se encontró ningún récord espectroscópico más lejano. Los datos del catálogo siguen siendo los de mayo de 2026 (EGS-z11-R0 sigue sin verificarse de forma independiente).
 
 ## Historial / Changelog
+
+### 1.4.10 — 2026-10-23
+- fff-kit 1.2.0: todas las claves del navegador (idioma, marcadores, elección de rendimiento, introducción, inicio suave) llevan ahora el prefijo `universul-observabil-3d.`; las antiguas (`up3_lang`, `univers_obs_bk`, `up3-perf-*`, `up3-onboarded-v2`, `up3-gentle-start`) se migran automáticamente al iniciar, de modo que los marcadores y ajustes existentes se conservan, también tras importar una copia .fff.json antigua. La alternativa «copiar el enlace» ya no usa el cuadro nativo del navegador, sino un diálogo accesible.
 
 ### 1.4.8 — 2026-10-22
 - fff-kit 1.1.4: objetivos táctiles y texto mínimo; objetivos táctiles/texto corregidos

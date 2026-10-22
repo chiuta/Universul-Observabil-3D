@@ -2,7 +2,7 @@
   "schema": 1,
   "slug": "universul-observabil-3d",
   "name": "Universul Observabil · 3D · Galaxii & Distanțe",
-  "version": "1.4.9",
+  "version": "1.4.10",
   "updated": "2026-10-23",
   "description": "Hartă 3D interactivă a Universului observabil — peste 115 galaxii, 12 orizonturi cosmice, scară logaritmică de la Calea Lactee până la CMB (45,6 Gly). Date JWST până la z=14,44 (MoM-z14, mai 2026).",
   "egress": [],
@@ -13,14 +13,14 @@
     "WebGL"
   ],
   "storageKeys": [
-    "up3-gentle-start",
-    "up3-onboarded-v2",
-    "up3-perf-choice",
-    "up3-perf-defaults-v1",
-    "up3_lang"
+    "universul-observabil-3d.gentle-start",
+    "universul-observabil-3d.lang",
+    "universul-observabil-3d.onboarded-v2",
+    "universul-observabil-3d.perf-choice",
+    "universul-observabil-3d.perf-defaults-v1"
   ],
-  "sizeBytes": 2156215,
-  "sha256": "e056c7e59168fc7dabc52a0dbf8a64dc52673426ddf8cb231e53779afacbd18d",
+  "sizeBytes": 2157227,
+  "sha256": "e8fdf902f2bb516af549e4befbd1b9074b4b989282547b19aa1a414ef347bdf2",
   "csp": {
     "present": true,
     "directives": {
@@ -33,7 +33,7 @@
       "base-uri": "'self'",
       "form-action": "'self'",
       "worker-src": "'self' blob:",
-      "script-src": "'self' sha256×8",
+      "script-src": "'self' sha256×9",
       "connect-src": "'self'",
       "manifest-src": "'self'"
     },
@@ -75,5 +75,13 @@
       "bundle"
     ]
   },
-  "selfSerializing": false
+  "selfSerializing": false,
+  "bundleKeys": [
+    "up3_lang",
+    "up3-perf-defaults-v1",
+    "up3-perf-choice",
+    "up3-onboarded-v2",
+    "up3-gentle-start",
+    "univers_obs_bk"
+  ]
 }

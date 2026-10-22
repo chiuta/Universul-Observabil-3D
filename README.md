@@ -2,7 +2,7 @@
 
 **English** · [Română](README.ro.md) · [Français](README.fr.md) · [Italiano](README.it.md) · [Español](README.es.md) · [Português](README.pt.md) · [Deutsch](README.de.md) · [Magyar](README.hu.md)
 
-**Version:** 1.4.9 · **Last updated:** 2026-10-23
+**Version:** 1.4.10 · **Last updated:** 2026-10-23
 
 Interface languages: **Română, English, Français, Italiano, Español, Português (PT), Deutsch, Magyar**
 
@@ -46,6 +46,9 @@ Round 3: 2026-10-11 ("as of the catalog date" wordings, sources for records, iOS
 - The distance record MoM-z14: https://www.stsci.edu/contents/news-releases/2026/news-2026-107 (press release of 28 January 2026), https://en.wikipedia.org/wiki/MoM-z14 and https://en.wikipedia.org/wiki/List_of_the_most_distant_astronomical_objects — no more distant spectroscopic record found. The catalog data remain those from May 2026 (EGS-z11-R0 remains independently unverified).
 
 ## History / Changelog
+
+### 1.4.10 — 2026-10-23
+- fff-kit 1.2.0: all browser keys (language, bookmarks, performance choice, onboarding, gentle start) now carry the `universul-observabil-3d.` prefix; the old ones (`up3_lang`, `univers_obs_bk`, `up3-perf-*`, `up3-onboarded-v2`, `up3-gentle-start`) are migrated automatically at start-up, so existing bookmarks and settings are kept, also after importing an old .fff.json backup. The “copy link” fallback no longer uses the native browser prompt but an accessible dialog.
 
 ### 1.4.8 — 2026-10-22
 - fff-kit 1.1.4: touch targets and minimum text size; touch targets/text fixed
