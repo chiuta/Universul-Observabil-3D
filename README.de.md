@@ -2,7 +2,7 @@
 
 [English](README.md) · [Română](README.ro.md) · [Français](README.fr.md) · [Italiano](README.it.md) · [Español](README.es.md) · [Português](README.pt.md) · **Deutsch** · [Magyar](README.hu.md)
 
-**Version:** 1.4.10 · **Zuletzt aktualisiert:** 2026-10-23
+**Version:** 1.4.11 · **Zuletzt aktualisiert:** 2026-10-23
 
 Oberflächensprachen: **Română, English, Français, Italiano, Español, Português (PT), Deutsch, Magyar**
 
@@ -46,6 +46,9 @@ Runde 3: 2026-10-11 (Formulierungen „zum Stand des Katalogs“, Quellen für R
 - Der Entfernungsrekord MoM-z14: https://www.stsci.edu/contents/news-releases/2026/news-2026-107 (Mitteilung vom 28. Januar 2026), https://en.wikipedia.org/wiki/MoM-z14 und https://en.wikipedia.org/wiki/List_of_the_most_distant_astronomical_objects — kein weiter entfernter spektroskopischer Rekord gefunden. Die Katalogdaten bleiben die vom Mai 2026 (EGS-z11-R0 bleibt unabhängig ungeprüft).
 
 ## Verlauf / Changelog
+
+### 1.4.11 — 2026-10-23
+- Lesezeichen: beschädigte `localStorage`-Daten (keine Liste, Null-/nicht numerische Einträge) blockieren die App nicht mehr — sie werden ignoriert; die im Fuß/„Info“ und im Zitat angezeigte Version ist wieder die echte.
 
 ### 1.4.10 — 2026-10-23
 - fff-kit 1.2.0: Alle Browser-Schlüssel (Sprache, Lesezeichen, Leistungswahl, Einführung, sanfter Start) tragen jetzt das Präfix `universul-observabil-3d.`; die alten (`up3_lang`, `univers_obs_bk`, `up3-perf-*`, `up3-onboarded-v2`, `up3-gentle-start`) werden beim Start automatisch migriert, sodass vorhandene Lesezeichen und Einstellungen erhalten bleiben, auch nach dem Import einer alten .fff.json-Sicherung. Die Ausweichlösung „Link kopieren“ nutzt nicht mehr das native Browser-Fenster, sondern einen barrierefreien Dialog.

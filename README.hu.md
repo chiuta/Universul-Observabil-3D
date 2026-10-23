@@ -2,7 +2,7 @@
 
 [English](README.md) · [Română](README.ro.md) · [Français](README.fr.md) · [Italiano](README.it.md) · [Español](README.es.md) · [Português](README.pt.md) · [Deutsch](README.de.md) · **Magyar**
 
-**Verzió:** 1.4.10 · **Utolsó frissítés:** 2026-10-23
+**Verzió:** 1.4.11 · **Utolsó frissítés:** 2026-10-23
 
 A felület nyelvei: **Română, English, Français, Italiano, Español, Português (PT), Deutsch, Magyar**
 
@@ -46,6 +46,9 @@ Audit: 2026-10-10; 2. kör: 2026-10-11 (a helyőrző DOI eltávolítva a hivatko
 - A MoM-z14 távolsági rekordja: https://www.stsci.edu/contents/news-releases/2026/news-2026-107 (2026. január 28-i közlemény), https://en.wikipedia.org/wiki/MoM-z14 és https://en.wikipedia.org/wiki/List_of_the_most_distant_astronomical_objects — nem találtak távolabbi spektroszkópiai rekordot. A katalógus adatai a 2026. májusiak maradnak (az EGS-z11-R0 függetlenül nem ellenőrzött marad).
 
 ## Előzmények / Changelog
+
+### 1.4.11 — 2026-10-23
+- Könyvjelzők: a sérült `localStorage` adatok (nem lista, null/nem numerikus elemek) már nem törik meg az alkalmazást — figyelmen kívül marad; a láblécben/„Névjegy”-ben és az idézetben megjelenő verzió újra a valós.
 
 ### 1.4.10 — 2026-10-23
 - fff-kit 1.2.0: az összes böngészőkulcs (nyelv, könyvjelzők, teljesítményválasztás, bevezető, finom indítás) mostantól a `universul-observabil-3d.` előtagot viseli; a régieket (`up3_lang`, `univers_obs_bk`, `up3-perf-*`, `up3-onboarded-v2`, `up3-gentle-start`) az alkalmazás induláskor automatikusan átköltözteti, így a meglévő könyvjelzők és beállítások megmaradnak, régi .fff.json mentés importálása után is. A „hivatkozás másolása” tartalék már nem a böngésző natív ablakát, hanem egy akadálymentes párbeszédablakot használ.

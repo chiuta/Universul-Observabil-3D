@@ -2,7 +2,7 @@
 
 [English](README.md) · [Română](README.ro.md) · [Français](README.fr.md) · **Italiano** · [Español](README.es.md) · [Português](README.pt.md) · [Deutsch](README.de.md) · [Magyar](README.hu.md)
 
-**Versione:** 1.4.10 · **Ultimo aggiornamento:** 2026-10-23
+**Versione:** 1.4.11 · **Ultimo aggiornamento:** 2026-10-23
 
 Lingue dell'interfaccia: **Română, English, Français, Italiano, Español, Português (PT), Deutsch, Magyar**
 
@@ -46,6 +46,9 @@ Round 3: 2026-10-11 (formulazioni «alla data del catalogo», fonti per i record
 - Il record di distanza MoM-z14: https://www.stsci.edu/contents/news-releases/2026/news-2026-107 (comunicato del 28 gennaio 2026), https://en.wikipedia.org/wiki/MoM-z14 e https://en.wikipedia.org/wiki/List_of_the_most_distant_astronomical_objects — nessun record spettroscopico più lontano trovato. I dati del catalogo restano quelli di maggio 2026 (EGS-z11-R0 resta non verificato indipendentemente).
 
 ## Storico / Changelog
+
+### 1.4.11 — 2026-10-23
+- Segnalibri: dati `localStorage` corrotti (non una lista, voci nulle/non numeriche) non bloccano più l'app — vengono ignorati; la versione mostrata nel piè di pagina/«Informazioni» e nella citazione è di nuovo quella reale.
 
 ### 1.4.10 — 2026-10-23
 - fff-kit 1.2.0: tutte le chiavi del browser (lingua, segnalibri, scelta delle prestazioni, introduzione, avvio morbido) portano ora il prefisso `universul-observabil-3d.`; quelle vecchie (`up3_lang`, `univers_obs_bk`, `up3-perf-*`, `up3-onboarded-v2`, `up3-gentle-start`) vengono migrate automaticamente all'avvio, quindi segnalibri e impostazioni esistenti restano, anche dopo l'importazione di una vecchia copia .fff.json. L'alternativa «copia il link» non usa più la finestra nativa del browser, ma un dialogo accessibile.
