@@ -2,7 +2,7 @@
 
 [English](README.md) · **Română** · [Français](README.fr.md) · [Italiano](README.it.md) · [Español](README.es.md) · [Português](README.pt.md) · [Deutsch](README.de.md) · [Magyar](README.hu.md)
 
-**Versiune:** 1.4.12 · **Ultima actualizare:** 2026-10-26
+**Versiune:** 2.0.0 · **Ultima actualizare:** 2026-10-26
 
 Limbile interfeței: **Română, English, Français, Italiano, Español, Português (PT), Deutsch, Magyar**
 
@@ -26,6 +26,9 @@ Afirmațiile de tip „cea mai îndepărtată galaxie” sunt formulate **la dat
 ## Utilizare
 Deschide `index.html` într-un browser cu WebGL. Tasta `R` resetează camera, `/` caută, `?` deschide ghidul și turul.
 
+### Tururile mele (2.0.0)
+Din sertar, secțiunea „🧭 Tururile mele”: apeși „Înregistrează un tur nou”, miști camera, scrii (opțional) o notă și apeși „＋ Adaugă punct”; repeți, apoi „✔ Salvează turul”. Turul se redă cu același panou ca tururile ghidate (pas anterior/următor, pauză), se păstrează în browser (`universul-observabil-3d.tours`, max. 20 de tururi × 60 de puncte) și se partajează ca fișier `.json` (⬇ exportă / „Importă un tur”). Fișierul conține doar poziția camerei, durata și notele tale; la import orice conținut este validat, limitat și tratat strict ca text (fără HTML). Nu se trimite nimic în rețea. **Neimplementat:** exportul spre WebXR (nu există o cale sigură, offline și testabilă în această aplicație).
+
 ## Date și confidențialitate
 Verificat prin audit: fără cereri de rețea la încărcare. Fonturile sunt incluse; limba aleasă și semnele de carte se păstrează în `localStorage`. Linkurile către arXiv/site-uri externe se deschid doar la click. Există cod (dezactivat, lista `MIRROR_URLS` este goală) pentru comparație de versiuni între oglinzi, care ar face `fetch` doar dacă este configurat. CSP-ul din `index.html` limitează acum `connect-src` la `'self'` (fiind goală lista `MIRROR_URLS`, codul de oglinzi nu poate face cereri externe; dacă o configurezi, extinde `connect-src` cu gazdele oglinzilor). Scripturile inline sunt permise doar prin hash `sha256` în `script-src`: **după orice modificare a unui script, recalculează hash-urile** din meta CSP, altfel scriptul modificat nu rulează.
 
@@ -46,6 +49,9 @@ Rundă 3: 2026-10-11 (formulări „la data catalogului”, surse pentru recordu
 - Recordul de distanță MoM-z14: https://www.stsci.edu/contents/news-releases/2026/news-2026-107 (comunicat din 28 ianuarie 2026), https://en.wikipedia.org/wiki/MoM-z14 și https://en.wikipedia.org/wiki/List_of_the_most_distant_astronomical_objects — niciun record spectroscopic mai îndepărtat găsit. Datele catalogului rămân cele din mai 2026 (EGS-z11-R0 rămâne neverificat independent).
 
 ## Istoric / Changelog
+
+### 2.0.0 — 2026-10-26
+- Tururi create de utilizator: înregistrare de puncte de cameră cu note, redare, export/import ca fișier JSON.
 
 ### 1.4.11 — 2026-10-23
 - Bookmark-uri: datele corupte din `localStorage` (nu e listă, intrări nule/nenumerice) nu mai blochează aplicația — sunt ignorate; versiunea afișată în subsol/„Despre” și în citare este din nou cea reală.

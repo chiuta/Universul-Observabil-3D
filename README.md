@@ -2,7 +2,7 @@
 
 **English** · [Română](README.ro.md) · [Français](README.fr.md) · [Italiano](README.it.md) · [Español](README.es.md) · [Português](README.pt.md) · [Deutsch](README.de.md) · [Magyar](README.hu.md)
 
-**Version:** 1.4.12 · **Last updated:** 2026-10-26
+**Version:** 2.0.0 · **Last updated:** 2026-10-26
 
 Interface languages: **Română, English, Français, Italiano, Español, Português (PT), Deutsch, Magyar**
 
@@ -26,6 +26,9 @@ Claims of the "most distant galaxy" type are worded **as of the catalog date (Ma
 ## Usage
 Open `index.html` in a browser with WebGL. The `R` key resets the camera, `/` searches, `?` opens the guide and the tour.
 
+### My tours (2.0.0)
+In the drawer, section "🧭 My tours": press "Record a new tour", move the camera, optionally type a note and press "＋ Add point"; repeat, then "✔ Save tour". The tour plays in the same panel as the guided tours (previous/next, pause), is kept in the browser (`universul-observabil-3d.tours`, up to 20 tours × 60 points) and is shared as a `.json` file (⬇ export / "Import a tour"). The file holds only the camera position, the duration and your notes; on import all content is validated, bounded and treated strictly as text (no HTML). Nothing is sent over the network. **Not implemented:** WebXR export (there is no safe, offline, testable path for it in this app).
+
 ## Data and privacy
 Verified by audit: no network requests on load. The fonts are included; the chosen language and bookmarks are kept in `localStorage`. Links to arXiv/external sites open only on click. There is code (disabled, the `MIRROR_URLS` list is empty) for comparing versions between mirrors, which would do a `fetch` only if configured. The CSP in `index.html` now limits `connect-src` to `'self'` (since the `MIRROR_URLS` list is empty, the mirror code cannot make external requests; if you configure it, extend `connect-src` with the mirrors' hosts). Inline scripts are allowed only through a `sha256` hash in `script-src`: **after any modification of a script, recompute the hashes** in the CSP meta, otherwise the modified script does not run.
 
@@ -46,6 +49,9 @@ Round 3: 2026-10-11 ("as of the catalog date" wordings, sources for records, iOS
 - The distance record MoM-z14: https://www.stsci.edu/contents/news-releases/2026/news-2026-107 (press release of 28 January 2026), https://en.wikipedia.org/wiki/MoM-z14 and https://en.wikipedia.org/wiki/List_of_the_most_distant_astronomical_objects — no more distant spectroscopic record found. The catalog data remain those from May 2026 (EGS-z11-R0 remains independently unverified).
 
 ## History / Changelog
+
+### 2.0.0 — 2026-10-26
+- User-made tours: record camera points with notes, play them back, export/import as a JSON file.
 
 ### 1.4.11 — 2026-10-23
 - Bookmarks: corrupted `localStorage` data (not a list, null/non-numeric entries) no longer breaks the app — it is ignored; the version shown in the footer/“About” and in the citation is the real one again.
