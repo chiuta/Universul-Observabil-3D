@@ -2,7 +2,7 @@
 
 [English](README.md) · [Română](README.ro.md) · **Français** · [Italiano](README.it.md) · [Español](README.es.md) · [Português](README.pt.md) · [Deutsch](README.de.md) · [Magyar](README.hu.md)
 
-**Version :** 2.1.0 · **Dernière mise à jour :** 2026-10-27
+**Version :** 2.1.1 · **Dernière mise à jour :** 2026-10-28
 
 **État :** stable · **Hors ligne :** complet
 
@@ -51,7 +51,7 @@ Tour 3 : 2026-10-11 (formulations « à la date du catalogue », sources pour le
 
 - **Chiffres.** Hub : 112 entrées (copie identique du catalogue 1D). 1D : 112. 2D : 112 (111 galaxies + l'horizon du CMB ; certains textes disent 111). 3D : 118 (« plus de 115 » dans les descriptions). Les chiffres diffèrent parce que les catalogues sont séparés, non par erreur de comptage.
 - **Non unifiés.** La 3D a son propre catalogue, de structure différente (AD en heures, autres noms et graphies), ses noms ne correspondent donc que partiellement à ceux de 1D/2D. La fusion en un fichier commun n'a pas été faite : chaque application est un fichier unique hors ligne sans étape de build commune, et fusionner changerait les données de trois applications sans moyen de les valider ici. Signalé à l'auteur.
-- **Conflit connu 1D ↔ 2D (non corrigé, à vérifier avec des sources).** Les deux catalogues ont les mêmes 112 noms, mais 8 entrées ont une distance différente (d = temps de regard en arrière, en Mal, 1D→2D) : NGC 1132 330→1020, Perseus (BCG IC 310) 270→780, 3C 48 4150→5200, Abell 370 4200→5900, CL 0024+1654 4400→5500, SDSS J1004+4112 10050→7000, IC 4296 180→130, Abell 1689 2330→7200 ; et le signe du décalage vers le rouge d'Andromède (M31) est −0,001 en 1D et +0,001 en 2D.
+- **Conflit 1D ↔ 2D (résolu le 2026-10-28 ; sources et formules dans `docs/DISCREPANTE.md` du hub).** Les 8 distances (NGC 1132, IC 310, 3C 48, Abell 370, CL 0024+1654, SDSS J1004+4112, IC 4296, Abell 1689) suivent désormais une seule convention dans les deux applications : d = lb = lookback(z), en Mal, ΛCDM plat Planck 2018 (H₀ = 67,4, Ωm = 0,315), avec un z confirmé par au moins 2 sources ; la 2D a repris les valeurs de la 1D (330, 270, 4150, 4200, 4400, 10050, 180, 2330). Le décalage vers le rouge d'Andromède (M31) est −0,001 dans les deux (M31 est décalée vers le bleu, −301 km/s). L'étiquette « Perseus (BCG IC 310) » est devenue « IC 310 (Perseus) » : IC 310 n'est pas la galaxie la plus brillante de l'amas (c'est NGC 1275, entrée distincte).
 
 ## Records JWST revérifiés (27.10.2026)
 
@@ -67,6 +67,10 @@ _(English only; not yet translated into this language. Machine translation inten
 - The 3D catalogue (118 entries) stays separate; the 1D↔2D discrepancies are in the 1D/2D/hub repositories (`docs/DISCREPANTE.md`). Catalogue merging: not done.
 
 ## Historique / Changelog
+
+### 2.1.1 — 2026-10-28
+- README uniquement : le conflit 1D ↔ 2D est résolu (voir `docs/DISCREPANTE.md` du hub) ; le catalogue 3D est inchangé.
+
 
 ### 2.1.0 — 2026-10-27
 - JWST note machine-translated.

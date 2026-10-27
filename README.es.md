@@ -2,7 +2,7 @@
 
 [English](README.md) · [Română](README.ro.md) · [Français](README.fr.md) · [Italiano](README.it.md) · **Español** · [Português](README.pt.md) · [Deutsch](README.de.md) · [Magyar](README.hu.md)
 
-**Versión:** 2.1.0 · **Última actualización:** 2026-10-27
+**Versión:** 2.1.1 · **Última actualización:** 2026-10-28
 
 **Estado:** estable · **Sin conexión:** completo
 
@@ -51,7 +51,7 @@ Ronda 3: 2026-10-11 (formulaciones «a la fecha del catálogo», fuentes para lo
 
 - **Cifras.** Hub: 112 entradas (copia idéntica del catálogo 1D). 1D: 112. 2D: 112 (111 galaxias + el horizonte del CMB; algunos textos dicen 111). 3D: 118 («más de 115» en las descripciones). Las cifras difieren porque los catálogos son independientes, no por un error de recuento.
 - **No unificados.** La 3D tiene su propio catálogo, con otra estructura (AR en horas, otros nombres y grafías), por lo que sus nombres solo coinciden en parte con 1D/2D. No se fusionaron en un único archivo común: cada aplicación es un archivo único sin conexión y sin paso de compilación común, y fusionar cambiaría los datos de tres aplicaciones sin forma de validarlos aquí. Señalado al autor.
-- **Conflicto conocido 1D ↔ 2D (sin corregir, por verificar con fuentes).** Los dos catálogos tienen los mismos 112 nombres, pero 8 entradas tienen otra distancia (d = tiempo de retrospección, en Mal, 1D→2D): NGC 1132 330→1020, Perseus (BCG IC 310) 270→780, 3C 48 4150→5200, Abell 370 4200→5900, CL 0024+1654 4400→5500, SDSS J1004+4112 10050→7000, IC 4296 180→130, Abell 1689 2330→7200; y el signo del corrimiento al rojo de Andrómeda (M31) es −0,001 en 1D y +0,001 en 2D.
+- **Conflicto 1D ↔ 2D (resuelto el 2026-10-28; fuentes y fórmulas en `docs/DISCREPANTE.md` del hub).** Las 8 distancias (NGC 1132, IC 310, 3C 48, Abell 370, CL 0024+1654, SDSS J1004+4112, IC 4296, Abell 1689) siguen ahora una única convención en ambas aplicaciones: d = lb = lookback(z), en Mal, ΛCDM plano Planck 2018 (H₀ = 67,4, Ωm = 0,315), con z confirmado por al menos 2 fuentes; la 2D adoptó los valores de la 1D (330, 270, 4150, 4200, 4400, 10050, 180, 2330). El corrimiento al rojo de Andrómeda (M31) es −0,001 en ambas (M31 está desplazada hacia el azul, −301 km/s). La etiqueta «Perseus (BCG IC 310)» pasó a ser «IC 310 (Perseus)»: IC 310 no es la galaxia más brillante del cúmulo (esa es NGC 1275, entrada aparte).
 
 ## Récords JWST reverificados (27.10.2026)
 
@@ -67,6 +67,10 @@ _(English only; not yet translated into this language. Machine translation inten
 - The 3D catalogue (118 entries) stays separate; the 1D↔2D discrepancies are in the 1D/2D/hub repositories (`docs/DISCREPANTE.md`). Catalogue merging: not done.
 
 ## Historial / Changelog
+
+### 2.1.1 — 2026-10-28
+- Solo README: el conflicto 1D ↔ 2D está resuelto (véase `docs/DISCREPANTE.md` del hub); el catálogo 3D no cambió.
+
 
 ### 2.1.0 — 2026-10-27
 - JWST note machine-translated.

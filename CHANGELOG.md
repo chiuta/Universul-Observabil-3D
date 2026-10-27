@@ -2,6 +2,16 @@
 
 Format: SemVer (MAJOR.MINOR.PATCH). Intrările mai vechi sunt copiate din README (secțiunea „History / Changelog”), neschimbate.
 
+## 2.1.1 — 2026-10-28 (anterior: 2.1.0)
+
+Stare: stabil
+Offline: complet
+
+Tura 3 a recenziei: doar README (8 limbi). Conflictul 1D ↔ 2D pe care README-ul îl declara „necorectat” este rezolvat (surse și formule în `docs/DISCREPANTE.md` din hub). Catalogul 3D (118 intrări) nu s-a schimbat: nu conține cele 8 obiecte, iar Andromeda (2,537 Mly) coincide cu 1D/2D.
+- Versiune 2.1.1 în `index.html`, `sw.js`, `app.json`; CSP rehash (`fixcsp`).
+
+---
+
 ## 2.1.0 — 2026-10-27 (anterior: 2.0.1)
 
 Stare: stabil

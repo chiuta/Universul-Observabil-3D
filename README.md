@@ -2,7 +2,7 @@
 
 **English** · [Română](README.ro.md) · [Français](README.fr.md) · [Italiano](README.it.md) · [Español](README.es.md) · [Português](README.pt.md) · [Deutsch](README.de.md) · [Magyar](README.hu.md)
 
-**Version:** 2.1.0 · **Last updated:** 2026-10-27
+**Version:** 2.1.1 · **Last updated:** 2026-10-28
 
 **Status:** stable · **Offline:** fully offline
 
@@ -54,7 +54,7 @@ Round 3: 2026-10-11 ("as of the catalog date" wordings, sources for records, iOS
 
 - **Counts.** Hub: 112 entries (a copy of the 1D catalogue, identical). 1D: 112. 2D: 112 (111 galaxies + the CMB horizon; some texts say 111). 3D: 118 ("over 115" in the descriptions). The numbers differ because the catalogues are separate, not because of a counting error.
 - **Not unified.** 3D has its own catalogue in a different structure (RA in hours, other names and spellings), so its names only partly match 1D/2D. Merging into one shared file was not done: each app is a single offline file with no shared build step, and merging would change data in three apps without a way to validate it here. Flagged for the author.
-- **Known 1D ↔ 2D conflict (not corrected, to verify with sources).** The two catalogues have the same 112 names, but 8 entries have a different distance (d = lookback, in Mly, 1D→2D): NGC 1132 330→1020, Perseus (BCG IC 310) 270→780, 3C 48 4150→5200, Abell 370 4200→5900, CL 0024+1654 4400→5500, SDSS J1004+4112 10050→7000, IC 4296 180→130, Abell 1689 2330→7200; and the sign of the redshift of Andromeda (M31) is −0.001 in 1D and +0.001 in 2D.
+- **1D ↔ 2D conflict (resolved on 2026-10-28; sources and formulas in `docs/DISCREPANTE.md` of the hub).** The 8 distances (NGC 1132, IC 310, 3C 48, Abell 370, CL 0024+1654, SDSS J1004+4112, IC 4296, Abell 1689) now follow one convention in both apps: d = lb = lookback(z), in Mly, flat ΛCDM Planck 2018 (H₀ = 67.4, Ωm = 0.315), with z confirmed by at least 2 sources; 2D adopted the 1D values (330, 270, 4150, 4200, 4400, 10050, 180, 2330). The redshift of Andromeda (M31) is −0.001 in both (M31 is blueshifted, −301 km/s). The label "Perseus (BCG IC 310)" became "IC 310 (Perseus)": IC 310 is not the brightest cluster galaxy (that is NGC 1275, a separate entry).
 
 ## JWST records re-verified (27.10.2026)
 
@@ -68,6 +68,10 @@ Round 3: 2026-10-11 ("as of the catalog date" wordings, sources for records, iOS
 - The 3D catalogue (118 entries) stays separate; the 1D↔2D discrepancies are in the 1D/2D/hub repositories (`docs/DISCREPANTE.md`). Catalogue merging: not done.
 
 ## History / Changelog
+
+### 2.1.1 — 2026-10-28
+- README only: the 1D ↔ 2D conflict is resolved (see the hub's `docs/DISCREPANTE.md`); the 3D catalogue is unchanged.
+
 
 ### 2.1.0 — 2026-10-27
 - JWST note machine-translated.
