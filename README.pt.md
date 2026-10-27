@@ -2,7 +2,9 @@
 
 [English](README.md) · [Română](README.ro.md) · [Français](README.fr.md) · [Italiano](README.it.md) · [Español](README.es.md) · **Português** · [Deutsch](README.de.md) · [Magyar](README.hu.md)
 
-**Versão:** 2.0.0 · **Última atualização:** 2026-10-26
+**Versão:** 2.0.1 · **Última atualização:** 2026-10-27
+
+**Estado:** estável · **Offline:** completo
 
 Idiomas da interface: **Română, English, Français, Italiano, Español, Português (PT), Deutsch, Magyar**
 
@@ -44,6 +46,18 @@ Ronda 3: 2026-10-11 (formulações «à data do catálogo», fontes para os reco
 
 ## Fontes verificadas a 11.10.2026
 - O recorde de distância MoM-z14: https://www.stsci.edu/contents/news-releases/2026/news-2026-107 (comunicado de 28 de janeiro de 2026), https://en.wikipedia.org/wiki/MoM-z14 e https://en.wikipedia.org/wiki/List_of_the_most_distant_astronomical_objects — não foi encontrado nenhum recorde espectroscópico mais distante. Os dados do catálogo continuam a ser os de maio de 2026 (EGS-z11-R0 continua por verificar de forma independente).
+
+## Tamanho dos catálogos na série (2.0.1)
+
+- **Números.** Hub: 112 entradas (cópia idêntica do catálogo 1D). 1D: 112. 2D: 112 (111 galáxias + o horizonte do CMB; alguns textos dizem 111). 3D: 118 («mais de 115» nas descrições). Os números diferem porque os catálogos são independentes, não por erro de contagem.
+- **Não unificados.** A 3D tem catálogo próprio, com outra estrutura (AR em horas, outros nomes e grafias), pelo que os seus nomes só coincidem em parte com 1D/2D. A fusão num único ficheiro comum não foi feita: cada aplicação é um ficheiro único offline sem passo de compilação comum, e fundir alteraria os dados de três aplicações sem forma de os validar aqui. Assinalado ao autor.
+- **Conflito conhecido 1D ↔ 2D (não corrigido, por verificar com fontes).** Os dois catálogos têm os mesmos 112 nomes, mas 8 entradas têm outra distância (d = tempo de retrospeção, em Mal, 1D→2D): NGC 1132 330→1020, Perseus (BCG IC 310) 270→780, 3C 48 4150→5200, Abell 370 4200→5900, CL 0024+1654 4400→5500, SDSS J1004+4112 10050→7000, IC 4296 180→130, Abell 1689 2330→7200; e o sinal do desvio para o vermelho de Andrómeda (M31) é −0,001 na 1D e +0,001 na 2D.
+
+## Recordes JWST reverificados (27.10.2026)
+
+- **MoM-z14:** z = 14,44, ainda a galáxia mais distante confirmada espectroscopicamente (Naidu et al., arXiv:2505.11263; publicado no Open Journal of Astrophysics, jan. 2026).
+- **JADES-GS-z14-0:** NIRSpec z = 14,32 (+0,08/−0,20) (Carniani et al. 2024, Nature); ALMA [OIII] 88 µm z = 14,1793 ± 0,0007 (Schouws et al. 2025, arXiv:2409.20549), compatível. O catálogo mantém o valor NIRSpec; o valor ALMA é indicado na descrição.
+- **PAN-z14-1:** z = 13,53 (+0,05/−0,06), JWST/NIRSpec (Donnan et al., arXiv:2601.11515, jan. 2026): quarta em distância, não um recorde. Não foi adicionada ao catálogo (coordenadas por verificar), apenas referida na nota de MoM-z14.
 
 ## Histórico / Changelog
 
