@@ -2,7 +2,7 @@
 
 [English](README.md) · **Română** · [Français](README.fr.md) · [Italiano](README.it.md) · [Español](README.es.md) · [Português](README.pt.md) · [Deutsch](README.de.md) · [Magyar](README.hu.md)
 
-**Versiune:** 2.0.1 · **Ultima actualizare:** 2026-10-27
+**Versiune:** 2.1.0 · **Ultima actualizare:** 2026-10-27
 
 **Stare:** stabil · **Offline:** complet
 
@@ -62,7 +62,16 @@ Rundă 3: 2026-10-11 (formulări „la data catalogului”, surse pentru recordu
 - **JADES-GS-z14-0:** NIRSpec z = 14,32 (+0,08/−0,20) (Carniani et al. 2024, Nature); ALMA [OIII] 88 µm z = 14,1793 ± 0,0007 (Schouws et al. 2025, arXiv:2409.20549), compatibil. Catalogul păstrează valoarea NIRSpec; valoarea ALMA este menționată în descriere.
 - **PAN-z14-1:** z = 13,53 (+0,05/−0,06), JWST/NIRSpec (Donnan et al., arXiv:2601.11515, ian. 2026): a patra ca distanță, nu un record. Nu a fost adăugată în catalog (coordonatele nu au fost verificate), doar menționată în nota MoM-z14.
 
+## Nota JWST în 8 limbi (2.1.0)
+
+- Nota din citarea JADES-GS-z14-0 ("Record JWST: z=14.32 NIRSpec; ALMA [OIII]88µm z=14.1793 (Schouws+ 2025, arXiv:2409.20549)") se traduce acum prin dicționarul UI existent (`UI_DICT`) în en/fr/it/es/pt/de/hu — **traducere automată** a părții "Record JWST"; partea ALMA/arXiv e neutră ca limbă. Cheile existente nu au fost modificate.
+- Catalogul 3D (118 intrări) rămâne separat; discrepanțele 1D↔2D sunt în depozitele 1D/2D/hub (`docs/DISCREPANTE.md`). Unificarea cataloagelor: nu s-a făcut.
+
 ## Istoric / Changelog
+
+### 2.1.0 — 2026-10-27
+- Nota JWST tradusă automat.
+
 
 ### 2.0.0 — 2026-10-26
 - Tururi create de utilizator: înregistrare de puncte de cameră cu note, redare, export/import ca fișier JSON.

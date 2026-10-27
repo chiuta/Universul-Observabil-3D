@@ -2,6 +2,19 @@
 
 Format: SemVer (MAJOR.MINOR.PATCH). Intrările mai vechi sunt copiate din README (secțiunea „History / Changelog”), neschimbate.
 
+## 2.1.0 — 2026-10-27 (anterior: 2.0.1)
+
+Stare: stabil
+Offline: complet
+
+Tura 2 a recenziei:
+- Nota din citarea JADES-GS-z14-0 („Record JWST: z=14.32 NIRSpec; ALMA [OIII]88µm z=14.1793 …”) se traduce prin `UI_DICT` în en/fr/it/es/pt/de/hu (traducere automată a părții „Record JWST”; restul e neutru ca limbă). Chei existente neschimbate.
+- Catalogul 3D (118 intrări) rămâne separat; unificarea cataloagelor NU s-a făcut. Discrepanțele 1D↔2D sunt documentate în `docs/DISCREPANTE.md` din depozitele hub/1D/2D (fără valori alese).
+- Textul „record” din dialogul de ghid (chei de traducere în 8 limbi) nu a fost modificat.
+- Versiune 2.1.0 în `index.html`, `sw.js`, `app.json`.
+
+---
+
 ## 2.0.1 — 2026-10-27 (anterior: 2.0.0)
 
 Stare: stabil

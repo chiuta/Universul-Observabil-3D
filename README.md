@@ -2,7 +2,7 @@
 
 **English** · [Română](README.ro.md) · [Français](README.fr.md) · [Italiano](README.it.md) · [Español](README.es.md) · [Português](README.pt.md) · [Deutsch](README.de.md) · [Magyar](README.hu.md)
 
-**Version:** 2.0.1 · **Last updated:** 2026-10-27
+**Version:** 2.1.0 · **Last updated:** 2026-10-27
 
 **Status:** stable · **Offline:** fully offline
 
@@ -62,7 +62,16 @@ Round 3: 2026-10-11 ("as of the catalog date" wordings, sources for records, iOS
 - **JADES-GS-z14-0:** NIRSpec z = 14.32 (+0.08/−0.20) (Carniani et al. 2024, Nature); ALMA [OIII] 88 µm z = 14.1793 ± 0.0007 (Schouws et al. 2025, arXiv:2409.20549), consistent with it. The catalogue keeps the NIRSpec value; the ALMA value is noted in the description.
 - **PAN-z14-1:** z = 13.53 (+0.05/−0.06), JWST/NIRSpec (Donnan et al., arXiv:2601.11515, Jan. 2026): fourth in distance, not a record. Not added to the catalogue (its coordinates were not verified), only mentioned in the MoM-z14 note.
 
+## JWST note in 8 languages (2.1.0)
+
+- The citation note for JADES-GS-z14-0 ("Record JWST: z=14.32 NIRSpec; ALMA [OIII]88µm z=14.1793 (Schouws+ 2025, arXiv:2409.20549)") is now translated through the existing UI dictionary (`UI_DICT`) into en/fr/it/es/pt/de/hu — a **machine translation** of the "Record JWST" part; the ALMA/arXiv part is language-neutral. Existing keys were not modified.
+- The 3D catalogue (118 entries) stays separate; the 1D↔2D discrepancies are in the 1D/2D/hub repositories (`docs/DISCREPANTE.md`). Catalogue merging: not done.
+
 ## History / Changelog
+
+### 2.1.0 — 2026-10-27
+- JWST note machine-translated.
+
 
 ### 2.0.0 — 2026-10-26
 - User-made tours: record camera points with notes, play them back, export/import as a JSON file.

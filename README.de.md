@@ -2,7 +2,7 @@
 
 [English](README.md) · [Română](README.ro.md) · [Français](README.fr.md) · [Italiano](README.it.md) · [Español](README.es.md) · [Português](README.pt.md) · **Deutsch** · [Magyar](README.hu.md)
 
-**Version:** 2.0.1 · **Zuletzt aktualisiert:** 2026-10-27
+**Version:** 2.1.0 · **Zuletzt aktualisiert:** 2026-10-27
 
 **Status:** stabil · **Offline:** vollständig
 
@@ -59,7 +59,18 @@ Runde 3: 2026-10-11 (Formulierungen „zum Stand des Katalogs“, Quellen für R
 - **JADES-GS-z14-0:** NIRSpec z = 14,32 (+0,08/−0,20) (Carniani et al. 2024, Nature); ALMA [OIII] 88 µm z = 14,1793 ± 0,0007 (Schouws et al. 2025, arXiv:2409.20549), damit vereinbar. Der Katalog behält den NIRSpec-Wert; der ALMA-Wert steht in der Beschreibung.
 - **PAN-z14-1:** z = 13,53 (+0,05/−0,06), JWST/NIRSpec (Donnan et al., arXiv:2601.11515, Jan. 2026): viertentfernteste, kein Rekord. Nicht in den Katalog aufgenommen (Koordinaten ungeprüft), nur in der MoM-z14-Notiz erwähnt.
 
+## JWST note in 8 languages (2.1.0)
+
+_(English only; not yet translated into this language. Machine translation intentionally not added to avoid errors in technical statements.)_
+
+- The citation note for JADES-GS-z14-0 ("Record JWST: z=14.32 NIRSpec; ALMA [OIII]88µm z=14.1793 (Schouws+ 2025, arXiv:2409.20549)") is now translated through the existing UI dictionary (`UI_DICT`) into en/fr/it/es/pt/de/hu — a **machine translation** of the "Record JWST" part; the ALMA/arXiv part is language-neutral. Existing keys were not modified.
+- The 3D catalogue (118 entries) stays separate; the 1D↔2D discrepancies are in the 1D/2D/hub repositories (`docs/DISCREPANTE.md`). Catalogue merging: not done.
+
 ## Verlauf / Changelog
+
+### 2.1.0 — 2026-10-27
+- JWST note machine-translated.
+
 
 ### 1.4.11 — 2026-10-23
 - Lesezeichen: beschädigte `localStorage`-Daten (keine Liste, Null-/nicht numerische Einträge) blockieren die App nicht mehr — sie werden ignoriert; die im Fuß/„Info“ und im Zitat angezeigte Version ist wieder die echte.
