@@ -2,7 +2,7 @@
 
 [English](README.md) · **Română** · [Français](README.fr.md) · [Italiano](README.it.md) · [Español](README.es.md) · [Português](README.pt.md) · [Deutsch](README.de.md) · [Magyar](README.hu.md)
 
-**Versiune:** 2.1.0 · **Ultima actualizare:** 2026-10-27
+**Versiune:** 2.1.1 · **Ultima actualizare:** 2026-10-28
 
 **Stare:** stabil · **Offline:** complet
 
@@ -54,7 +54,7 @@ Rundă 3: 2026-10-11 (formulări „la data catalogului”, surse pentru recordu
 
 - **Numere.** Hub: 112 intrări (copie identică a catalogului 1D). 1D: 112. 2D: 112 (111 galaxii + orizontul CMB; unele texte spun 111). 3D: 118 („peste 115” în descrieri). Cifrele diferă pentru că cataloagele sunt separate, nu dintr-o eroare de numărare.
 - **Neunificate.** 3D are catalogul propriu, într-o structură diferită (RA în ore, alte nume și grafii), așa că numele se potrivesc doar parțial cu 1D/2D. Unificarea într-un singur fișier comun nu s-a făcut: fiecare aplicație este un singur fișier offline, fără pas de build comun, iar îmbinarea ar schimba datele în trei aplicații fără cum să fie validată aici. Semnalat autorului.
-- **Conflict cunoscut 1D ↔ 2D (necorectat, de verificat cu surse).** Cele două cataloage au aceleași 112 nume, dar 8 intrări au altă distanță (d = lookback, în Mly, 1D→2D): NGC 1132 330→1020, Perseus (BCG IC 310) 270→780, 3C 48 4150→5200, Abell 370 4200→5900, CL 0024+1654 4400→5500, SDSS J1004+4112 10050→7000, IC 4296 180→130, Abell 1689 2330→7200; iar semnul redshift-ului Andromedei (M31) este −0,001 în 1D și +0,001 în 2D.
+- **Conflict 1D ↔ 2D (rezolvat la 2026-10-28; surse și formule în `docs/DISCREPANTE.md` din hub).** Cele 8 distanțe (NGC 1132, IC 310, 3C 48, Abell 370, CL 0024+1654, SDSS J1004+4112, IC 4296, Abell 1689) urmează acum aceeași convenție în ambele aplicații: d = lb = lookback(z), în Mly, ΛCDM plat Planck 2018 (H₀ = 67,4, Ωm = 0,315), cu z confirmat de cel puțin 2 surse; 2D a preluat valorile din 1D (330, 270, 4150, 4200, 4400, 10050, 180, 2330). Redshift-ul Andromedei (M31) este −0,001 în ambele (M31 este spre albastru, −301 km/s). Eticheta „Perseus (BCG IC 310)” a devenit „IC 310 (Perseus)”: IC 310 nu este cea mai strălucitoare galaxie a roiului (aceea este NGC 1275, intrare separată).
 
 ## Recorduri JWST reverificate (27.10.2026)
 
@@ -68,6 +68,10 @@ Rundă 3: 2026-10-11 (formulări „la data catalogului”, surse pentru recordu
 - Catalogul 3D (118 intrări) rămâne separat; discrepanțele 1D↔2D sunt în depozitele 1D/2D/hub (`docs/DISCREPANTE.md`). Unificarea cataloagelor: nu s-a făcut.
 
 ## Istoric / Changelog
+
+### 2.1.1 — 2026-10-28
+- Doar README: conflictul 1D ↔ 2D este rezolvat (vezi `docs/DISCREPANTE.md` din hub); catalogul 3D nu s-a schimbat.
+
 
 ### 2.1.0 — 2026-10-27
 - Nota JWST tradusă automat.
