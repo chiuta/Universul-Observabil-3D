@@ -20,8 +20,8 @@
     "universul-observabil-3d.perf-defaults-v1",
     "universul-observabil-3d.tours"
   ],
-  "sizeBytes": 2199175,
-  "sha256": "b1b65d47294051b5f003343686831bd8bf1599c5aed450f956da757c7b33e892",
+  "sizeBytes": 2339609,
+  "sha256": "a6e463d4ea5a67a1edc202edd6aed4c0d6cc8e91e76bd38fd67b028985cff09f",
   "csp": {
     "present": true,
     "directives": {
@@ -64,6 +64,10 @@
       "dialog",
       "label",
       "bundle",
+      "qr",
+      "p2p",
+      "sync",
+      "history",
       "bridge"
     ]
   },
@@ -75,6 +79,10 @@
       "dialog",
       "label",
       "bundle",
+      "qr",
+      "p2p",
+      "sync",
+      "history",
       "bridge"
     ]
   },
