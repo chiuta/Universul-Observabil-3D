@@ -2,15 +2,18 @@
   "schema": 1,
   "slug": "universul-observabil-3d",
   "name": "Universul Observabil · 3D · Galaxii & Distanțe",
-  "version": "2.2.0",
-  "updated": "2026-11-02",
+  "version": "2.2.1",
+  "updated": "2026-11-03",
   "description": "Hartă 3D interactivă a Universului observabil — peste 115 galaxii, 12 orizonturi cosmice, scară logaritmică de la Calea Lactee până la CMB (45,6 Gly). Date JWST până la z=14,44 (MoM-z14, mai 2026).",
   "egress": [],
   "permissions": [
+    "geolocation",
     "clipboard",
     "serviceWorker",
     "localStorage",
-    "WebGL"
+    "Web Crypto",
+    "WebGL",
+    "BroadcastChannel"
   ],
   "storageKeys": [
     "universul-observabil-3d.gentle-start",
@@ -20,8 +23,8 @@
     "universul-observabil-3d.perf-defaults-v1",
     "universul-observabil-3d.tours"
   ],
-  "sizeBytes": 2339609,
-  "sha256": "a6e463d4ea5a67a1edc202edd6aed4c0d6cc8e91e76bd38fd67b028985cff09f",
+  "sizeBytes": 2477698,
+  "sha256": "548c6a6858f882e30cffe98eb9ff696ed1ce9c09bf0f52f39e75dddf2685acae",
   "csp": {
     "present": true,
     "directives": {
@@ -34,7 +37,7 @@
       "base-uri": "'self'",
       "form-action": "'self'",
       "worker-src": "'self' blob:",
-      "script-src": "'self' sha256×10",
+      "script-src": "'self' sha256×13",
       "connect-src": "'self'",
       "manifest-src": "'self'"
     },
