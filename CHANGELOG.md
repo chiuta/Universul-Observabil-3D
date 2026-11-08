@@ -2,6 +2,10 @@
 
 Format: SemVer (MAJOR.MINOR.PATCH). Intrările mai vechi sunt copiate din README (secțiunea „History / Changelog”), neschimbate.
 
+## 2.2.5 — 2026-11-08
+
+Panoul de detalii are o notă permanentă: RA/Dec observate; distanța din z (ΛCDM); poziția pe ecran e pe scară logaritmică, doar ilustrativă (8 limbi).
+
 ## 2.2.2 — 2026-11-03
 
 - Corectat: versiunea afișată în ghid (`APP_VERSION`) era 2.1.1; urmează acum `app.json`.
