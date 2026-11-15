@@ -23,8 +23,8 @@
     "universul-observabil-3d.perf-defaults-v1",
     "universul-observabil-3d.tours"
   ],
-  "sizeBytes": 2533028,
-  "sha256": "fc5e157ddd4542569365206f197643102959ee497f4d770c6fb45f6aa1e205a4",
+  "sizeBytes": 2585030,
+  "sha256": "9509b2e25d73cd8b6b14a08863a8fc5edd0a253aeaaa493c4bca7b56ca297c23",
   "csp": {
     "present": true,
     "directives": {
@@ -37,7 +37,7 @@
       "base-uri": "'self'",
       "form-action": "'self'",
       "worker-src": "'self' blob:",
-      "script-src": "'self' sha256×13",
+      "script-src": "'self' sha256×14",
       "connect-src": "'self'",
       "manifest-src": "'self'"
     },
